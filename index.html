@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilinmeyen Dünya</title>
+<link href="https://fonts.googleapis.com/css2?family=Linux+Libertine+Display&family=Linux+Libertine&family=Linux+Biolinum&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f9fa;
+  --white: #ffffff;
+  --border: #a7d7f9;
+  --border-dark: #36c;
+  --link: #3366cc;
+  --link-visited: #795cb2;
+  --header-bg: #ffffff;
+  --sidebar-bg: #f8f9fa;
+  --text: #202122;
+  --muted: #72777d;
+  --toolbar-bg: #eaf3fb;
+  --toolbar-border: #a2a9b1;
+  --red: #cc3333;
+  --green: #4a7d44;
+  --block-selected: #e8f0fe;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Linux Libertine', Georgia, 'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── HEADER ── */
+#site-header {
+  background: var(--white);
+  border-bottom: 1px solid #a7d7f9;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+#header-inner {
+  display: flex;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  gap: 16px;
+}
+
+#site-logo {
+  font-family: 'Linux Libertine Display', Georgia, serif;
+  font-size: 26px;
+  color: var(--link);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#site-logo span { color: #cc3333; }
+
+#site-tagline {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 1px solid #ddd;
+  padding-left: 12px;
+  white-space: nowrap;
+}
+
+#header-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nav-btn {
+  padding: 5px 12px;
+  font-size: 13px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  border: 1px solid var(--toolbar-border);
+  background: linear-gradient(to bottom, #f8f9fa, #eaecf0);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background .15s;
+}
+.nav-btn:hover { background: linear-gradient(to bottom, #eaecf0, #d8dce4); }
+.nav-btn.primary { background: linear-gradient(to bottom, #3679d8, #2a62c0); color:#fff; border-color:#2a5bad; }
+.nav-btn.primary:hover { background: linear-gradient(to bottom, #2a62c0, #1e4fa0); }
+
+#search-box {
+  display: flex;
+  border: 1px solid var(--toolbar-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+#search-box input {
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+  width: 200px;
+}
+#search-box button {
+  padding: 5px 10px;
+  border: none;
+  background: linear-gradient(to bottom, #f8f9fa, #eaecf0);
+  cursor: pointer;
+  border-left: 1px solid var(--toolbar-border);
+  font-size: 13px;
+}
+#search-box button:hover { background: #dde; }
+
+/* ── LAYOUT ── */
+#layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  display: flex;
+  gap: 20px;
+}
+
+#sidebar {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.sidebar-box {
+  background: var(--white);
+  border: 1px solid #a7d7f9;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.sidebar-box h3 {
+  background: #eaf3fb;
+  border-bottom: 1px solid #a7d7f9;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  font-weight: bold;
+  color: #36c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.sidebar-box ul {
+  list-style: none;
+  padding: 6px 0;
+}
+.sidebar-box ul li a {
+  display: block;
+  padding: 3px 10px;
+  color: var(--link);
+  text-decoration: none;
+  cursor: pointer;
+}
+.sidebar-box ul li a:hover { text-decoration: underline; color: #0645ad; }
+.sidebar-count {
+  padding: 6px 10px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+#main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── PAGE CONTAINER ── */
+.page-wrap {
+  background: var(--white);
+  border: 1px solid #a7d7f9;
+}
+
+.page-tabs {
+  display: flex;
+  border-bottom: 1px solid #a7d7f9;
+  background: #f8f9fa;
+  padding: 0 10px;
+  padding-top: 6px;
+  gap: 2px;
+}
+
+.page-tab {
+  padding: 5px 14px;
+  font-size: 13px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  border: 1px solid #a7d7f9;
+  border-bottom: none;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 3px 3px 0 0;
+  color: var(--link);
+  position: relative;
+  bottom: -1px;
+  text-decoration: none;
+}
+.page-tab:hover { background: #eaf3fb; }
+.page-tab.active { background: #fff; border-bottom: 1px solid #fff; color: var(--text); font-weight: bold; }
+
+.page-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  gap: 6px;
+}
+.page-action-link {
+  font-size: 12px;
+  color: var(--link);
+  text-decoration: none;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.page-action-link:hover { text-decoration: underline; }
+
+.page-body {
+  padding: 20px 24px;
+}
+
+/* ── ARTICLE VIEW ── */
+.article-title-h1 {
+  font-family: 'Linux Libertine Display', Georgia, serif;
+  font-size: 28px;
+  font-weight: normal;
+  border-bottom: 1px solid #a7d7f9;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+}
+
+.article-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.viewer-canvas {
+  position: relative;
+  min-height: 400px;
+  background: #fff;
+}
+
+.view-block {
+  position: absolute;
+  overflow: visible;
+}
+.view-block img { max-width: 100%; height: auto; display: block; border: 1px solid #ddd; }
+
+/* ── ARTICLE LIST ── */
+.article-card {
+  border-bottom: 1px solid #eaecf0;
+  padding: 12px 0;
+}
+.article-card:last-child { border-bottom: none; }
+.article-card-title {
+  font-family: 'Linux Libertine Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: normal;
+}
+.article-card-title a { color: var(--link); text-decoration: none; cursor: pointer; }
+.article-card-title a:hover { text-decoration: underline; }
+.article-card-meta { font-size: 12px; color: var(--muted); margin-top: 3px; font-style: italic; }
+.article-card-excerpt { font-size: 13px; color: #555; margin-top: 4px; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── EDITOR ── */
+.editor-wrap { padding: 16px; }
+
+.editor-title-input {
+  font-family: 'Linux Libertine Display', Georgia, serif;
+  font-size: 24px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #a7d7f9;
+  padding: 6px 0;
+  margin-bottom: 12px;
+  outline: none;
+  color: var(--text);
+  background: transparent;
+}
+.editor-title-input::placeholder { color: #aaa; }
+
+.editor-location-input {
+  font-family: inherit;
+  font-size: 13px;
+  width: 300px;
+  border: 1px solid var(--toolbar-border);
+  padding: 4px 8px;
+  margin-bottom: 14px;
+  outline: none;
+  color: var(--muted);
+}
+
+/* TOOLBAR */
+.wiki-toolbar {
+  background: var(--toolbar-bg);
+  border: 1px solid var(--toolbar-border);
+  border-bottom: none;
+  padding: 4px 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  align-items: center;
+}
+
+.toolbar-group {
+  display: flex;
+  gap: 1px;
+  border-right: 1px solid #c0c8d0;
+  padding-right: 5px;
+  margin-right: 3px;
+}
+.toolbar-group:last-child { border-right: none; }
+
+.tb {
+  padding: 4px 7px;
+  font-size: 12px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 2px;
+  color: var(--text);
+  white-space: nowrap;
+  min-width: 24px;
+  text-align: center;
+  line-height: 1.4;
+  transition: background .1s, border-color .1s;
+}
+.tb:hover { background: #d8e8f8; border-color: #88aade; }
+.tb:active { background: #c0d8f0; }
+.tb b { font-weight: bold; }
+.tb i { font-style: italic; }
+.tb.active { background: #c0d8f0; border-color: #88aade; }
+
+.toolbar-sep {
+  width: 1px;
+  background: #c0c8d0;
+  height: 20px;
+  margin: 2px 4px;
+  align-self: center;
+}
+
+.toolbar-label {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 0 3px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+}
+
+select.tb-select {
+  padding: 3px 6px;
+  font-size: 12px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  border: 1px solid var(--toolbar-border);
+  background: white;
+  cursor: pointer;
+  border-radius: 2px;
+  color: var(--text);
+}
+
+input.tb-color {
+  width: 28px;
+  height: 24px;
+  border: 1px solid var(--toolbar-border);
+  padding: 1px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+/* EDITOR CANVAS */
+.editor-canvas {
+  border: 1px solid var(--toolbar-border);
+  min-height: 600px;
+  position: relative;
+  background: white;
+  overflow: hidden;
+  cursor: default;
+}
+
+.editor-canvas-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-size: 16px;
+  font-style: italic;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* BLOCKS */
+.e-block {
+  position: absolute;
+  border: 1px dashed transparent;
+  cursor: move;
+  user-select: none;
+  min-width: 60px;
+  min-height: 24px;
+  transition: border-color .1s;
+}
+.e-block:hover { border-color: #88aade; }
+.e-block.selected {
+  border: 1px solid #3679d8 !important;
+  box-shadow: 0 0 0 2px rgba(54,121,216,.2);
+}
+
+.e-block-inner {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-family: 'Linux Libertine', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  overflow: auto;
+  padding: 4px 6px;
+  min-height: 24px;
+  min-width: 60px;
+  word-break: break-word;
+}
+.e-block-inner:focus { cursor: text; }
+
+.e-block img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+/* RESIZE HANDLE */
+.rh {
+  width: 10px;
+  height: 10px;
+  background: #3679d8;
+  border: 1px solid white;
+  position: absolute;
+  border-radius: 2px;
+  z-index: 10;
+}
+.rh-se { right: -5px; bottom: -5px; cursor: se-resize; }
+.rh-sw { left: -5px; bottom: -5px; cursor: sw-resize; }
+.rh-ne { right: -5px; top: -5px; cursor: ne-resize; }
+.rh-nw { left: -5px; top: -5px; cursor: nw-resize; }
+.rh-n  { left: 50%; top: -5px; transform: translateX(-50%); cursor: n-resize; }
+.rh-s  { left: 50%; bottom: -5px; transform: translateX(-50%); cursor: s-resize; }
+.rh-e  { right: -5px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
+.rh-w  { left: -5px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
+
+/* DELETE BTN */
+.block-delete {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 18px;
+  height: 18px;
+  background: #cc3333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  line-height: 1;
+}
+.block-delete:hover { background: #aa2222; }
+
+/* Editor bottom bar */
+.editor-bottombar {
+  background: #f8f9fa;
+  border: 1px solid var(--toolbar-border);
+  border-top: none;
+  padding: 6px 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-save {
+  padding: 6px 20px;
+  background: linear-gradient(to bottom, #3679d8, #2a62c0);
+  color: white;
+  border: 1px solid #2a5bad;
+  cursor: pointer;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  font-size: 14px;
+  border-radius: 2px;
+}
+.btn-save:hover { background: linear-gradient(to bottom, #2a62c0, #1e4fa0); }
+
+.btn-cancel {
+  padding: 6px 14px;
+  background: linear-gradient(to bottom, #f8f9fa, #eaecf0);
+  border: 1px solid var(--toolbar-border);
+  cursor: pointer;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  font-size: 14px;
+  border-radius: 2px;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-box {
+  background: white;
+  border: 1px solid #a7d7f9;
+  width: 480px;
+  max-width: 95vw;
+  box-shadow: 0 4px 24px rgba(0,0,0,.25);
+  font-size: 14px;
+}
+.modal-header {
+  background: #eaf3fb;
+  border-bottom: 1px solid #a7d7f9;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  color: #36c;
+}
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  line-height: 1;
+  padding: 0 4px;
+}
+.modal-close:hover { color: #cc3333; }
+.modal-body { padding: 16px; }
+.modal-body label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+}
+.modal-body input, .modal-body textarea {
+  width: 100%;
+  border: 1px solid var(--toolbar-border);
+  padding: 7px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 12px;
+  border-radius: 2px;
+}
+.modal-body input:focus, .modal-body textarea:focus {
+  border-color: #3679d8;
+  box-shadow: 0 0 0 2px rgba(54,121,216,.15);
+}
+.modal-preview {
+  border: 1px solid #ddd;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  background: #fafafa;
+  overflow: hidden;
+}
+.modal-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+.modal-preview .no-preview {
+  color: #aaa;
+  font-style: italic;
+  font-size: 13px;
+}
+.modal-footer {
+  background: #f8f9fa;
+  border-top: 1px solid #eaecf0;
+  padding: 10px 14px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.modal-footer button {
+  padding: 6px 16px;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+#modal-ok {
+  background: linear-gradient(to bottom, #3679d8, #2a62c0);
+  color: white;
+  border: 1px solid #2a5bad;
+}
+#modal-ok:hover { background: linear-gradient(to bottom, #2a62c0, #1e4fa0); }
+#modal-cancel {
+  background: linear-gradient(to bottom, #f8f9fa, #eaecf0);
+  border: 1px solid var(--toolbar-border);
+  color: var(--text);
+}
+
+/* ── NOTICE BOXES ── */
+.notice {
+  border-left: 3px solid #36c;
+  background: #eaf3fb;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #36c;
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+}
+.notice.warn { border-color: #e8a000; background: #fef6e7; color: #795500; }
+.notice.success { border-color: #4a7d44; background: #eafaea; color: #2d5a27; }
+
+/* ── STATUS BAR ── */
+#status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eaf3fb;
+  border-top: 1px solid #a7d7f9;
+  padding: 3px 12px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Linux Biolinum', Arial, sans-serif;
+  z-index: 800;
+  display: flex;
+  gap: 20px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  #sidebar { display: none; }
+  #layout { padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div id="header-inner">
+    <div id="site-logo" onclick="goHome()">Bilinmeyen Bilmeyen <span>Dünya</span></div>
+    <div id="site-tagline">Anonim Türkçe Arşiv</div>
+    <div id="search-box">
+      <input type="text" id="search-input" placeholder="Ara…" onkeydown="if(event.key==='Enter')doSearch()">
+      <button onclick="doSearch()">🔍</button>
+    </div>
+    <div id="header-nav">
+      <button class="nav-btn" onclick="goHome()">Ana Sayfa</button>
+      <button class="nav-btn" onclick="openEditor()">Rastgele</button>
+      <button class="nav-btn primary" onclick="openEditor()">+ Yeni Sayfa</button>
+    </div>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div id="layout">
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-box">
+      <h3>Navigasyon</h3>
+      <ul>
+        <li><a onclick="goHome()">Ana Sayfa</a></li>
+        <li><a onclick="openEditor()">Yeni Sayfa Oluştur</a></li>
+        <li><a onclick="goHome()">Son Değişiklikler</a></li>
+        <li><a onclick="goHome()">Rastgele Sayfa</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-box" id="sidebar-stats">
+      <h3>İstatistik</h3>
+      <div class="sidebar-count" id="article-count">Yükleniyor…</div>
+    </div>
+    <div class="sidebar-box">
+      <h3>Araçlar</h3>
+      <ul>
+        <li><a onclick="openEditor()">İçerik Ekle</a></li>
+        <li><a>Özel Sayfalar</a></li>
+        <li><a>Yardım</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="main-content"></main>
+</div>
+
+<!-- STATUS BAR -->
+<div id="status-bar">
+  <span id="status-msg">Hazır</span>
+  <span id="status-blocks"></span>
+  <span style="margin-left:auto;">© 2026 Bilinmeyen Dünya — anonim açık arşiv</span>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" class="modal-overlay" style="display:none;" onclick="closeModalOutside(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <span id="modal-title">İşlem</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button id="modal-cancel" onclick="closeModal()">İptal</button>
+      <button id="modal-ok" onclick="confirmModal()">Tamam</button>
+    </div>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script>
+/* ══════════════════════════════════════════════
+   FIREBASE
+══════════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "AIzaSyDAR05cMYAUjkub0smCQHpUZeoGPYe5vL0",
+  authDomain: "bbd1-df752.firebaseapp.com",
+  projectId: "bbd1-df752",
+  storageBucket: "bbd1-df752.firebasestorage.app",
+  messagingSenderId: "969753899093",
+  appId: "1:969753899093:web:47b337dff43a0af4cde4dc",
+  measurementId: "G-G7L3FHFEV9"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* ══════════════════════════════════════════════
+   ROUTER
+══════════════════════════════════════════════ */
+window.addEventListener("hashchange", router);
+
+function navigate(path){ location.hash = "#" + path; }
+function goHome(){ navigate(""); }
+function openEditor(){ navigate("editor"); }
+
+function router(){
+  const hash = location.hash.replace(/^#\/?/, "");
+  if(hash.startsWith("article/")){
+    loadArticle(hash.split("/")[1]);
+  } else if(hash === "editor" || hash.startsWith("editor/")){
+    const editSlug = hash.startsWith("editor/") ? hash.split("/")[1] : null;
+    renderEditor(editSlug);
+  } else {
+    renderHome();
+  }
+}
+
+function slugify(t){
+  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s")
+    .replace(/ı/g,"i").replace(/ö/g,"o").replace(/ç/g,"c")
+    .replace(/\s+/g,"-").replace(/[^\w\-]+/g,"").replace(/--+/g,"-")
+    .substring(0,80);
+}
+
+function setStatus(msg){ document.getElementById("status-msg").textContent = msg; }
+function setStatusBlocks(msg){ document.getElementById("status-blocks").textContent = msg; }
+
+/* ══════════════════════════════════════════════
+   HOME
+══════════════════════════════════════════════ */
+function renderHome(){
+  document.title = "Ana Sayfa — Bilinmeyen Dünya";
+  setStatus("Ana sayfa");
+  const el = document.getElementById("main-content");
+  el.innerHTML = `
+    <div class="page-wrap">
+      <div class="page-tabs">
+        <span class="page-tab active">Ana Sayfa</span>
+        <div class="page-actions">
+          <a class="page-action-link" onclick="openEditor()">Sayfa oluştur</a>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="notice">
+          <b>Bilinmeyen Dünya</b>'ya hoş geldiniz. Bu, herkesin serbestçe içerik ekleyip düzenleyebildiği anonim bir arşivdir.
+        </div>
+        <h1 class="article-title-h1">Tüm Sayfalar</h1>
+        <div id="article-list"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+
+  db.ref("articles").once("value", snap => {
+    const data = snap.val();
+    const listEl = document.getElementById("article-list");
+    const countEl = document.getElementById("article-count");
+    if(!data){
+      listEl.innerHTML = `<div class="empty-state">Henüz hiçbir sayfa yok.<br>İlk sayfayı sen oluştur!</div>`;
+      if(countEl) countEl.textContent = "0 sayfa";
+      return;
+    }
+    const arr = Object.values(data).sort((a,b)=>b.createdAt - a.createdAt);
+    if(countEl) countEl.textContent = arr.length + " sayfa";
+    listEl.innerHTML = arr.map(a => {
+      const textBlock = (a.blocks||[]).find(b=>b.type==="text");
+      const excerpt = textBlock ? stripTags(textBlock.content).substring(0,120) : "";
+      return `<div class="article-card">
+        <div class="article-card-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div>
+        <div class="article-card-meta">${escHtml(a.location||"Anonim")} &mdash; ${new Date(a.createdAt).toLocaleString("tr-TR")}</div>
+        ${excerpt?`<div class="article-card-excerpt">${escHtml(excerpt)}…</div>`:""}
+      </div>`;
+    }).join("");
+  });
+}
+
+/* ══════════════════════════════════════════════
+   ARTICLE VIEW
+══════════════════════════════════════════════ */
+function loadArticle(slug){
+  setStatus("Yükleniyor…");
+  db.ref("articles/"+slug).once("value", snap => {
+    if(!snap.exists()){
+      document.getElementById("main-content").innerHTML = `
+        <div class="page-wrap"><div class="page-body">
+          <div class="notice warn">Bu sayfa mevcut değil.</div>
+          <p><a class="nav-btn" onclick="openEditor()" style="display:inline-block">Bu başlıkla sayfa oluştur</a></p>
+        </div></div>`;
+      setStatus("404 bulunamadı");
+      return;
+    }
+    const a = snap.val();
+    document.title = a.title + " — Bilinmeyen Dünya";
+    setStatus("Sayfa yüklendi: " + a.title);
+
+    const canvasH = computeCanvasHeight(a.blocks||[]);
+
+    let blocksHtml = (a.blocks||[]).map(b => {
+      const w = b.width ? `width:${b.width};` : "";
+      const h = b.height ? `height:${b.height};` : "";
+      if(b.type==="text"){
+        return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${b.content}</div>`;
+      } else {
+        return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
+      }
+    }).join("");
+
+    document.getElementById("main-content").innerHTML = `
+      <div class="page-wrap">
+        <div class="page-tabs">
+          <span class="page-tab active">Sayfa</span>
+          <span class="page-tab" onclick="navigate('editor/${slug}')">Düzenle</span>
+          <div class="page-actions">
+            <a class="page-action-link" onclick="navigate('editor/${slug}')">✏️ Düzenle</a>
+            <a class="page-action-link" onclick="deleteArticle('${slug}')" style="color:#cc3333">🗑️ Sil</a>
+          </div>
+        </div>
+        <div class="page-body">
+          <h1 class="article-title-h1">${escHtml(a.title)}</h1>
+          <div class="article-meta">📍 ${escHtml(a.location||"Anonim")} &bull; 🕐 ${new Date(a.createdAt).toLocaleString("tr-TR")}</div>
+          <div class="viewer-canvas" style="min-height:${canvasH}px;">${blocksHtml}</div>
+        </div>
+      </div>`;
+  });
+}
+
+function computeCanvasHeight(blocks){
+  let max = 400;
+  blocks.forEach(b => {
+    const top = parseInt(b.top)||0;
+    const h = parseInt(b.height)||150;
+    max = Math.max(max, top + h + 40);
+  });
+  return max;
+}
+
+function deleteArticle(slug){
+  showConfirmModal("Bu sayfayı silmek istediğine emin misin?", () => {
+    db.ref("articles/"+slug).remove();
+    goHome();
+  });
+}
+
+/* ══════════════════════════════════════════════
+   EDITOR
+══════════════════════════════════════════════ */
+let editorBlocks = [];
+let selectedBlock = null;
+let editingSlug = null;
+let blockIdCounter = 0;
+let isDragging = false;
+
+function renderEditor(loadSlug){
+  document.title = "Düzenle — Bilinmeyen Dünya";
+  setStatus("Editör hazır");
+  editingSlug = loadSlug || null;
+  editorBlocks = [];
+  selectedBlock = null;
+  blockIdCounter = 0;
+
+  const el = document.getElementById("main-content");
+  el.innerHTML = `
+    <div class="page-wrap">
+      <div class="page-tabs">
+        <span class="page-tab" onclick="goHome()">Ana Sayfa</span>
+        <span class="page-tab active">Düzenle</span>
+      </div>
+      <div class="editor-wrap">
+        <input type="text" id="ed-title" class="editor-title-input" placeholder="Sayfa başlığı…">
+        <input type="text" id="ed-location" class="editor-location-input" placeholder="📍 Konum (opsiyonel)">
+
+        <div class="wiki-toolbar" id="wiki-toolbar">
+          <!-- Group: undo/redo -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="edUndo()" title="Geri Al (Ctrl+Z)">↩</button>
+            <button class="tb" onclick="edRedo()" title="İleri Al (Ctrl+Y)">↪</button>
+          </div>
+          <!-- Group: format -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="fmt('bold')" title="Kalın (Ctrl+B)"><b>B</b></button>
+            <button class="tb" onclick="fmt('italic')" title="İtalik (Ctrl+I)"><i>I</i></button>
+            <button class="tb" onclick="fmt('underline')" title="Altı Çizili (Ctrl+U)"><u>U</u></button>
+            <button class="tb" onclick="fmt('strikeThrough')" title="Üstü Çizili"><s>S</s></button>
+            <button class="tb" onclick="fmt('superscript')" title="Üst Simge">x²</button>
+            <button class="tb" onclick="fmt('subscript')" title="Alt Simge">x₂</button>
+          </div>
+          <!-- Group: headings -->
+          <div class="toolbar-group">
+            <select class="tb-select" id="heading-select" onchange="applyHeading(this.value)" title="Başlık">
+              <option value="">Paragraf</option>
+              <option value="h1">Başlık 1</option>
+              <option value="h2">Başlık 2</option>
+              <option value="h3">Başlık 3</option>
+              <option value="h4">Başlık 4</option>
+            </select>
+          </div>
+          <!-- Group: lists -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="fmt('insertUnorderedList')" title="Madde İşareti">☰</button>
+            <button class="tb" onclick="fmt('insertOrderedList')" title="Numaralı Liste">☰₁</button>
+            <button class="tb" onclick="fmt('indent')" title="Girinti Artır">→</button>
+            <button class="tb" onclick="fmt('outdent')" title="Girinti Azalt">←</button>
+          </div>
+          <!-- Group: align -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="fmt('justifyLeft')" title="Sola Hizala">⬛▭▭</button>
+            <button class="tb" onclick="fmt('justifyCenter')" title="Ortala">▭⬛▭</button>
+            <button class="tb" onclick="fmt('justifyRight')" title="Sağa Hizala">▭▭⬛</button>
+            <button class="tb" onclick="fmt('justifyFull')" title="İki Yana Yasla">▭▭▭</button>
+          </div>
+          <!-- Group: color -->
+          <div class="toolbar-group">
+            <span class="toolbar-label">Renk:</span>
+            <input type="color" class="tb-color" id="fg-color" value="#000000" onchange="applyColor('foreColor',this.value)" title="Yazı Rengi">
+            <input type="color" class="tb-color" id="bg-color" value="#ffff00" onchange="applyColor('hiliteColor',this.value)" title="Arkaplan Rengi">
+          </div>
+          <!-- Group: font size -->
+          <div class="toolbar-group">
+            <select class="tb-select" onchange="applyFontSize(this.value)" title="Yazı Boyutu">
+              <option value="">Boyut</option>
+              <option value="1">Çok Küçük</option>
+              <option value="2">Küçük</option>
+              <option value="3">Normal</option>
+              <option value="4">Büyük</option>
+              <option value="5">Daha Büyük</option>
+              <option value="6">En Büyük</option>
+            </select>
+          </div>
+          <!-- Group: insert -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="fmt('insertHorizontalRule')" title="Yatay Çizgi">──</button>
+            <button class="tb" onclick="insertLink()" title="Bağlantı Ekle">🔗</button>
+            <button class="tb" onclick="insertTable()" title="Tablo Ekle">⊞</button>
+          </div>
+          <!-- Group: block -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="addTextBlock()" title="Metin Bloğu Ekle">📝 Metin</button>
+            <button class="tb" onclick="addImageBlock()" title="Resim Bloğu Ekle">🖼️ Resim</button>
+            <button class="tb" onclick="addBoxBlock()" title="Kutu Bloğu Ekle">📦 Kutu</button>
+          </div>
+          <!-- Group: canvas size -->
+          <div class="toolbar-group">
+            <button class="tb" onclick="changeCanvasSize()" title="Tuval Boyutu">⤢ Boyut</button>
+            <button class="tb" onclick="clearCanvas()" title="Tuvalı Temizle" style="color:#cc3333">🗑️ Temizle</button>
+          </div>
+        </div>
+
+        <div class="editor-canvas" id="editor-canvas" onclick="canvasClick(event)">
+          <div class="editor-canvas-hint" id="canvas-hint">
+            Metin veya Resim bloğu eklemek için yukarıdaki araç çubuğunu kullan
+          </div>
+        </div>
+
+        <div class="editor-bottombar">
+          <button class="btn-save" onclick="saveArticle()">💾 Kaydet</button>
+          <button class="btn-cancel" onclick="goHome()">İptal</button>
+          <span style="margin-left:10px;font-size:12px;color:var(--muted)" id="ed-block-count">0 blok</span>
+          <span style="margin-left:auto;font-size:12px;color:var(--muted)">
+            İpucu: Blokları sürükle-bırak ile konumlandır. Köşe tutamaçlarıyla boyutlandır.
+          </span>
+        </div>
+      </div>
+    </div>`;
+
+  // Setup canvas events
+  setupCanvasEvents();
+
+  // Load existing article if editing
+  if(loadSlug){
+    db.ref("articles/"+loadSlug).once("value", snap => {
+      if(!snap.exists()) return;
+      const a = snap.val();
+      document.getElementById("ed-title").value = a.title;
+      document.getElementById("ed-location").value = a.location||"";
+      (a.blocks||[]).forEach(b => loadBlock(b));
+    });
+  }
+}
+
+/* ── CANVAS EVENTS ── */
+function setupCanvasEvents(){
+  const canvas = document.getElementById("editor-canvas");
+  canvas.addEventListener("click", deselectOnCanvas);
+}
+
+function canvasClick(e){
+  if(e.target === document.getElementById("editor-canvas")){
+    deselectAll();
+  }
+}
+function deselectOnCanvas(e){
+  if(e.target.id === "editor-canvas") deselectAll();
+}
+function deselectAll(){
+  if(selectedBlock){
+    selectedBlock.classList.remove("selected");
+    selectedBlock = null;
+  }
+}
+
+/* ── FORMAT (act on focused block) ── */
+function fmt(cmd){
+  const inner = getFocusedInner();
+  if(inner) inner.focus();
+  document.execCommand(cmd, false, null);
+}
+function applyColor(cmd, val){
+  const inner = getFocusedInner();
+  if(inner) inner.focus();
+  document.execCommand(cmd, false, val);
+}
+function applyFontSize(val){
+  if(!val) return;
+  const inner = getFocusedInner();
+  if(inner) inner.focus();
+  document.execCommand('fontSize', false, val);
+}
+function applyHeading(val){
+  const inner = getFocusedInner();
+  if(!inner) return;
+  inner.focus();
+  if(!val){
+    document.execCommand('formatBlock', false, 'p');
+  } else {
+    document.execCommand('formatBlock', false, val);
+  }
+  document.getElementById("heading-select").value = "";
+}
+function getFocusedInner(){
+  const canvas = document.getElementById("editor-canvas");
+  if(!canvas) return null;
+  const inners = canvas.querySelectorAll(".e-block-inner");
+  for(let el of inners){
+    if(el.contains(document.activeElement) || document.activeElement === el) return el;
+  }
+  if(selectedBlock) return selectedBlock.querySelector(".e-block-inner");
+  return null;
+}
+
+function edUndo(){ document.execCommand('undo', false, null); }
+function edRedo(){ document.execCommand('redo', false, null); }
+
+function insertLink(){
+  showInputModal("Bağlantı Ekle", [
+    { id: "link-url", label: "URL:", placeholder: "https://…", type: "text" },
+    { id: "link-text", label: "Bağlantı Metni:", placeholder: "Görünen metin (opsiyonel)", type: "text" }
+  ], vals => {
+    const url = vals["link-url"];
+    const text = vals["link-text"] || url;
+    const inner = getFocusedInner();
+    if(inner){ inner.focus(); document.execCommand('insertHTML', false, `<a href="${url}" target="_blank">${text}</a>`); }
+  });
+}
+
+function insertTable(){
+  showInputModal("Tablo Ekle", [
+    { id: "tbl-rows", label: "Satır Sayısı:", placeholder: "3", type: "number" },
+    { id: "tbl-cols", label: "Sütun Sayısı:", placeholder: "3", type: "number" }
+  ], vals => {
+    const rows = parseInt(vals["tbl-rows"])||3;
+    const cols = parseInt(vals["tbl-cols"])||3;
+    let html = '<table border="1" style="border-collapse:collapse;width:100%;">';
+    for(let r=0;r<rows;r++){
+      html += '<tr>';
+      for(let c=0;c<cols;c++){
+        html += `<td style="border:1px solid #aaa;padding:4px 8px;">${r===0?`<b>Başlık ${c+1}</b>`:`Hücre`}</td>`;
+      }
+      html += '</tr>';
+    }
+    html += '</table>';
+    const inner = getFocusedInner();
+    if(inner){ inner.focus(); document.execCommand('insertHTML', false, html); }
+    else {
+      // insert as new block
+      addTextBlock(html);
+    }
+  });
+}
+
+/* ── BLOCKS ── */
+function updateBlockCount(){
+  const canvas = document.getElementById("editor-canvas");
+  if(!canvas) return;
+  const count = canvas.querySelectorAll(".e-block").length;
+  const hint = document.getElementById("canvas-hint");
+  if(hint) hint.style.display = count>0 ? "none" : "flex";
+  const ce = document.getElementById("ed-block-count");
+  if(ce) ce.textContent = count + " blok";
+  setStatusBlocks(count + " blok");
+}
+
+function addTextBlock(initialHtml){
+  const canvas = document.getElementById("editor-canvas");
+  if(!canvas) return;
+  const block = createBlock("text", 20 + Math.random()*100, 20 + Math.random()*80);
+  block.style.width = "300px";
+  const inner = block.querySelector(".e-block-inner");
+  inner.innerHTML = initialHtml || "<p>Buraya yazın…</p>";
+  canvas.appendChild(block);
+  updateBlockCount();
+  // focus
+  setTimeout(()=>{ inner.focus(); selectAll(inner); }, 50);
+}
+
+function addImageBlock(){
+  showImageModal(src => {
+    const canvas = document.getElementById("editor-canvas");
+    if(!canvas) return;
+    const block = createBlock("image", 20 + Math.random()*80, 20 + Math.random()*60);
+    block.style.width = "280px";
+    const inner = block.querySelector(".e-block-inner");
+    inner.contentEditable = false;
+    const img = document.createElement("img");
+    img.src = src;
+    img.style.maxWidth = "100%";
+    img.style.height = "auto";
+    img.style.display = "block";
+    img.draggable = false;
+    inner.appendChild(img);
+    canvas.appendChild(block);
+    updateBlockCount();
+  });
+}
+
+function addBoxBlock(){
+  const canvas = document.getElementById("editor-canvas");
+  if(!canvas) return;
+  const block = createBlock("text", 30 + Math.random()*80, 30 + Math.random()*80);
+  block.style.width = "260px";
+  block.style.border = "2px solid #a7d7f9";
+  block.style.background = "#eaf3fb";
+  block.style.borderRadius = "4px";
+  const inner = block.querySelector(".e-block-inner");
+  inner.innerHTML = "<b>Kutu Başlığı</b><p>İçerik buraya…</p>";
+  canvas.appendChild(block);
+  updateBlockCount();
+  setTimeout(()=>inner.focus(), 50);
+}
+
+function loadBlock(b){
+  const canvas = document.getElementById("editor-canvas");
+  if(!canvas) return;
+  const left = parseInt(b.left)||10;
+  const top = parseInt(b.top)||10;
+  const block = createBlock(b.type, left, top);
+  if(b.width) block.style.width = b.width;
+  if(b.height) block.style.height = b.height;
+  const inner = block.querySelector(".e-block-inner");
+  if(b.type === "image"){
+    inner.contentEditable = false;
+    const img = document.createElement("img");
+    img.src = b.content;
+    img.style.maxWidth="100%";
+    img.style.height="auto";
+    img.style.display="block";
+    img.draggable = false;
+    inner.appendChild(img);
+  } else {
+    inner.innerHTML = b.content||"";
+  }
+  canvas.appendChild(block);
+  updateBlockCount();
+}
+
+function createBlock(type, left, top){
+  const block = document.createElement("div");
+  block.className = "e-block";
+  block.dataset.type = type;
+  block.id = "block-" + (blockIdCounter++);
+  block.style.left = left + "px";
+  block.style.top = top + "px";
+
+  const inner = document.createElement("div");
+  inner.className = "e-block-inner";
+  if(type === "text"){
+    inner.contentEditable = true;
+    inner.spellcheck = true;
+  }
+  block.appendChild(inner);
+
+  // Resize handles
+  const dirs = ["nw","n","ne","e","se","s","sw","w"];
+  dirs.forEach(d => {
+    const h = document.createElement("div");
+    h.className = `rh rh-${d}`;
+    h.dataset.dir = d;
+    block.appendChild(h);
+    makeResizable(block, h, d);
+  });
+
+  // Delete button
+  const del = document.createElement("button");
+  del.className = "block-delete";
+  del.innerHTML = "✕";
+  del.title = "Bloğu sil";
+  del.onmousedown = e => { e.stopPropagation(); e.preventDefault(); };
+  del.onclick = e => {
+    e.stopPropagation();
+    block.remove();
+    updateBlockCount();
+  };
+  block.appendChild(del);
+
+  // Select on mousedown
+  block.addEventListener("mousedown", e => {
+    if(e.target.classList.contains("rh")) return;
+    if(e.target.classList.contains("block-delete")) return;
+    selectBlock(block);
+  });
+
+  // Make draggable (fixed)
+  makeDraggable(block, inner);
+
+  return block;
+}
+
+function selectBlock(block){
+  if(selectedBlock && selectedBlock !== block){
+    selectedBlock.classList.remove("selected");
+  }
+  selectedBlock = block;
+  block.classList.add("selected");
+}
+
+function selectAll(el){
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+/* ── DRAG (FIXED) ── */
+function makeDraggable(block, inner){
+  block.addEventListener("mousedown", startDrag);
+
+  function startDrag(e){
+    // Don't drag when clicking resize handles or delete button or editing text
+    if(e.target.classList.contains("rh")) return;
+    if(e.target.classList.contains("block-delete")) return;
+
+    // If clicking inside the contenteditable inner and it's focused, don't drag
+    if(inner.contentEditable === "true" && inner.contains(e.target)){
+      // Only drag if block is already selected but inner is not focused
+      if(document.activeElement === inner || inner.contains(document.activeElement)) return;
+    }
+
+    e.preventDefault();
+
+    const canvas = document.getElementById("editor-canvas");
+    const canvasRect = canvas.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const origLeft = parseInt(block.style.left)||0;
+    const origTop = parseInt(block.style.top)||0;
+
+    isDragging = false;
+
+    function onMouseMove(e){
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if(!isDragging && (Math.abs(dx)>3 || Math.abs(dy)>3)){
+        isDragging = true;
+        block.style.opacity = "0.85";
+        block.style.zIndex = "100";
+      }
+      if(isDragging){
+        let newLeft = origLeft + dx;
+        let newTop = origTop + dy;
+        // Clamp inside canvas
+        newLeft = Math.max(0, newLeft);
+        newTop = Math.max(0, newTop);
+        block.style.left = newLeft + "px";
+        block.style.top = newTop + "px";
+        setStatus(`Pozisyon: ${newLeft}px, ${newTop}px`);
+      }
+    }
+
+    function onMouseUp(e){
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+      block.style.opacity = "";
+      block.style.zIndex = "";
+      if(isDragging){
+        isDragging = false;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  }
+}
+
+/* ── RESIZE (FIXED) ── */
+function makeResizable(block, handle, dir){
+  handle.addEventListener("mousedown", e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = block.offsetWidth;
+    const startH = block.offsetHeight;
+    const startLeft = parseInt(block.style.left)||0;
+    const startTop = parseInt(block.style.top)||0;
+
+    function onMove(e){
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      let newW = startW, newH = startH, newLeft = startLeft, newTop = startTop;
+
+      if(dir.includes("e")) newW = Math.max(60, startW + dx);
+      if(dir.includes("s")) newH = Math.max(24, startH + dy);
+      if(dir.includes("w")){ newW = Math.max(60, startW - dx); newLeft = startLeft + (startW - newW); }
+      if(dir.includes("n")){ newH = Math.max(24, startH - dy); newTop = startTop + (startH - newH); }
+
+      block.style.width = newW + "px";
+      block.style.height = newH + "px";
+      block.style.left = newLeft + "px";
+      block.style.top = newTop + "px";
+    }
+
+    function onUp(){
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    }
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  });
+}
+
+/* ── CANVAS UTILS ── */
+function changeCanvasSize(){
+  showInputModal("Tuval Boyutu", [
+    { id: "cv-h", label: "Yükseklik (px):", placeholder: "600", type: "number" }
+  ], vals => {
+    const h = parseInt(vals["cv-h"])||600;
+    document.getElementById("editor-canvas").style.minHeight = h + "px";
+  });
+}
+function clearCanvas(){
+  showConfirmModal("Tüm blokları silmek istediğine emin misin?", ()=>{
+    const canvas = document.getElementById("editor-canvas");
+    canvas.querySelectorAll(".e-block").forEach(b=>b.remove());
+    updateBlockCount();
+  });
+}
+
+/* ── SAVE ── */
+function saveArticle(){
+  const title = (document.getElementById("ed-title").value||"").trim();
+  const location = (document.getElementById("ed-location").value||"").trim();
+  if(!title){
+    alert("Lütfen bir başlık girin.");
+    document.getElementById("ed-title").focus();
+    return;
+  }
+  const canvas = document.getElementById("editor-canvas");
+  const blocks = [];
+  canvas.querySelectorAll(".e-block").forEach(block => {
+    const type = block.dataset.type;
+    const inner = block.querySelector(".e-block-inner");
+    let content;
+    if(type === "image"){
+      const img = inner.querySelector("img");
+      content = img ? img.src : "";
+    } else {
+      content = inner.innerHTML;
+    }
+    blocks.push({
+      type,
+      left: block.style.left,
+      top: block.style.top,
+      width: block.style.width||null,
+      height: block.style.height||null,
+      content
+    });
+  });
+
+  const slug = editingSlug || slugify(title);
+  const payload = {
+    title,
+    location,
+    slug,
+    blocks,
+    createdAt: Date.now()
+  };
+
+  setStatus("Kaydediliyor…");
+  db.ref("articles/"+slug).set(payload, err => {
+    if(err){
+      alert("Kayıt hatası: " + err.message);
+      setStatus("Hata!");
+    } else {
+      setStatus("Kaydedildi!");
+      navigate("article/"+slug);
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════
+   MODAL SYSTEM
+══════════════════════════════════════════════ */
+let modalCallback = null;
+
+function closeModal(){
+  document.getElementById("modal-overlay").style.display = "none";
+  modalCallback = null;
+}
+function closeModalOutside(e){
+  if(e.target === document.getElementById("modal-overlay")) closeModal();
+}
+function confirmModal(){
+  if(typeof modalCallback === "function"){
+    const body = document.getElementById("modal-body");
+    const inputs = body.querySelectorAll("input[data-id], textarea[data-id]");
+    if(inputs.length > 0){
+      const vals = {};
+      inputs.forEach(inp => vals[inp.dataset.id] = inp.value);
+      modalCallback(vals);
+    } else {
+      modalCallback();
+    }
+  }
+  closeModal();
+}
+
+function showConfirmModal(msg, cb){
+  modalCallback = cb;
+  document.getElementById("modal-title").textContent = "Onayla";
+  document.getElementById("modal-body").innerHTML = `<p>${escHtml(msg)}</p>`;
+  document.getElementById("modal-ok").textContent = "Evet";
+  document.getElementById("modal-cancel").textContent = "Hayır";
+  document.getElementById("modal-overlay").style.display = "flex";
+}
+
+function showInputModal(title, fields, cb){
+  modalCallback = cb;
+  document.getElementById("modal-title").textContent = title;
+  const html = fields.map(f => `
+    <label>${escHtml(f.label)}</label>
+    <input type="${f.type||'text'}" data-id="${f.id}" placeholder="${escHtml(f.placeholder||'')}" style="width:100%">
+  `).join("");
+  document.getElementById("modal-body").innerHTML = html;
+  document.getElementById("modal-ok").textContent = "Tamam";
+  document.getElementById("modal-cancel").textContent = "İptal";
+  document.getElementById("modal-overlay").style.display = "flex";
+  // focus first input
+  setTimeout(()=>{
+    const first = document.querySelector("#modal-body input");
+    if(first) first.focus();
+  }, 50);
+}
+
+function showImageModal(cb){
+  document.getElementById("modal-title").textContent = "🖼️ Resim Ekle";
+  document.getElementById("modal-body").innerHTML = `
+    <label>Resim URL'si:</label>
+    <input type="text" id="img-url-input" placeholder="https://example.com/resim.png" style="width:100%">
+    <div class="modal-preview" id="img-preview">
+      <span class="no-preview">URL gir, önizleme burada görünür</span>
+    </div>
+    <label style="font-size:12px;color:var(--muted)">Not: Resim URL'si direkt erişilebilir olmalı (CORS izni gerekebilir)</label>
+  `;
+  document.getElementById("modal-ok").textContent = "Ekle";
+  document.getElementById("modal-cancel").textContent = "İptal";
+
+  const input = document.getElementById("img-url-input");
+  const preview = document.getElementById("img-preview");
+
+  input.addEventListener("input", () => {
+    const url = input.value.trim();
+    if(!url){ preview.innerHTML = '<span class="no-preview">URL gir, önizleme burada görünür</span>'; return; }
+    preview.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<span class=\\'no-preview\\'>Resim yüklenemedi</span>'" style="max-width:100%;max-height:200px;object-fit:contain;">`;
+  });
+
+  modalCallback = () => {
+    const url = input.value.trim();
+    if(!url){ alert("Lütfen bir URL girin."); return; }
+    cb(url);
+  };
+
+  document.getElementById("modal-overlay").style.display = "flex";
+  setTimeout(()=>input.focus(), 50);
+}
+
+/* ══════════════════════════════════════════════
+   SEARCH
+══════════════════════════════════════════════ */
+function doSearch(){
+  const q = document.getElementById("search-input").value.trim().toLowerCase();
+  if(!q) return;
+  setStatus("Aranıyor: " + q);
+  db.ref("articles").once("value", snap => {
+    const data = snap.val();
+    const el = document.getElementById("main-content");
+    if(!data){
+      el.innerHTML = `<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;
+      return;
+    }
+    const results = Object.values(data).filter(a =>
+      a.title.toLowerCase().includes(q) ||
+      (a.blocks||[]).some(b=> b.type==="text" && stripTags(b.content).toLowerCase().includes(q))
+    );
+    if(!results.length){
+      el.innerHTML = `<div class="page-wrap"><div class="page-body"><div class="notice warn">Arama sonucu bulunamadı: <b>${escHtml(q)}</b></div></div></div>`;
+      setStatus("Sonuç yok");
+      return;
+    }
+    document.title = `"${q}" Arama — Bilinmeyen Dünya`;
+    el.innerHTML = `
+      <div class="page-wrap">
+        <div class="page-tabs"><span class="page-tab active">Arama Sonuçları</span></div>
+        <div class="page-body">
+          <h1 class="article-title-h1">Arama: "${escHtml(q)}"</h1>
+          <p style="color:var(--muted);margin-bottom:14px;">${results.length} sonuç bulundu</p>
+          ${results.map(a=>`
+            <div class="article-card">
+              <div class="article-card-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div>
+              <div class="article-card-meta">${escHtml(a.location||"Anonim")} — ${new Date(a.createdAt).toLocaleString("tr-TR")}</div>
+            </div>`).join("")}
+        </div>
+      </div>`;
+    setStatus(results.length + " sonuç");
+  });
+}
+
+/* ══════════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════════ */
+function escHtml(s){
+  if(typeof s !== "string") return "";
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function stripTags(s){
+  return (s||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+}
+
+/* ══════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+══════════════════════════════════════════════ */
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") closeModal();
+  if(e.key === "Enter" && document.getElementById("modal-overlay").style.display !== "none"){
+    // Enter in modal (only if not textarea)
+    if(document.activeElement && document.activeElement.tagName !== "TEXTAREA") confirmModal();
+  }
+});
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+router();
+</script>
+</body>
+</html>
