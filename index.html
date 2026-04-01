@@ -267,6 +267,52 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   .ed-loc{width:100%;}
   .ed-tpl-panel{display:none;}
 }
+/* --- MOBİL ŞABLON PANELİ DÜZENLEMESİ --- */
+@media (max-width: 700px) {
+    .ed-layout {
+        flex-direction: column !important; /* Panelleri alt alta diz */
+    }
+
+    .ed-tpl-panel {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 140px !important; /* Mobilde çok yer kaplamasın */
+        border-right: none !important;
+        border-bottom: 2px solid #d9bfb7 !important;
+    }
+
+    .ed-tpl-list {
+        display: flex !important; /* Şablonları yan yana (yatay) diz */
+        flex-direction: row !important;
+        overflow-x: auto !important; /* Parmağınla sağa kaydırabilmen için */
+        padding: 8px !important;
+        gap: 10px !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ed-tpl-item {
+        flex: 0 0 110px !important; /* Her şablon kutusunun genişliği */
+        background: #fff !important;
+        border: 1px solid #ea8 !important;
+        border-radius: 4px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .ed-tpl-item-desc {
+        display: none !important; /* Mobilde açıklamayı gizle, yer kazandır */
+    }
+
+    .ed-tpl-info {
+        width: 100% !important; /* Ayar kutusu tam ekran genişliği olsun */
+        border-left: none !important;
+        display: none; /* Seçilmediğinde gizli kalsın */
+    }
+    
+    .ed-tpl-info.visible {
+        display: flex !important;
+    }
+}
 </style>
 </head>
 <body>
