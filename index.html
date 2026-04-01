@@ -108,7 +108,8 @@ select.tb-sel{padding:1px 4px;font-size:9pt;border:1px solid #a9a9a9;background:
 .tb-cl{display:flex;align-items:center;gap:2px;font-size:9px;color:#800;}
 input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:pointer;}
 /* ── EDITOR CANVAS ── */
-.ed-canvas{border:1px solid #d9bfb7;min-height:480px;position:relative;background:linear-gradient(rgba(200,120,60,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,120,60,.04) 1px,transparent 1px),#fffef5;background-size:28px 28px;overflow:hidden;cursor:default;touch-action:none;}
+.ed-canvas{border:1px solid #d9bfb7;min-height:480px;position:relative;background:linear-gradient(rgba(200,120,60,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,120,60,.04) 1px,transparent 1px),#fffef5;background-size:28px 28px;overflow:auto;cursor:default;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;}
+.ed-canvas-inner{position:relative;min-width:800px;min-height:480px;}
 .ed-canvas-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#c8a090;font-size:10pt;font-style:italic;pointer-events:none;user-select:none;gap:6px;}
 /* ── BLOCKS ── */
 .e-block{position:absolute;border:1px dashed transparent;cursor:move;min-width:60px;min-height:24px;}
@@ -550,9 +551,9 @@ function renderEditor(loadSlug){
             <div class="tbg"><button class="tb" onclick="addTextBlock()">📝 Metin</button><button class="tb" onclick="addImageBlock()">🖼️ Resim</button><button class="tb" onclick="addBoxBlock()">📦 Kutu</button></div>
             <div class="tbg"><button class="tb" onclick="changeCanvasSize()">⤢</button><button class="tb" onclick="clearCanvas()" style="color:#d00">🗑️</button></div>
           </div>
-          <div class="ed-canvas" id="editor-canvas">
+          <div class="ed-canvas" id="editor-canvas"><div class="ed-canvas-inner" id="editor-canvas-inner">
             <div class="ed-canvas-hint" id="canvas-hint"><div style="font-size:24px;">📝</div><div>Araç çubuğundan <b>Metin</b> veya <b>Resim</b> ekle</div></div>
-          </div>
+          </div></div>
           <div class="ed-bar">
             <button class="btn-post" onclick="saveArticle()">💾 ${isAdmin()?"Yayınla":"Onaya Gönder"}</button>
             <button class="btn-cancel" onclick="goHome()">İptal</button>
@@ -562,8 +563,8 @@ function renderEditor(loadSlug){
         </div>
       </div>
     </div>`;
-  document.getElementById("editor-canvas").addEventListener("mousedown",e=>{if(e.target.id==="editor-canvas")deselectAll();});
-  document.getElementById("editor-canvas").addEventListener("touchstart",e=>{if(e.target.id==="editor-canvas")deselectAll();},{passive:true});
+  document.getElementById("editor-canvas").addEventListener("mousedown",e=>{if(e.target.id==="editor-canvas"||e.target.id==="editor-canvas-inner")deselectAll();});
+  document.getElementById("editor-canvas").addEventListener("touchstart",e=>{if(e.target.id==="editor-canvas"||e.target.id==="editor-canvas-inner")deselectAll();},{passive:true});
   if(loadSlug){db.ref("articles/"+loadSlug).once("value",snap=>{if(!snap.exists())return;const a=snap.val();document.getElementById("ed-title").value=a.title;document.getElementById("ed-location").value=a.location||"";(a.blocks||[]).forEach(b=>loadBlock(b));});}
 }
 
@@ -591,13 +592,18 @@ function insertEmoji(emoji){const inner=getActiveInner();if(inner){inner.focus()
 document.addEventListener("mousedown",e=>{if(emojiOpen&&!document.getElementById("emoji-picker").contains(e.target)&&e.target.id!=="emoji-btn")closeEmojiPicker();});
 
 /* BLOCKS */
-function updateBlockCount(){const canvas=document.getElementById("editor-canvas");if(!canvas)return;const n=canvas.querySelectorAll(".e-block").length;const hint=document.getElementById("canvas-hint");if(hint)hint.style.display=n>0?"none":"flex";const ce=document.getElementById("ed-block-count");if(ce)ce.textContent=n+" blok";setStatusBlocks(n+" blok");}
-function addTextBlock(initHtml){const canvas=document.getElementById("editor-canvas");if(!canvas)return;const block=createBlock("text",20+Math.random()*60,20+Math.random()*50);block.style.width="300px";const inner=block.querySelector(".e-block-inner");inner.innerHTML=initHtml||"<p>Buraya yazın…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;selectAllContent(inner);},60);}
-function addBoxBlock(){const canvas=document.getElementById("editor-canvas");if(!canvas)return;const block=createBlock("text",30+Math.random()*60,30+Math.random()*50);block.style.width="260px";block.style.border="2px solid #d9bfb7";block.style.background="#f0e0d6";const inner=block.querySelector(".e-block-inner");inner.innerHTML="<b style='color:#d00;'>Kutu Başlığı</b><p style='font-size:9pt;margin-top:4px;'>İçerik buraya…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;},60);}
-function loadBlock(b){const canvas=document.getElementById("editor-canvas");if(!canvas)return;const block=createBlock(b.type,parseInt(b.left)||10,parseInt(b.top)||10);if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;const inner=block.querySelector(".e-block-inner");if(b.type==="image"){inner.contentEditable=false;const img=document.createElement("img");img.src=b.content;img.draggable=false;inner.appendChild(img);}else inner.innerHTML=b.content||"";canvas.appendChild(block);updateBlockCount();}
+function updateBlockCount(){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const n=canvas.querySelectorAll(".e-block").length;const hint=document.getElementById("canvas-hint");if(hint)hint.style.display=n>0?"none":"flex";const ce=document.getElementById("ed-block-count");if(ce)ce.textContent=n+" blok";setStatusBlocks(n+" blok");
+  /* expand inner to fit all blocks */
+  let maxW=800,maxH=480;
+  canvas.querySelectorAll(".e-block").forEach(b=>{maxW=Math.max(maxW,(parseInt(b.style.left)||0)+(b.offsetWidth||200)+40);maxH=Math.max(maxH,(parseInt(b.style.top)||0)+(b.offsetHeight||100)+60);});
+  canvas.style.minWidth=maxW+"px";canvas.style.minHeight=maxH+"px";
+}
+function addTextBlock(initHtml){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock("text",20+Math.random()*60,20+Math.random()*50);block.style.width="300px";const inner=block.querySelector(".e-block-inner");inner.innerHTML=initHtml||"<p>Buraya yazın…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;selectAllContent(inner);},60);}
+function addBoxBlock(){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock("text",30+Math.random()*60,30+Math.random()*50);block.style.width="260px";block.style.border="2px solid #d9bfb7";block.style.background="#f0e0d6";const inner=block.querySelector(".e-block-inner");inner.innerHTML="<b style='color:#d00;'>Kutu Başlığı</b><p style='font-size:9pt;margin-top:4px;'>İçerik buraya…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;},60);}
+function loadBlock(b){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock(b.type,parseInt(b.left)||10,parseInt(b.top)||10);if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;const inner=block.querySelector(".e-block-inner");if(b.type==="image"){inner.contentEditable=false;const img=document.createElement("img");img.src=b.content;img.draggable=false;inner.appendChild(img);}else inner.innerHTML=b.content||"";canvas.appendChild(block);updateBlockCount();}
 
 /* IMAGE BLOCK — DIRECT FILE UPLOAD (base64 embedded) */
-function addImageBlock(){showImageModal(src=>{const canvas=document.getElementById("editor-canvas");if(!canvas)return;const block=createBlock("image",20+Math.random()*60,20+Math.random()*50);block.style.width="280px";block.style.height="200px";const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;const img=document.createElement("img");img.src=src;img.draggable=false;inner.appendChild(img);canvas.appendChild(block);updateBlockCount();selectBlock(block);});}
+function addImageBlock(){showImageModal(src=>{const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock("image",20+Math.random()*60,20+Math.random()*50);block.style.width="280px";block.style.height="200px";const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;const img=document.createElement("img");img.src=src;img.draggable=false;inner.appendChild(img);canvas.appendChild(block);updateBlockCount();selectBlock(block);});}
 
 function showImageModal(cb){
   document.getElementById("modal-title").textContent="🖼️ Resim Ekle";
@@ -689,15 +695,19 @@ function createBlock(type,left,top){
     if(e.target.classList.contains("rh")||e.target.classList.contains("block-del"))return;
     if(type==="text"&&block.classList.contains("selected")&&inner.contains(e.target))return;
     selectBlock(block);const sx=e.clientX,sy=e.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;e.preventDefault();
-    function onMove(mv){const dx=mv.clientX-sx,dy=mv.clientY-sy;if(!dragging&&(Math.abs(dx)>4||Math.abs(dy)>4)){dragging=true;block.style.opacity=".8";block.style.zIndex="99";}if(dragging){block.style.left=Math.max(0,origL+dx)+"px";block.style.top=Math.max(0,origT+dy)+"px";setStatus(`X:${Math.max(0,origL+dx).toFixed(0)} Y:${Math.max(0,origT+dy).toFixed(0)}`);}}
+    function onMove(mv){const dx=mv.clientX-sx,dy=mv.clientY-sy;if(!dragging&&(Math.abs(dx)>4||Math.abs(dy)>4)){dragging=true;block.style.opacity=".8";block.style.zIndex="99";}if(dragging){block.style.left=Math.max(0,origL+dx)+"px";block.style.top=Math.max(0,origT+dy)+"px";setStatus(`X:${Math.max(0,origL+dx).toFixed(0)} Y:${Math.max(0,origT+dy).toFixed(0)}`);updateBlockCount();}}
     function onUp(){document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);block.style.opacity="";block.style.zIndex="";if(!dragging&&type==="text"){inner.focus();activeInner=inner;}dragging=false;}
     document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);
   });
-  /* TOUCH DRAG */
+  /* TOUCH DRAG — only drag when NOT already selected (first tap = select, second drag = move) */
+  let touchSelectTime=0;
   block.addEventListener("touchstart",e=>{
     if(e.target.classList.contains("rh")||e.target.classList.contains("block-del"))return;
-    selectBlock(block);const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;
-    function onMove(mv){const t=mv.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(!dragging&&(Math.abs(dx)>6||Math.abs(dy)>6)){dragging=true;block.style.opacity=".8";block.style.zIndex="99";}if(dragging){mv.preventDefault();block.style.left=Math.max(0,origL+dx)+"px";block.style.top=Math.max(0,origT+dy)+"px";}}
+    const alreadySelected=block.classList.contains("selected");
+    selectBlock(block);
+    if(!alreadySelected){touchSelectTime=Date.now();return;} /* first touch just selects */
+    const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;
+    function onMove(mv){const t=mv.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(!dragging&&(Math.abs(dx)>6||Math.abs(dy)>6)){dragging=true;block.style.opacity=".8";block.style.zIndex="99";}if(dragging){mv.preventDefault();block.style.left=Math.max(0,origL+dx)+"px";block.style.top=Math.max(0,origT+dy)+"px";updateBlockCount();}}
     function onEnd(){block.removeEventListener("touchmove",onMove);block.removeEventListener("touchend",onEnd);block.style.opacity="";block.style.zIndex="";}
     block.addEventListener("touchmove",onMove,{passive:false});block.addEventListener("touchend",onEnd);
   },{passive:true});
@@ -706,16 +716,16 @@ function createBlock(type,left,top){
 function selectBlock(block){if(selectedBlock&&selectedBlock!==block)selectedBlock.classList.remove("selected");selectedBlock=block;block.classList.add("selected");}
 function deselectAll(){if(selectedBlock){selectedBlock.classList.remove("selected");selectedBlock=null;}}
 function selectAllContent(el){const r=document.createRange();r.selectNodeContents(el);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
-function makeResizable(block,handle,dir){handle.addEventListener("mousedown",e=>{e.preventDefault();e.stopPropagation();const sx=e.clientX,sy=e.clientY,sw=block.offsetWidth,sh=block.offsetHeight,sl=parseInt(block.style.left)||0,st=parseInt(block.style.top)||0;function onMove(mv){const dx=mv.clientX-sx,dy=mv.clientY-sy;let w=sw,h=sh,l=sl,t=st;if(dir.includes("e"))w=Math.max(60,sw+dx);if(dir.includes("s"))h=Math.max(24,sh+dy);if(dir.includes("w")){w=Math.max(60,sw-dx);l=sl+(sw-w);}if(dir.includes("n")){h=Math.max(24,sh-dy);t=st+(sh-h);}block.style.width=w+"px";block.style.height=h+"px";block.style.left=l+"px";block.style.top=t+"px";}function onUp(){document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);}document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);});}
-function makeTouchResizable(block,handle,dir){handle.addEventListener("touchstart",e=>{e.stopPropagation();e.preventDefault();const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,sw=block.offsetWidth,sh=block.offsetHeight,sl=parseInt(block.style.left)||0,st=parseInt(block.style.top)||0;function onMove(mv){mv.preventDefault();const t=mv.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;let w=sw,h=sh,l=sl,tt=st;if(dir.includes("e"))w=Math.max(60,sw+dx);if(dir.includes("s"))h=Math.max(24,sh+dy);if(dir.includes("w")){w=Math.max(60,sw-dx);l=sl+(sw-w);}if(dir.includes("n")){h=Math.max(24,sh-dy);tt=st+(sh-h);}block.style.width=w+"px";block.style.height=h+"px";block.style.left=l+"px";block.style.top=tt+"px";}function onEnd(){document.removeEventListener("touchmove",onMove);document.removeEventListener("touchend",onEnd);}document.addEventListener("touchmove",onMove,{passive:false});document.addEventListener("touchend",onEnd);},{passive:false});}
-function changeCanvasSize(){showInputModal("⤢ Tuval Yüksekliği",[{id:"cvh",label:"Yükseklik (px):",placeholder:"600",type:"number"}],vals=>{document.getElementById("editor-canvas").style.minHeight=(parseInt(vals.cvh)||600)+"px";});}
-function clearCanvas(){showConfirmModal("Tüm blokları sil?",()=>{document.getElementById("editor-canvas").querySelectorAll(".e-block").forEach(b=>b.remove());selectedBlock=null;activeInner=null;updateBlockCount();});}
+function makeResizable(block,handle,dir){handle.addEventListener("mousedown",e=>{e.preventDefault();e.stopPropagation();const sx=e.clientX,sy=e.clientY,sw=block.offsetWidth,sh=block.offsetHeight,sl=parseInt(block.style.left)||0,st=parseInt(block.style.top)||0;function onMove(mv){const dx=mv.clientX-sx,dy=mv.clientY-sy;let w=sw,h=sh,l=sl,t=st;if(dir.includes("e"))w=Math.max(60,sw+dx);if(dir.includes("s"))h=Math.max(24,sh+dy);if(dir.includes("w")){w=Math.max(60,sw-dx);l=sl+(sw-w);}if(dir.includes("n")){h=Math.max(24,sh-dy);t=st+(sh-h);}block.style.width=w+"px";block.style.height=h+"px";block.style.left=l+"px";block.style.top=t+"px";updateBlockCount();}function onUp(){document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);}document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);});}
+function makeTouchResizable(block,handle,dir){handle.addEventListener("touchstart",e=>{e.stopPropagation();e.preventDefault();const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,sw=block.offsetWidth,sh=block.offsetHeight,sl=parseInt(block.style.left)||0,st=parseInt(block.style.top)||0;function onMove(mv){mv.preventDefault();const t=mv.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;let w=sw,h=sh,l=sl,tt=st;if(dir.includes("e"))w=Math.max(60,sw+dx);if(dir.includes("s"))h=Math.max(24,sh+dy);if(dir.includes("w")){w=Math.max(60,sw-dx);l=sl+(sw-w);}if(dir.includes("n")){h=Math.max(24,sh-dy);tt=st+(sh-h);}block.style.width=w+"px";block.style.height=h+"px";block.style.left=l+"px";block.style.top=tt+"px";updateBlockCount();}function onEnd(){document.removeEventListener("touchmove",onMove);document.removeEventListener("touchend",onEnd);}document.addEventListener("touchmove",onMove,{passive:false});document.addEventListener("touchend",onEnd);},{passive:false});}
+function changeCanvasSize(){showInputModal("⤢ Tuval Boyutu",[{id:"cvw",label:"Genişlik (px):",placeholder:"900",type:"number"},{id:"cvh",label:"Yükseklik (px):",placeholder:"600",type:"number"}],vals=>{const inner=document.getElementById("editor-canvas-inner");if(inner){if(vals.cvw)inner.style.minWidth=(parseInt(vals.cvw)||900)+"px";if(vals.cvh)inner.style.minHeight=(parseInt(vals.cvh)||600)+"px";}});}
+function clearCanvas(){showConfirmModal("Tüm blokları sil?",()=>{document.getElementById("editor-canvas-inner").querySelectorAll(".e-block").forEach(b=>b.remove());selectedBlock=null;activeInner=null;updateBlockCount();});}
 
 /* ══ SAVE ══ */
 function saveArticle(){
   const title=(document.getElementById("ed-title").value||"").trim(),location=(document.getElementById("ed-location").value||"").trim();
   if(!title){alert("Lütfen bir başlık girin.");document.getElementById("ed-title").focus();return;}
-  const canvas=document.getElementById("editor-canvas"),blocks=[];
+  const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
   canvas.querySelectorAll(".e-block").forEach(block=>{const type=block.dataset.type,inner=block.querySelector(".e-block-inner");let content;if(type==="image"){const img=inner.querySelector("img");content=img?img.src:"";}else content=inner.innerHTML;blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content});});
   const slug=editingSlug||slugify(title),payload={title,location,slug,blocks,createdAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
