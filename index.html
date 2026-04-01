@@ -249,6 +249,17 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
       </ul>
     </div>
     <div class="sbox">
+      <div class="sbox-head">🔍 Ara</div>
+      <div style="padding:4px 6px;"><div style="display:flex;border:1px solid #a9a9a9;overflow:hidden;"><input type="search" id="sb-search-input" placeholder="Ara…" style="flex:1;border:none;outline:none;padding:3px 6px;font-size:9pt;background:#fff;color:#800;" onkeydown="if(event.key==='Enter')doSidebarSearch()"><button onclick="doSidebarSearch()" style="background:#ea8;border:none;border-left:1px solid #d9bfb7;padding:3px 7px;cursor:pointer;font-size:10px;">🔍</button></div></div>
+    </div>
+    <div class="sbox">
+      <div class="sbox-head" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>🗃️ Görseller</span>
+        <button onclick="openAddImageToSidebar()" style="background:none;border:none;cursor:pointer;color:#800;font-size:13px;padding:0 2px;font-weight:bold;" title="Görsel Ekle">+</button>
+      </div>
+      <div id="sb-images-list"><div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Henüz görsel yok</div></div>
+    </div>
+    <div class="sbox">
       <div class="sbox-head">İstatistik</div>
       <div class="sc" id="article-count">Yükleniyor…</div>
     </div>
@@ -307,6 +318,74 @@ function saveSession(u){currentUser=u;localStorage.setItem("bbd_u",JSON.stringif
 function clearSession(){currentUser=null;localStorage.removeItem("bbd_u");}
 function isAdmin(){return currentUser&&currentUser.role==="admin";}
 function isLoggedIn(){return!!currentUser;}
+
+/* ══ IMAGES STORE (localStorage) ══ */
+function getStoredImages(){try{return JSON.parse(localStorage.getItem("bbd_images")||"[]");}catch(e){return[];}}
+function saveStoredImages(arr){localStorage.setItem("bbd_images",JSON.stringify(arr));}
+function addStoredImage(name,dataUrl){const arr=getStoredImages();if(arr.find(i=>i.name===name)){alert("Bu isimde görsel zaten var.");return false;}arr.unshift({name,dataUrl,addedAt:Date.now()});saveStoredImages(arr);return true;}
+function deleteStoredImage(name){saveStoredImages(getStoredImages().filter(i=>i.name!==name));renderSidebarImages();}
+function getImageByName(name){return(getStoredImages().find(i=>i.name===name)||null);}
+function renderSidebarImages(){
+  const el=document.getElementById("sb-images-list");if(!el)return;
+  const imgs=getStoredImages();
+  if(!imgs.length){el.innerHTML=`<div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Henüz görsel yok</div>`;return;}
+  el.innerHTML=imgs.map(img=>`<div style="display:flex;align-items:center;gap:3px;padding:2px 6px;border-bottom:1px solid #e8d0c0;">
+    <img src="${escHtml(img.dataUrl)}" style="width:24px;height:24px;object-fit:cover;border:1px solid #d9bfb7;flex-shrink:0;">
+    <span style="flex:1;font-size:8pt;color:#800;word-break:break-all;cursor:pointer;" onclick="insertStoredImageToCanvas('${escHtml(img.name)}')" title="Tıkla: editöre ekle">${escHtml(img.name)}</span>
+    <button onclick="deleteStoredImage('${escHtml(img.name)}')" style="background:none;border:none;color:#d00;cursor:pointer;font-size:10px;padding:0 2px;flex-shrink:0;">✕</button>
+  </div>`).join("");
+}
+function insertStoredImageToCanvas(name){
+  const img=getImageByName(name);if(!img)return;
+  const canvas=document.getElementById("editor-canvas-inner");if(!canvas){alert("Editörde açık değil.");return;}
+  const pos=getSpawnPos();
+  const block=createBlock("image",pos.x,pos.y);block.style.width="200px";block.style.height="150px";
+  const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
+  const imgEl=document.createElement("img");imgEl.src=img.dataUrl;imgEl.draggable=false;
+  inner.appendChild(imgEl);canvas.appendChild(block);updateBlockCount();selectBlock(block);
+}
+function openAddImageToSidebar(){
+  document.getElementById("modal-title").textContent="🗃️ Görsel Ekle";
+  document.getElementById("modal-footer").style.display="none";
+  document.getElementById("modal-body").innerHTML=`
+    <label>Görsel Adı (ör: saygo.png):</label>
+    <input type="text" id="sb-img-name" placeholder="saygo.png" style="width:100%;border:1px solid #a9a9a9;padding:5px 8px;font-size:10pt;margin-bottom:10px;">
+    <label class="img-up-wrap" id="sb-upload-drop" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleSbDrop(event)" style="display:block;">
+      <input type="file" id="sb-img-file" accept="image/*" onchange="handleSbFileSelect(event)">
+      <div style="font-size:22px;">🖼️</div>
+      <div>Sürükle veya <u>tıkla</u></div>
+    </label>
+    <div id="sb-upload-prev" style="display:none;margin-top:8px;gap:8px;align-items:center;" class="upload-prev">
+      <img id="sb-thumb" style="width:48px;height:48px;object-fit:cover;border:1px solid #d9bfb7;">
+      <span id="sb-fname" style="font-size:9pt;color:#800;word-break:break-all;flex:1;"></span>
+      <button onclick="clearSbUpload()" style="background:none;border:none;color:#d00;cursor:pointer;font-size:16px;">✕</button>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:10px;">
+      <button onclick="confirmAddSidebarImage()" style="flex:1;padding:4px;background:#98e;border:1px solid #7799cc;cursor:pointer;font-weight:bold;font-size:10pt;">✅ Kaydet</button>
+      <button onclick="closeModal()" style="padding:4px 12px;background:#f0e0d6;border:1px solid #d9bfb7;cursor:pointer;font-size:10pt;">İptal</button>
+    </div>`;
+  window._sbImgData=null;
+  document.getElementById("modal-overlay").style.display="flex";
+  setTimeout(()=>{const n=document.getElementById("sb-img-name");if(n)n.focus();},50);
+}
+function handleSbDrop(e){e.preventDefault();document.getElementById("sb-upload-drop").classList.remove("dragover");const f=e.dataTransfer.files[0];if(f&&f.type.startsWith("image/"))processSbFile(f);}
+function handleSbFileSelect(e){const f=e.target.files[0];if(f)processSbFile(f);}
+function processSbFile(file){
+  const r=new FileReader();r.onload=ev=>{
+    window._sbImgData=ev.target.result;
+    const prev=document.getElementById("sb-upload-prev");prev.style.display="flex";
+    document.getElementById("sb-thumb").src=ev.target.result;
+    document.getElementById("sb-fname").textContent=file.name;
+    const nameInp=document.getElementById("sb-img-name");if(nameInp&&!nameInp.value)nameInp.value=file.name;
+  };r.readAsDataURL(file);
+}
+function clearSbUpload(){window._sbImgData=null;document.getElementById("sb-upload-prev").style.display="none";document.getElementById("sb-img-file").value="";}
+function confirmAddSidebarImage(){
+  const name=(document.getElementById("sb-img-name").value||"").trim();
+  if(!name){alert("Görsel adı girin.");return;}
+  if(!window._sbImgData){alert("Önce bir görsel seç.");return;}
+  if(addStoredImage(name,window._sbImgData)){closeModal();renderSidebarImages();setStatus("Görsel eklendi: "+name);}
+}
 function updateUserPill(){
   const p=document.getElementById("user-pill"),sl=document.getElementById("sidebar-login-link");
   if(!currentUser){p.textContent="[ Giriş Yap ]";p.className="";if(sl)sl.textContent="Giriş / Kayıt";return;}
@@ -383,7 +462,8 @@ function closeSidebar(){document.getElementById("sidebar").classList.remove("mob
 
 /* ══ TEMPLATE ENGINE ══ */
 function renderTemplate(html,args){return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{name=name.trim();if(args&&args[name]!==undefined)return args[name];return def!==undefined?def:"";});}
-function renderTemplateTags(html,templates){return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{name=name.trim();const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));if(!tpl)return match;const args={};if(argsStr){const parts=argsStr.slice(1).split("|");parts.forEach((p,i)=>{const eq=p.indexOf("=");if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}else{args[i+1]=p;args[i]=p;}});}return`<span class="tpl-render">${renderTemplate(tpl.html,args)}</span>`;});}
+function resolveImageSrcs(html){/* replace bare image filenames in src with stored dataUrl */return html.replace(/src="([^"]+)"/g,(match,src)=>{if(src.startsWith("data:")||src.startsWith("http")||src.startsWith("//"))return match;const img=getImageByName(src);return img?`src="${img.dataUrl}"`:match;});}
+function renderTemplateTags(html,templates){html=resolveImageSrcs(html);return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{name=name.trim();const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));if(!tpl)return match;const args={};if(argsStr){const parts=argsStr.slice(1).split("|");parts.forEach((p,i)=>{const eq=p.indexOf("=");if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}else{args[i+1]=p;args[i]=p;}});}return`<span class="tpl-render">${renderTemplate(tpl.html,args)}</span>`;});}
 async function loadAllTemplates(){return new Promise(resolve=>{db.ref("templates").once("value",snap=>{const stored=snap.val()?Object.values(snap.val()):[];const map={};BUILTIN_TEMPLATES.forEach(t=>map[t.slug]=t);stored.forEach(t=>map[t.slug]=t);resolve(Object.values(map));});});}
 function seedTemplates(){db.ref("templates").once("value",snap=>{BUILTIN_TEMPLATES.forEach(tpl=>{if(!snap.child(tpl.slug).exists())db.ref("templates/"+tpl.slug).set(tpl);});});}
 
@@ -465,13 +545,22 @@ function openTemplateEditor(slug){
   document.getElementById("modal-overlay").style.display="flex";
   if(!isNew){db.ref("templates/"+slug).once("value",snap=>{if(!snap.exists())return;const t=snap.val();document.getElementById("tpl-name").value=t.name||"";document.getElementById("tpl-desc").value=t.desc||"";document.getElementById("tpl-html").value=t.html||"";});}
   window._tplModalCb=()=>{
-    const name=(document.getElementById("tpl-name").value||"").trim();
-    const desc=(document.getElementById("tpl-desc").value||"").trim();
-    const html=(document.getElementById("tpl-html").value||"").trim();
-    if(!name){alert("Şablon adı gerekli.");return false;}
-    if(!html){alert("HTML kodu gerekli.");return false;}
-    const key=slug||slugify(name);
-    db.ref("templates/"+key).set({name,slug:key,desc,html},err=>{if(err){alert("Hata: "+err.message);return;}setStatus("Kaydedildi: "+name);reloadTplList();});
+    const nameEl=document.getElementById("tpl-name");
+    const descEl=document.getElementById("tpl-desc");
+    const htmlEl=document.getElementById("tpl-html");
+    if(!nameEl||!htmlEl){alert("Form hatası.");return false;}
+    const name=nameEl.value.trim();
+    const desc=(descEl?descEl.value:"").trim();
+    const html=htmlEl.value.trim();
+    if(!name){alert("Şablon adı gerekli.");nameEl.focus();return false;}
+    if(!html){alert("HTML kodu gerekli.");htmlEl.focus();return false;}
+    let key=slug||slugify(name);
+    if(!key)key="tpl-"+Date.now();
+    db.ref("templates/"+key).set({name,slug:key,desc,html},err=>{
+      if(err){alert("Firebase hatası: "+err.message);return;}
+      setStatus("Kaydedildi: "+name);
+      reloadTplList();
+    });
     return true;
   };
 }
@@ -522,7 +611,8 @@ function rejectPending(key){showConfirmModal("Reddet?",()=>{db.ref("pending/"+ke
 async function previewPending(key){const [snap,templates]=await Promise.all([db.ref("pending/"+key).once("value"),loadAllTemplates()]);if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";}
 
 /* ══ EDITOR ══ */
-let selectedBlock=null,editingSlug=null,blockIdCounter=0,activeInner=null;
+let selectedBlock=null,editingSlug=null,blockIdCounter=0,activeInner=null,lastSpawnX=30,lastSpawnY=30;
+function getSpawnPos(){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return{x:30,y:30};/* small random offset so stacked blocks don't fully overlap */return{x:Math.max(10,lastSpawnX+Math.random()*10-5),y:Math.max(10,lastSpawnY+Math.random()*10-5)};}
 function renderEditor(loadSlug){
   document.title="Düzenle — Bilinmeyen Dünya";setStatus("Editör hazır");
   editingSlug=loadSlug||null;selectedBlock=null;blockIdCounter=0;activeInner=null;
@@ -542,7 +632,7 @@ function renderEditor(loadSlug){
             <div class="tbg"><button class="tb" onclick="fmt('bold')"><b>B</b></button><button class="tb" onclick="fmt('italic')"><i>I</i></button><button class="tb" onclick="fmt('underline')"><u>U</u></button><button class="tb" onclick="fmt('strikeThrough')"><s>S</s></button></div>
             <div class="tbg"><select class="tb-sel" onchange="applyHeading(this.value)"><option value="">Paragraf</option><option value="h1">Başlık 1</option><option value="h2">Başlık 2</option><option value="h3">Başlık 3</option><option value="h4">Başlık 4</option></select></div>
             <div class="tbg"><select class="tb-sel" onchange="applyFontFamily(this.value)"><option value="">Yazı Tipi</option><option value="arial,sans-serif">Arial</option><option value="'Times New Roman',serif">Times</option><option value="Georgia,serif">Georgia</option><option value="tahoma,sans-serif">Tahoma</option><option value="'Courier New',monospace">Courier</option></select></div>
-            <div class="tbg"><select class="tb-sel" onchange="applyFontSize(this.value)"><option value="">Boyut</option><option value="1">XS</option><option value="2">S</option><option value="3">M</option><option value="4">L</option><option value="5">XL</option><option value="6">XXL</option></select></div>
+            <div class="tbg"><select class="tb-sel" onchange="applyFontSize(this.value);this.value=''"><option value="">Boyut</option><option value="1">9px</option><option value="2">11px</option><option value="3">13px</option><option value="4">16px</option><option value="5">20px</option><option value="6">26px</option><option value="7">36px</option></select></div>
             <div class="tbg"><div class="tb-cl"><span>Yaz:</span><input type="color" class="tb-color" value="#800000" onchange="applyColor('foreColor',this.value)" title="Yazı Rengi"></div><div class="tb-cl"><span>BG:</span><input type="color" class="tb-color" value="#ffff00" onchange="applyColor('hiliteColor',this.value)" title="Arkaplan"></div></div>
             <div class="tbg"><button class="tb" onclick="fmt('justifyLeft')">⬛╌</button><button class="tb" onclick="fmt('justifyCenter')">╌⬛╌</button><button class="tb" onclick="fmt('justifyRight')">╌⬛</button></div>
             <div class="tbg"><button class="tb" onclick="fmt('insertUnorderedList')">• Liste</button><button class="tb" onclick="fmt('insertOrderedList')">1. Liste</button></div>
@@ -565,13 +655,25 @@ function renderEditor(loadSlug){
     </div>`;
   document.getElementById("editor-canvas").addEventListener("mousedown",e=>{if(e.target.id==="editor-canvas"||e.target.id==="editor-canvas-inner")deselectAll();});
   document.getElementById("editor-canvas").addEventListener("touchstart",e=>{if(e.target.id==="editor-canvas"||e.target.id==="editor-canvas-inner")deselectAll();},{passive:true});
+  /* track last click pos for spawn */
+  const cvs=document.getElementById("editor-canvas");
+  function trackPos(cx,cy){const r=cvs.getBoundingClientRect();lastSpawnX=Math.max(10,cx-r.left+cvs.scrollLeft);lastSpawnY=Math.max(10,cy-r.top+cvs.scrollTop);}
+  cvs.addEventListener("mousedown",e=>{trackPos(e.clientX,e.clientY);});
+  cvs.addEventListener("touchstart",e=>{const t=e.touches[0];trackPos(t.clientX,t.clientY);},{passive:true});
   if(loadSlug){db.ref("articles/"+loadSlug).once("value",snap=>{if(!snap.exists())return;const a=snap.val();document.getElementById("ed-title").value=a.title;document.getElementById("ed-location").value=a.location||"";(a.blocks||[]).forEach(b=>loadBlock(b));});}
 }
 
 /* FORMAT */
 function fmt(cmd){ensureFocus();document.execCommand(cmd,false,null);}
 function applyColor(cmd,val){ensureFocus();document.execCommand(cmd,false,val);}
-function applyFontSize(val){if(!val)return;ensureFocus();document.execCommand('fontSize',false,val);}
+function applyFontSize(val){
+  if(!val)return;ensureFocus();
+  const pxMap={"1":"9px","2":"11px","3":"13px","4":"16px","5":"20px","6":"26px","7":"36px"};
+  const px=pxMap[val]||val;
+  document.execCommand('fontSize',false,'7');/* trick: apply size7 first to create font tags */
+  const inner=getActiveInner();if(!inner)return;
+  inner.querySelectorAll('font[size="7"]').forEach(f=>{f.removeAttribute('size');f.style.fontSize=px;});
+}
 function applyFontFamily(val){if(!val)return;ensureFocus();document.execCommand('fontName',false,val);}
 function applyHeading(val){ensureFocus();document.execCommand('formatBlock',false,val||'p');}
 function ensureFocus(){const inner=getActiveInner();if(inner&&!inner.contains(document.activeElement))inner.focus();}
@@ -598,12 +700,12 @@ function updateBlockCount(){const canvas=document.getElementById("editor-canvas-
   canvas.querySelectorAll(".e-block").forEach(b=>{maxW=Math.max(maxW,(parseInt(b.style.left)||0)+(b.offsetWidth||200)+40);maxH=Math.max(maxH,(parseInt(b.style.top)||0)+(b.offsetHeight||100)+60);});
   canvas.style.minWidth=maxW+"px";canvas.style.minHeight=maxH+"px";
 }
-function addTextBlock(initHtml){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock("text",20+Math.random()*60,20+Math.random()*50);block.style.width="300px";const inner=block.querySelector(".e-block-inner");inner.innerHTML=initHtml||"<p>Buraya yazın…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;/* cursor sona git, içerik silinmesin */const r=document.createRange();r.selectNodeContents(inner);r.collapse(false);const s=window.getSelection();s.removeAllRanges();s.addRange(r);},60);}
-function addBoxBlock(){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock("text",30+Math.random()*60,30+Math.random()*50);block.style.width="260px";block.style.border="2px solid #d9bfb7";block.style.background="#f0e0d6";const inner=block.querySelector(".e-block-inner");inner.innerHTML="<b style='color:#d00;'>Kutu Başlığı</b><p style='font-size:9pt;margin-top:4px;'>İçerik buraya…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;},60);}
+function addTextBlock(initHtml){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const pos=getSpawnPos();const block=createBlock("text",pos.x,pos.y);block.style.width="300px";const inner=block.querySelector(".e-block-inner");inner.innerHTML=initHtml||"<p>Buraya yazın…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;const r=document.createRange();r.selectNodeContents(inner);r.collapse(false);const s=window.getSelection();s.removeAllRanges();s.addRange(r);},60);}
+function addBoxBlock(){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const pos=getSpawnPos();const block=createBlock("text",pos.x,pos.y);block.style.width="260px";block.style.border="2px solid #d9bfb7";block.style.background="#f0e0d6";const inner=block.querySelector(".e-block-inner");inner.innerHTML="<b style='color:#d00;'>Kutu Başlığı</b><p style='font-size:9pt;margin-top:4px;'>İçerik buraya…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;},60);}
 function loadBlock(b){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock(b.type,parseInt(b.left)||10,parseInt(b.top)||10);if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;const inner=block.querySelector(".e-block-inner");if(b.type==="image"){inner.contentEditable=false;const img=document.createElement("img");img.src=b.content;img.draggable=false;inner.appendChild(img);}else inner.innerHTML=b.content||"";canvas.appendChild(block);updateBlockCount();}
 
 /* IMAGE BLOCK — DIRECT FILE UPLOAD (base64 embedded) */
-function addImageBlock(){showImageModal(src=>{const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const block=createBlock("image",20+Math.random()*60,20+Math.random()*50);block.style.width="280px";block.style.height="200px";const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;const img=document.createElement("img");img.src=src;img.draggable=false;inner.appendChild(img);canvas.appendChild(block);updateBlockCount();selectBlock(block);});}
+function addImageBlock(){showImageModal(src=>{const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const pos=getSpawnPos();const block=createBlock("image",pos.x,pos.y);block.style.width="280px";block.style.height="200px";const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;const img=document.createElement("img");img.src=src;img.draggable=false;inner.appendChild(img);canvas.appendChild(block);updateBlockCount();selectBlock(block);});}
 
 function showImageModal(cb){
   document.getElementById("modal-title").textContent="🖼️ Resim Ekle";
@@ -742,7 +844,9 @@ function showConfirmModal(msg,cb){modalCb=cb;document.getElementById("modal-titl
 function showInputModal(title,fields,cb){modalCb=cb;document.getElementById("modal-title").textContent=title;document.getElementById("modal-body").innerHTML=fields.map(f=>`<label>${escHtml(f.label)}</label><input type="${f.type||'text'}" data-id="${f.id}" placeholder="${escHtml(f.placeholder||'')}">`).join("");document.getElementById("modal-ok").textContent="Tamam";document.getElementById("modal-cancel").textContent="İptal";document.getElementById("modal-footer").style.display="flex";document.getElementById("modal-overlay").style.display="flex";setTimeout(()=>{const fi=document.querySelector("#modal-body input");if(fi)fi.focus();},50);}
 
 /* ══ SEARCH ══ */
-function doSearch(){const q=(document.getElementById("search-input").value||"").trim().toLowerCase();if(!q)return;setStatus("Aranıyor: "+q);db.ref("articles").once("value",snap=>{const data=snap.val();const el=document.getElementById("main-content");if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q)));document.title=`"${q}" — Bilinmeyen Dünya`;el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;setStatus(res.length+" sonuç");});}
+function doSearch(){const q=(document.getElementById("search-input").value||"").trim().toLowerCase();if(!q)return;_runSearch(q);}
+function doSidebarSearch(){const q=(document.getElementById("sb-search-input").value||"").trim().toLowerCase();if(!q)return;closeSidebar();_runSearch(q);}
+function _runSearch(q){setStatus("Aranıyor: "+q);db.ref("articles").once("value",snap=>{const data=snap.val();const el=document.getElementById("main-content");if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q)));document.title=`"${q}" — Bilinmeyen Dünya`;el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;setStatus(res.length+" sonuç");});}
 
 /* ══ KEYBOARD ══ */
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeEmojiPicker();}if((e.ctrlKey||e.metaKey)&&e.key==="s"){e.preventDefault();if(document.getElementById("ed-title"))saveArticle();}});
@@ -751,7 +855,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeE
 db.ref("articles").on("value",snap=>{const n=snap.val()?Object.keys(snap.val()).length:0;const el=document.getElementById("article-count");if(el)el.textContent=n+" sayfa";});
 
 /* ══ INIT ══ */
-loadSession();seedTemplates();router();
+loadSession();seedTemplates();renderSidebarImages();router();
 </script>
 </body>
 </html>
