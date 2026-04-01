@@ -2,105 +2,269 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bilinmeyen Dünya</title>
 <link href="https://fonts.googleapis.com/css2?family=Linux+Libertine+Display&family=Linux+Libertine&family=Linux+Biolinum&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#f8f9fa;--white:#ffffff;--border:#a7d7f9;--link:#3366cc;
-  --text:#202122;--muted:#72777d;--toolbar-bg:#eaf3fb;--toolbar-border:#a2a9b1;
+/* ══ ROOT ══ */
+:root{
+  --bg:#f6f7f8;--white:#ffffff;--border:#a7d7f9;--link:#2a5bd6;
+  --text:#1a1a1a;--muted:#72777d;--toolbar-bg:#eaf3fb;--toolbar-border:#a2a9b1;
+  --header-h:54px;--sidebar-w:200px;
+  --accent:#2a5bd6;--danger:#cc2222;--success:#1a7f4a;
+  --shadow:0 2px 8px rgba(0,0,0,.10);
+  --radius:3px;
+  --font-body:'Linux Libertine',Georgia,serif;
+  --font-ui:'Linux Biolinum',system-ui,sans-serif;
+  --font-display:'Linux Libertine Display',Georgia,serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Linux Libertine',Georgia,serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent;}
 
-/* HEADER */
-#site-header{background:#fff;border-bottom:1px solid #a7d7f9;position:sticky;top:0;z-index:900;box-shadow:0 1px 3px rgba(0,0,0,.08);}
-#header-inner{display:flex;align-items:center;max-width:1400px;margin:0 auto;padding:8px 16px;gap:10px;flex-wrap:wrap;}
-#site-logo{font-family:'Linux Libertine Display',Georgia,serif;font-size:24px;color:var(--link);cursor:pointer;white-space:nowrap;}
-#site-logo span{color:#cc3333;}
-#site-tagline{font-size:11px;color:var(--muted);font-style:italic;border-left:1px solid #ddd;padding-left:10px;white-space:nowrap;}
-#header-nav{margin-left:auto;display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
-.nav-btn{padding:5px 11px;font-size:13px;font-family:'Linux Biolinum',Arial,sans-serif;border:1px solid var(--toolbar-border);background:linear-gradient(to bottom,#f8f9fa,#eaecf0);color:var(--text);cursor:pointer;border-radius:2px;}
-.nav-btn:hover{background:linear-gradient(to bottom,#eaecf0,#d8dce4);}
-.nav-btn.primary{background:linear-gradient(to bottom,#3679d8,#2a62c0);color:#fff;border-color:#2a5bad;}
-.nav-btn.primary:hover{background:linear-gradient(to bottom,#2a62c0,#1e4fa0);}
-#search-box{display:flex;border:1px solid var(--toolbar-border);border-radius:2px;overflow:hidden;}
-#search-box input{padding:5px 9px;border:none;outline:none;font-size:13px;font-family:inherit;width:175px;}
-#search-box button{padding:5px 9px;border:none;background:linear-gradient(to bottom,#f8f9fa,#eaecf0);cursor:pointer;border-left:1px solid var(--toolbar-border);}
-#user-pill{font-size:12px;background:#eaf3fb;border:1px solid #a7d7f9;padding:3px 9px;border-radius:10px;color:#36c;cursor:pointer;white-space:nowrap;}
-#user-pill.admin-pill{background:#fff3cd;border-color:#e8a000;color:#795500;}
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#c0c8d8;border-radius:3px;}
 
-/* LAYOUT */
-#layout{max-width:1400px;margin:0 auto;padding:20px 16px 50px;display:flex;gap:20px;}
-#sidebar{width:195px;flex-shrink:0;}
-.sidebar-box{background:#fff;border:1px solid #a7d7f9;margin-bottom:12px;font-size:13px;}
-.sidebar-box h3{background:#eaf3fb;border-bottom:1px solid #a7d7f9;padding:5px 10px;font-size:11px;font-family:'Linux Biolinum',Arial,sans-serif;font-weight:bold;color:#36c;text-transform:uppercase;letter-spacing:0.5px;}
-.sidebar-box ul{list-style:none;padding:5px 0;}
-.sidebar-box ul li a{display:block;padding:3px 10px;color:var(--link);text-decoration:none;cursor:pointer;}
-.sidebar-box ul li a:hover{text-decoration:underline;}
-.sidebar-count{padding:6px 10px;color:var(--muted);font-style:italic;}
+/* ══ HEADER ══ */
+#site-header{
+  background:linear-gradient(135deg,#1a2a6c 0%,#253e9e 60%,#2a5bd6 100%);
+  border-bottom:2px solid rgba(255,255,255,.12);
+  position:sticky;top:0;z-index:900;
+  box-shadow:0 2px 12px rgba(0,0,0,.25);
+}
+#header-inner{
+  display:flex;align-items:center;max-width:1440px;margin:0 auto;
+  padding:0 14px;height:var(--header-h);gap:10px;
+}
+#hamburger{
+  display:none;background:none;border:none;cursor:pointer;
+  padding:6px;color:#fff;font-size:20px;flex-shrink:0;
+}
+#site-logo{
+  font-family:var(--font-display);font-size:22px;color:#fff;
+  cursor:pointer;white-space:nowrap;letter-spacing:-.3px;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);
+  display:flex;align-items:center;gap:7px;flex-shrink:0;
+}
+#site-logo .logo-dot{color:#f7c800;}
+#site-tagline{font-size:10px;color:rgba(255,255,255,.6);font-style:italic;white-space:nowrap;display:none;}
+#header-search{
+  flex:1;max-width:320px;margin-left:auto;
+  display:flex;border:1px solid rgba(255,255,255,.25);border-radius:18px;
+  overflow:hidden;background:rgba(255,255,255,.12);
+  transition:background .2s;
+}
+#header-search:focus-within{background:rgba(255,255,255,.22);}
+#search-input{
+  padding:6px 12px;border:none;outline:none;font-size:13px;
+  font-family:var(--font-ui);width:100%;background:transparent;color:#fff;
+}
+#search-input::placeholder{color:rgba(255,255,255,.55);}
+#search-input::-webkit-search-cancel-button{display:none;}
+#header-search button{
+  padding:6px 12px;border:none;background:transparent;cursor:pointer;
+  color:rgba(255,255,255,.7);font-size:15px;
+}
+#header-nav{display:flex;gap:5px;align-items:center;flex-shrink:0;}
+.nav-btn{
+  padding:5px 11px;font-size:12.5px;font-family:var(--font-ui);
+  border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.10);
+  color:#fff;cursor:pointer;border-radius:14px;white-space:nowrap;
+  transition:background .15s;
+}
+.nav-btn:hover{background:rgba(255,255,255,.22);}
+.nav-btn.primary{background:rgba(247,200,0,.85);border-color:rgba(247,200,0,.5);color:#1a1a00;font-weight:bold;}
+.nav-btn.primary:hover{background:#f7c800;}
+.nav-btn.tpl{background:rgba(90,200,150,.2);border-color:rgba(90,200,150,.4);color:#afffda;}
+.nav-btn.tpl:hover{background:rgba(90,200,150,.35);}
+#user-pill{
+  font-size:12px;padding:4px 11px;border-radius:14px;cursor:pointer;
+  white-space:nowrap;font-family:var(--font-ui);border:1px solid rgba(255,255,255,.25);
+  color:#fff;background:rgba(255,255,255,.10);transition:background .15s;
+}
+#user-pill:hover{background:rgba(255,255,255,.22);}
+#user-pill.admin-pill{background:rgba(247,200,0,.2);border-color:rgba(247,200,0,.5);color:#f7c800;}
+
+/* ══ LAYOUT ══ */
+#layout{max-width:1440px;margin:0 auto;padding:18px 14px 70px;display:flex;gap:18px;}
+#sidebar{width:var(--sidebar-w);flex-shrink:0;transition:transform .25s;}
+.sidebar-box{background:#fff;border:1px solid var(--border);margin-bottom:10px;border-radius:var(--radius);box-shadow:var(--shadow);}
+.sidebar-box h3{
+  background:linear-gradient(90deg,#eaf3fb,#f4f8fd);
+  border-bottom:1px solid var(--border);padding:6px 10px;
+  font-size:10.5px;font-family:var(--font-ui);font-weight:700;
+  color:#2a5bd6;text-transform:uppercase;letter-spacing:.7px;
+  border-radius:var(--radius) var(--radius) 0 0;
+}
+.sidebar-box ul{list-style:none;padding:4px 0;}
+.sidebar-box ul li a{
+  display:flex;align-items:center;gap:5px;padding:4px 10px;
+  color:var(--link);text-decoration:none;cursor:pointer;font-size:13px;
+  transition:background .1s;
+}
+.sidebar-box ul li a:hover{background:#f0f6ff;text-decoration:none;}
+.sidebar-count{padding:6px 10px;color:var(--muted);font-style:italic;font-size:12px;}
+
+/* Mobile sidebar overlay */
+#sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:850;}
+#sidebar-overlay.on{display:block;}
+#sidebar.mobile-open{transform:translateX(0)!important;}
+
+/* ══ MAIN ══ */
 #main-content{flex:1;min-width:0;}
 
-/* PAGE */
-.page-wrap{background:#fff;border:1px solid #a7d7f9;}
-.page-tabs{display:flex;border-bottom:1px solid #a7d7f9;background:#f8f9fa;padding:6px 10px 0;gap:2px;}
-.page-tab{padding:5px 13px;font-size:13px;font-family:'Linux Biolinum',Arial,sans-serif;border:1px solid #a7d7f9;border-bottom:none;background:#fff;cursor:pointer;border-radius:3px 3px 0 0;color:var(--link);position:relative;bottom:-1px;}
-.page-tab:hover{background:#eaf3fb;}
-.page-tab.active{background:#fff;border-bottom:1px solid #fff;color:var(--text);font-weight:bold;}
-.page-actions{margin-left:auto;display:flex;align-items:flex-end;padding-bottom:4px;gap:5px;}
-.page-action-link{font-size:12px;color:var(--link);cursor:pointer;padding:2px 4px;}
+/* ══ PAGE WRAP ══ */
+.page-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+.page-tabs{
+  display:flex;border-bottom:1px solid var(--border);
+  background:linear-gradient(90deg,#f4f8fd,#eaf3fb);
+  padding:7px 10px 0;gap:2px;overflow-x:auto;flex-wrap:nowrap;
+}
+.page-tabs::-webkit-scrollbar{height:0;}
+.page-tab{
+  padding:6px 14px;font-size:13px;font-family:var(--font-ui);
+  border:1px solid transparent;border-bottom:none;background:transparent;
+  cursor:pointer;border-radius:var(--radius) var(--radius) 0 0;
+  color:var(--link);white-space:nowrap;position:relative;bottom:-1px;
+  transition:background .1s;user-select:none;
+}
+.page-tab:hover{background:rgba(42,91,214,.07);}
+.page-tab.active{
+  background:#fff;border:1px solid var(--border);border-bottom:1px solid #fff;
+  color:var(--text);font-weight:bold;
+}
+.page-actions{margin-left:auto;display:flex;align-items:flex-end;padding-bottom:5px;gap:6px;flex-shrink:0;}
+.page-action-link{font-size:12px;color:var(--link);cursor:pointer;padding:2px 5px;white-space:nowrap;font-family:var(--font-ui);}
 .page-action-link:hover{text-decoration:underline;}
-.page-action-link.red{color:#cc3333;}
-.page-body{padding:18px 22px;}
-.article-title-h1{font-family:'Linux Libertine Display',Georgia,serif;font-size:27px;font-weight:normal;border-bottom:1px solid #a7d7f9;padding-bottom:4px;margin-bottom:14px;}
-.article-meta{font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic;}
+.page-action-link.red{color:var(--danger);}
+.page-body{padding:18px 20px;}
 
-/* VIEWER */
-.viewer-canvas{position:relative;background:#fff;overflow:hidden;}
-.view-block{position:absolute;overflow:visible;font-family:'Linux Libertine',Georgia,serif;font-size:15px;line-height:1.6;}
-.view-block img{max-width:100%;height:100%;display:block;object-fit:contain;border:1px solid #ddd;}
+/* ══ ARTICLE ══ */
+.article-title-h1{
+  font-family:var(--font-display);font-size:28px;font-weight:normal;
+  border-bottom:1px solid #e0eaf5;padding-bottom:5px;margin-bottom:13px;
+  color:#1a1a2e;
+}
+.article-meta{font-size:12px;color:var(--muted);margin-bottom:14px;font-style:italic;display:flex;flex-wrap:wrap;gap:6px;}
+.article-meta span{display:flex;align-items:center;gap:3px;}
 
-/* ARTICLE LIST */
-.article-card{border-bottom:1px solid #eaecf0;padding:11px 0;}
+/* ══ VIEWER ══ */
+.viewer-canvas{position:relative;background:#fff;overflow:auto;}
+.view-block{position:absolute;overflow:visible;font-family:var(--font-body);font-size:15px;line-height:1.65;}
+.view-block img{max-width:100%;height:100%;display:block;object-fit:contain;border:1px solid #e8e8e8;border-radius:2px;}
+
+/* Template rendering */
+.tpl-render{margin:6px 0;}
+.tpl-render table{border-collapse:collapse;}
+
+/* ══ ARTICLE LIST ══ */
+.article-card{border-bottom:1px solid #f0f3f7;padding:12px 0;transition:background .1s;}
 .article-card:last-child{border-bottom:none;}
-.article-card-title{font-family:'Linux Libertine Display',Georgia,serif;font-size:18px;font-weight:normal;}
+.article-card:hover{background:#fafcff;}
+.article-card-title{font-family:var(--font-display);font-size:19px;font-weight:normal;}
 .article-card-title a{color:var(--link);text-decoration:none;cursor:pointer;}
 .article-card-title a:hover{text-decoration:underline;}
-.article-card-meta{font-size:12px;color:var(--muted);margin-top:2px;font-style:italic;}
-.article-card-excerpt{font-size:13px;color:#555;margin-top:3px;}
-.empty-state{text-align:center;padding:55px 20px;color:var(--muted);font-style:italic;}
+.article-card-meta{font-size:11.5px;color:var(--muted);margin-top:2px;font-style:italic;}
+.article-card-excerpt{font-size:13px;color:#555;margin-top:4px;line-height:1.5;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);font-style:italic;}
 
-/* EDITOR */
+/* ══ NOTICE ══ */
+.notice{
+  border-left:3px solid var(--accent);background:#eaf3fb;
+  padding:9px 13px;margin-bottom:12px;font-size:13px;color:#1d4391;
+  font-family:var(--font-ui);border-radius:0 var(--radius) var(--radius) 0;
+}
+.notice.warn{border-color:#d08000;background:#fff8e8;color:#7a4a00;}
+.notice.success{border-color:var(--success);background:#edfaf3;color:#0f5132;}
+.notice.danger{border-color:var(--danger);background:#fff0f0;color:#8b0000;}
+
+/* ══ EDITOR ══ */
 .editor-wrap{padding:14px;}
-.editor-title-input{font-family:'Linux Libertine Display',Georgia,serif;font-size:23px;width:100%;border:none;border-bottom:2px solid #a7d7f9;padding:5px 0;margin-bottom:10px;outline:none;color:var(--text);background:transparent;}
-.editor-title-input::placeholder{color:#aaa;}
-.editor-location-input{font-family:inherit;font-size:13px;width:280px;border:1px solid var(--toolbar-border);padding:4px 8px;margin-bottom:12px;outline:none;color:var(--muted);}
+.editor-title-input{
+  font-family:var(--font-display);font-size:24px;width:100%;border:none;
+  border-bottom:2px solid var(--border);padding:5px 0;margin-bottom:10px;
+  outline:none;color:var(--text);background:transparent;
+  transition:border-color .2s;
+}
+.editor-title-input:focus{border-color:var(--accent);}
+.editor-title-input::placeholder{color:#bbb;}
+.editor-meta-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.editor-loc-input{
+  font-family:var(--font-ui);font-size:13px;flex:1;min-width:160px;
+  border:1px solid var(--toolbar-border);padding:5px 9px;outline:none;
+  color:var(--muted);border-radius:var(--radius);background:#fafafa;
+}
+.editor-loc-input:focus{border-color:var(--accent);background:#fff;}
 
-/* TOOLBAR */
-.wiki-toolbar{background:var(--toolbar-bg);border:1px solid var(--toolbar-border);border-bottom:none;padding:3px 5px;display:flex;flex-wrap:wrap;gap:1px;align-items:center;}
-.toolbar-group{display:flex;gap:1px;border-right:1px solid #c0c8d0;padding-right:4px;margin-right:2px;}
+/* ══ TOOLBAR ══ */
+.wiki-toolbar{
+  background:linear-gradient(90deg,var(--toolbar-bg),#f0f6fd);
+  border:1px solid var(--toolbar-border);border-bottom:none;
+  padding:3px 5px;display:flex;flex-wrap:wrap;gap:1px;align-items:center;
+  border-radius:var(--radius) var(--radius) 0 0;
+  overflow-x:auto;
+}
+.wiki-toolbar::-webkit-scrollbar{height:0;}
+.toolbar-group{display:flex;gap:1px;border-right:1px solid #c8d0db;padding-right:4px;margin-right:3px;flex-shrink:0;}
 .toolbar-group:last-child{border-right:none;}
-.tb{padding:3px 6px;font-size:12px;font-family:'Linux Biolinum',Arial,sans-serif;border:1px solid transparent;background:transparent;cursor:pointer;border-radius:2px;color:var(--text);white-space:nowrap;min-width:22px;text-align:center;line-height:1.4;}
-.tb:hover{background:#d8e8f8;border-color:#88aade;}
-.tb:active{background:#c0d8f0;}
-select.tb-select{padding:2px 5px;font-size:12px;font-family:'Linux Biolinum',Arial,sans-serif;border:1px solid var(--toolbar-border);background:white;cursor:pointer;border-radius:2px;}
-input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);padding:1px;cursor:pointer;border-radius:2px;}
-.toolbar-label{font-size:10px;color:var(--muted);padding:0 2px;font-family:'Linux Biolinum',Arial,sans-serif;}
+.tb{
+  padding:4px 7px;font-size:12.5px;font-family:var(--font-ui);
+  border:1px solid transparent;background:transparent;cursor:pointer;
+  border-radius:3px;color:var(--text);white-space:nowrap;
+  min-width:24px;text-align:center;line-height:1.4;
+  transition:background .1s,border-color .1s;flex-shrink:0;
+}
+.tb:hover{background:#d8eaf8;border-color:#7aaad8;}
+.tb:active{background:#b8d8f0;}
+select.tb-select{
+  padding:3px 5px;font-size:12px;font-family:var(--font-ui);
+  border:1px solid var(--toolbar-border);background:white;
+  cursor:pointer;border-radius:var(--radius);max-width:85px;
+}
+.tb-color-wrap{display:flex;align-items:center;gap:2px;}
+.tb-color-label{font-size:10px;color:var(--muted);font-family:var(--font-ui);}
+input.tb-color{width:28px;height:24px;border:1px solid var(--toolbar-border);padding:1px;cursor:pointer;border-radius:3px;}
 
-/* EDITOR CANVAS */
-.editor-canvas{border:1px solid var(--toolbar-border);min-height:580px;position:relative;background:white;overflow:hidden;cursor:default;}
-.editor-canvas-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:15px;font-style:italic;pointer-events:none;user-select:none;}
+/* ══ EDITOR CANVAS ══ */
+.editor-canvas{
+  border:1px solid var(--toolbar-border);min-height:560px;position:relative;
+  background:
+    linear-gradient(rgba(42,91,214,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(42,91,214,.04) 1px,transparent 1px),
+    #fff;
+  background-size:30px 30px;
+  overflow:hidden;cursor:default;touch-action:none;
+}
+.editor-canvas-hint{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:#c8d4e8;font-size:14px;font-style:italic;
+  pointer-events:none;user-select:none;gap:8px;
+}
+.editor-canvas-hint .hint-icon{font-size:36px;opacity:.4;}
 
-/* BLOCKS */
-.e-block{position:absolute;border:1px dashed transparent;cursor:move;min-width:60px;min-height:24px;}
+/* ══ BLOCKS ══ */
+.e-block{position:absolute;border:1px dashed transparent;cursor:move;min-width:60px;min-height:28px;}
 .e-block:hover{border-color:#88aade !important;}
-.e-block.selected{border:1px solid #3679d8 !important;box-shadow:0 0 0 2px rgba(54,121,216,.18);}
-.e-block-inner{width:100%;height:100%;outline:none;font-family:'Linux Libertine',Georgia,serif;font-size:15px;line-height:1.6;color:var(--text);overflow:auto;padding:4px 6px;word-break:break-word;}
+.e-block.selected{border:1.5px solid #3679d8 !important;box-shadow:0 0 0 3px rgba(54,121,216,.15);}
+.e-block-inner{
+  width:100%;height:100%;outline:none;font-family:var(--font-body);
+  font-size:15px;line-height:1.65;color:var(--text);
+  overflow:auto;padding:5px 7px;word-break:break-word;
+}
 .e-block-inner:focus{cursor:text;}
 .e-block img{max-width:100%;height:100%;display:block;pointer-events:none;object-fit:contain;}
+.e-block-type-badge{
+  position:absolute;top:-17px;left:0;font-size:9px;font-family:var(--font-ui);
+  color:#fff;background:#3679d8;padding:1px 5px;border-radius:2px 2px 0 0;
+  opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap;
+}
+.e-block.selected .e-block-type-badge{opacity:1;}
 
-/* RESIZE */
-.rh{width:9px;height:9px;background:#3679d8;border:1px solid white;position:absolute;border-radius:2px;z-index:10;}
+/* ══ RESIZE HANDLES ══ */
+.rh{width:9px;height:9px;background:#3679d8;border:1.5px solid white;position:absolute;border-radius:2px;z-index:10;box-shadow:0 1px 3px rgba(0,0,0,.3);}
 .rh-se{right:-5px;bottom:-5px;cursor:se-resize;}
 .rh-sw{left:-5px;bottom:-5px;cursor:sw-resize;}
 .rh-ne{right:-5px;top:-5px;cursor:ne-resize;}
@@ -109,69 +273,180 @@ input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);pad
 .rh-s{left:50%;bottom:-5px;transform:translateX(-50%);cursor:s-resize;}
 .rh-e{right:-5px;top:50%;transform:translateY(-50%);cursor:e-resize;}
 .rh-w{left:-5px;top:50%;transform:translateY(-50%);cursor:w-resize;}
-.block-delete{position:absolute;top:-10px;right:-10px;width:17px;height:17px;background:#cc3333;color:white;border:none;border-radius:50%;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;z-index:20;}
-.block-delete:hover{background:#aa2222;}
+.block-delete{
+  position:absolute;top:-10px;right:-10px;width:18px;height:18px;
+  background:var(--danger);color:white;border:1.5px solid white;
+  border-radius:50%;cursor:pointer;font-size:10px;
+  display:flex;align-items:center;justify-content:center;z-index:20;
+  box-shadow:0 1px 4px rgba(0,0,0,.3);transition:background .1s;
+}
+.block-delete:hover{background:#a01515;}
 
-.editor-bottombar{background:#f8f9fa;border:1px solid var(--toolbar-border);border-top:none;padding:6px 10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.btn-save{padding:6px 18px;background:linear-gradient(to bottom,#3679d8,#2a62c0);color:white;border:1px solid #2a5bad;cursor:pointer;font-family:'Linux Biolinum',Arial,sans-serif;font-size:14px;border-radius:2px;}
-.btn-save:hover{background:linear-gradient(to bottom,#2a62c0,#1e4fa0);}
-.btn-cancel{padding:6px 13px;background:linear-gradient(to bottom,#f8f9fa,#eaecf0);border:1px solid var(--toolbar-border);cursor:pointer;font-family:'Linux Biolinum',Arial,sans-serif;font-size:14px;border-radius:2px;}
+.editor-bottombar{
+  background:linear-gradient(90deg,#f4f8fd,#eaf3fb);
+  border:1px solid var(--toolbar-border);border-top:none;
+  padding:7px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  border-radius:0 0 var(--radius) var(--radius);
+}
+.btn-save{
+  padding:7px 20px;background:linear-gradient(135deg,#2a5bd6,#1e40a8);
+  color:white;border:1px solid #1a3d9e;cursor:pointer;
+  font-family:var(--font-ui);font-size:14px;border-radius:var(--radius);
+  box-shadow:0 2px 6px rgba(42,91,214,.3);transition:all .15s;
+}
+.btn-save:hover{background:linear-gradient(135deg,#1e40a8,#152d7a);box-shadow:0 3px 10px rgba(42,91,214,.4);}
+.btn-cancel{
+  padding:7px 14px;background:linear-gradient(135deg,#f8f9fa,#eaecf0);
+  border:1px solid var(--toolbar-border);cursor:pointer;
+  font-family:var(--font-ui);font-size:14px;border-radius:var(--radius);
+}
+.btn-cancel:hover{background:#e0e4ea;}
 
-/* EMOJI */
-#emoji-picker{position:fixed;z-index:800;background:white;border:1px solid #a7d7f9;box-shadow:0 4px 16px rgba(0,0,0,.2);padding:8px;display:none;width:290px;border-radius:4px;}
-#emoji-picker input{width:100%;border:1px solid var(--toolbar-border);padding:4px 8px;font-size:13px;margin-bottom:6px;outline:none;border-radius:2px;}
-#emoji-grid{display:flex;flex-wrap:wrap;gap:1px;max-height:185px;overflow-y:auto;}
-#emoji-grid span{font-size:22px;cursor:pointer;padding:3px;border-radius:3px;line-height:1;display:inline-block;}
+/* ══ EMOJI PICKER ══ */
+#emoji-picker{
+  position:fixed;z-index:800;background:white;border:1px solid var(--border);
+  box-shadow:0 6px 24px rgba(0,0,0,.18);padding:8px;display:none;
+  width:300px;border-radius:8px;
+}
+#emoji-picker input{
+  width:100%;border:1px solid var(--toolbar-border);padding:5px 9px;
+  font-size:13px;margin-bottom:7px;outline:none;border-radius:var(--radius);
+}
+#emoji-picker input:focus{border-color:var(--accent);}
+#emoji-grid{display:flex;flex-wrap:wrap;gap:1px;max-height:190px;overflow-y:auto;}
+#emoji-grid span{font-size:22px;cursor:pointer;padding:3px;border-radius:4px;line-height:1;display:inline-block;transition:background .1s;}
 #emoji-grid span:hover{background:#eaf3fb;}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;}
-.modal-box{background:white;border:1px solid #a7d7f9;width:500px;max-width:95vw;box-shadow:0 4px 24px rgba(0,0,0,.25);font-size:14px;border-radius:2px;}
-.modal-header{background:#eaf3fb;border-bottom:1px solid #a7d7f9;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-family:'Linux Biolinum',Arial,sans-serif;font-weight:bold;font-size:14px;color:#36c;}
-.modal-close{background:none;border:none;cursor:pointer;font-size:17px;color:#666;padding:0 3px;}
-.modal-close:hover{color:#cc3333;}
-.modal-body{padding:16px;}
-.modal-body label{display:block;font-weight:bold;margin-bottom:4px;font-family:'Linux Biolinum',Arial,sans-serif;font-size:13px;}
-.modal-body input,.modal-body textarea,.modal-body select{width:100%;border:1px solid var(--toolbar-border);padding:7px 10px;font-size:14px;font-family:inherit;outline:none;margin-bottom:11px;border-radius:2px;}
-.modal-body input:focus{border-color:#3679d8;box-shadow:0 0 0 2px rgba(54,121,216,.12);}
-.modal-preview{border:1px solid #ddd;min-height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;background:#fafafa;overflow:hidden;border-radius:2px;}
-.modal-preview img{max-width:100%;max-height:200px;object-fit:contain;}
+/* ══ MODAL ══ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(2px);
+}
+.modal-box{
+  background:white;border:1px solid var(--border);width:520px;max-width:96vw;
+  box-shadow:0 8px 40px rgba(0,0,0,.25);border-radius:6px;
+  max-height:90vh;display:flex;flex-direction:column;
+}
+.modal-header{
+  background:linear-gradient(90deg,#eaf3fb,#f4f8fd);
+  border-bottom:1px solid var(--border);padding:11px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--font-ui);font-weight:bold;font-size:14px;color:#2a5bd6;
+  border-radius:6px 6px 0 0;flex-shrink:0;
+}
+.modal-close{background:none;border:none;cursor:pointer;font-size:18px;color:#888;padding:0 3px;line-height:1;}
+.modal-close:hover{color:var(--danger);}
+.modal-body{padding:16px;overflow-y:auto;flex:1;}
+.modal-body label{display:block;font-weight:bold;margin-bottom:4px;font-family:var(--font-ui);font-size:13px;color:#333;}
+.modal-body input,.modal-body textarea,.modal-body select{
+  width:100%;border:1px solid var(--toolbar-border);padding:8px 10px;
+  font-size:14px;font-family:inherit;outline:none;margin-bottom:12px;
+  border-radius:var(--radius);transition:border-color .15s;
+}
+.modal-body input:focus,.modal-body textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(42,91,214,.12);}
+.modal-preview{
+  border:1px solid #e0e8f0;min-height:80px;display:flex;align-items:center;
+  justify-content:center;margin-bottom:12px;background:#fafafa;overflow:hidden;border-radius:var(--radius);
+}
+.modal-preview img{max-width:100%;max-height:210px;object-fit:contain;}
 .no-preview{color:#aaa;font-style:italic;font-size:13px;}
-.modal-footer{background:#f8f9fa;border-top:1px solid #eaecf0;padding:9px 14px;display:flex;gap:7px;justify-content:flex-end;}
-.modal-footer button{padding:6px 15px;font-family:'Linux Biolinum',Arial,sans-serif;font-size:13px;cursor:pointer;border-radius:2px;}
-#modal-ok{background:linear-gradient(to bottom,#3679d8,#2a62c0);color:white;border:1px solid #2a5bad;}
-#modal-ok:hover{background:linear-gradient(to bottom,#2a62c0,#1e4fa0);}
-#modal-cancel{background:linear-gradient(to bottom,#f8f9fa,#eaecf0);border:1px solid var(--toolbar-border);color:var(--text);}
-.modal-err{color:#cc3333;font-size:12px;margin:-6px 0 8px;}
+.modal-footer{
+  background:#f8f9fa;border-top:1px solid #eaecf0;padding:10px 16px;
+  display:flex;gap:8px;justify-content:flex-end;border-radius:0 0 6px 6px;flex-shrink:0;
+}
+.modal-footer button{padding:7px 16px;font-family:var(--font-ui);font-size:13px;cursor:pointer;border-radius:var(--radius);}
+#modal-ok{background:linear-gradient(135deg,#2a5bd6,#1e40a8);color:white;border:1px solid #1a3d9e;}
+#modal-ok:hover{background:linear-gradient(135deg,#1e40a8,#152d7a);}
+#modal-cancel{background:linear-gradient(135deg,#f8f9fa,#eaecf0);border:1px solid var(--toolbar-border);color:var(--text);}
+.modal-err{color:var(--danger);font-size:12px;margin:-7px 0 9px;font-family:var(--font-ui);}
 
-/* NOTICE */
-.notice{border-left:3px solid #36c;background:#eaf3fb;padding:8px 12px;margin-bottom:12px;font-size:13px;color:#36c;font-family:'Linux Biolinum',Arial,sans-serif;}
-.notice.warn{border-color:#e8a000;background:#fef6e7;color:#795500;}
-.notice.success{border-color:#4a7d44;background:#eafaea;color:#2d5a27;}
+/* ══ STATUS BAR ══ */
+#status-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:linear-gradient(90deg,#eaf3fb,#f0f6fd);
+  border-top:1px solid var(--border);padding:4px 14px;
+  font-size:11px;color:var(--muted);font-family:var(--font-ui);
+  z-index:800;display:flex;gap:16px;align-items:center;
+}
 
-/* STATUS */
-#status-bar{position:fixed;bottom:0;left:0;right:0;background:#eaf3fb;border-top:1px solid #a7d7f9;padding:3px 12px;font-size:11px;color:var(--muted);font-family:'Linux Biolinum',Arial,sans-serif;z-index:800;display:flex;gap:16px;}
-
-/* ADMIN */
-.pending-card{border:1px solid #e8a000;background:#fffbe6;padding:10px 14px;margin-bottom:10px;border-radius:2px;}
-.pending-card h4{font-family:'Linux Libertine Display',Georgia,serif;font-size:16px;font-weight:normal;margin-bottom:4px;}
+/* ══ ADMIN ══ */
+.pending-card{border:1px solid #e8b000;background:linear-gradient(135deg,#fffbe6,#fff8d6);padding:11px 14px;margin-bottom:10px;border-radius:var(--radius);}
+.pending-card h4{font-family:var(--font-display);font-size:17px;font-weight:normal;margin-bottom:3px;}
 .pending-card .pm{font-size:12px;color:var(--muted);margin-bottom:8px;}
-.pending-actions{display:flex;gap:8px;}
-.btn-approve{padding:4px 12px;background:#4a7d44;color:white;border:none;cursor:pointer;border-radius:2px;font-size:13px;}
-.btn-approve:hover{background:#3a6234;}
-.btn-reject{padding:4px 12px;background:#cc3333;color:white;border:none;cursor:pointer;border-radius:2px;font-size:13px;}
-.btn-reject:hover{background:#aa2222;}
-.pending-badge{display:inline-block;background:#cc3333;color:white;border-radius:10px;padding:0 6px;font-size:11px;margin-left:4px;}
+.pending-actions{display:flex;gap:7px;flex-wrap:wrap;}
+.btn-approve{padding:5px 13px;background:linear-gradient(135deg,#1a7f4a,#0f5132);color:white;border:none;cursor:pointer;border-radius:var(--radius);font-size:13px;font-family:var(--font-ui);}
+.btn-approve:hover{background:linear-gradient(135deg,#0f5132,#0a3622);}
+.btn-reject{padding:5px 13px;background:linear-gradient(135deg,#cc2222,#8b0000);color:white;border:none;cursor:pointer;border-radius:var(--radius);font-size:13px;font-family:var(--font-ui);}
+.btn-reject:hover{background:linear-gradient(135deg,#8b0000,#6a0000);}
+.pending-badge{display:inline-block;background:var(--danger);color:white;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;vertical-align:middle;}
 
-/* AUTH */
-.auth-tab-btn{flex:1;padding:7px;border:1px solid #a7d7f9;background:#eaf3fb;color:#36c;cursor:pointer;font-family:'Linux Biolinum',Arial,sans-serif;font-size:14px;}
-.auth-tab-btn.on{background:#3679d8;color:white;border-color:#2a5bad;}
-.auth-input{width:100%;border:1px solid var(--toolbar-border);padding:8px 11px;font-size:14px;font-family:inherit;outline:none;margin-bottom:10px;border-radius:2px;display:block;}
-.auth-input:focus{border-color:#3679d8;box-shadow:0 0 0 2px rgba(54,121,216,.12);}
-.auth-submit{width:100%;padding:9px;background:linear-gradient(to bottom,#3679d8,#2a62c0);color:white;border:none;cursor:pointer;font-size:15px;font-family:'Linux Biolinum',Arial,sans-serif;border-radius:2px;margin-bottom:10px;}
-.auth-submit:hover{background:linear-gradient(to bottom,#2a62c0,#1e4fa0);}
+/* ══ TEMPLATE CARDS ══ */
+.tpl-card{
+  border:1px solid #d0ddf0;background:linear-gradient(135deg,#f8fbff,#eef4ff);
+  padding:12px 14px;margin-bottom:10px;border-radius:var(--radius);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+}
+.tpl-card-info h4{font-family:var(--font-display);font-size:17px;font-weight:normal;color:#1a2a5e;}
+.tpl-card-info .tpl-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+.tpl-card-actions{display:flex;gap:6px;flex-shrink:0;}
+.btn-tpl{padding:4px 11px;font-size:12px;font-family:var(--font-ui);cursor:pointer;border-radius:var(--radius);}
+.btn-tpl-edit{background:#eaf3fb;border:1px solid var(--border);color:var(--link);}
+.btn-tpl-edit:hover{background:#d8ecff;}
+.btn-tpl-del{background:#fff0f0;border:1px solid #ffa0a0;color:var(--danger);}
+.btn-tpl-del:hover{background:#ffe0e0;}
+.btn-tpl-ins{background:linear-gradient(135deg,#2a5bd6,#1e40a8);border:none;color:#fff;}
+.btn-tpl-ins:hover{background:linear-gradient(135deg,#1e40a8,#152d7a);}
 
-@media(max-width:768px){#sidebar{display:none;}#layout{padding:10px;}}
+/* ══ AUTH ══ */
+.auth-tab-row{display:flex;margin-bottom:14px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.auth-tab-btn{flex:1;padding:8px;border:none;background:#f4f8fd;color:var(--link);cursor:pointer;font-family:var(--font-ui);font-size:14px;transition:all .15s;}
+.auth-tab-btn.on{background:linear-gradient(135deg,#2a5bd6,#1e40a8);color:white;}
+.auth-tab-btn:not(.on):hover{background:#eaf3fb;}
+.auth-input{
+  width:100%;border:1px solid var(--toolbar-border);padding:9px 12px;
+  font-size:14px;font-family:inherit;outline:none;margin-bottom:10px;
+  border-radius:var(--radius);display:block;transition:border-color .15s;
+}
+.auth-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(42,91,214,.12);}
+.auth-submit{
+  width:100%;padding:10px;background:linear-gradient(135deg,#2a5bd6,#1e40a8);
+  color:white;border:none;cursor:pointer;font-size:15px;
+  font-family:var(--font-ui);border-radius:var(--radius);margin-bottom:10px;
+  transition:all .15s;box-shadow:0 2px 8px rgba(42,91,214,.3);
+}
+.auth-submit:hover{background:linear-gradient(135deg,#1e40a8,#152d7a);}
+
+/* ══ TABLE ══ */
+.wiki-table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;}
+.wiki-table th,.wiki-table td{border:1px solid #aaa;padding:6px 10px;}
+.wiki-table th{background:#eaf3fb;font-family:var(--font-ui);}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:860px){
+  #hamburger{display:flex;}
+  #sidebar{
+    position:fixed;left:0;top:var(--header-h);bottom:0;
+    z-index:860;background:#fff;overflow-y:auto;
+    transform:translateX(-100%);box-shadow:4px 0 16px rgba(0,0,0,.2);
+    border-right:1px solid var(--border);
+    width:220px;
+  }
+  #layout{padding:12px 10px 70px;}
+  .page-body{padding:14px 12px;}
+  .article-title-h1{font-size:22px;}
+  #site-tagline{display:none!important;}
+}
+@media(max-width:540px){
+  #site-logo{font-size:18px;}
+  #header-search{max-width:180px;}
+  .nav-btn:not(.primary){display:none;}
+  #header-nav{gap:4px;}
+  .editor-title-input{font-size:20px;}
+  .page-body{padding:12px 10px;}
+  .wiki-toolbar{gap:0;}
+  .tb{padding:5px 6px;font-size:12px;min-width:28px;min-height:30px;}
+}
 </style>
 </head>
 <body>
@@ -179,20 +454,25 @@ input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);pad
 <!-- HEADER -->
 <header id="site-header">
   <div id="header-inner">
-    <div id="site-logo" onclick="goHome()">Bilinmeyen Bilmeyen <span>Dünya</span></div>
-    <div id="site-tagline">Anonim Türkçe Arşiv</div>
-    <div id="search-box">
-      <input type="text" id="search-input" placeholder="Ara…" onkeydown="if(event.key==='Enter')doSearch()">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <div id="site-logo" onclick="goHome()">
+      🌍 Bilinmeyen<span class="logo-dot"> Dünya</span>
+    </div>
+    <div id="header-search">
+      <input type="search" id="search-input" placeholder="Ara…" onkeydown="if(event.key==='Enter')doSearch()">
       <button onclick="doSearch()">🔍</button>
     </div>
     <div id="header-nav">
-      <button class="nav-btn" onclick="goHome()">Ana Sayfa</button>
-      <button class="nav-btn" onclick="goRandom()">🎲 Rastgele</button>
-      <button class="nav-btn primary" onclick="openEditor()">+ Yeni Sayfa</button>
+      <button class="nav-btn" onclick="goRandom()">🎲</button>
+      <button class="nav-btn tpl" onclick="navigate('templates')">📋 Şablonlar</button>
+      <button class="nav-btn primary" onclick="openEditor()">+ Yeni</button>
       <span id="user-pill" onclick="toggleUserMenu()">Giriş Yap</span>
     </div>
   </div>
 </header>
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <!-- LAYOUT -->
 <div id="layout">
@@ -200,10 +480,11 @@ input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);pad
     <div class="sidebar-box">
       <h3>Navigasyon</h3>
       <ul>
-        <li><a onclick="goHome()">Ana Sayfa</a></li>
-        <li><a onclick="openEditor()">Yeni Sayfa Oluştur</a></li>
-        <li><a onclick="goRandom()">🎲 Rastgele Sayfa</a></li>
-        <li id="admin-nav-li" style="display:none"><a onclick="navigate('admin')">⚙️ Admin Paneli <span class="pending-badge" id="sidebar-pending-count" style="display:none">0</span></a></li>
+        <li><a onclick="goHome();closeSidebar()">🏠 Ana Sayfa</a></li>
+        <li><a onclick="openEditor();closeSidebar()">✏️ Yeni Sayfa</a></li>
+        <li><a onclick="goRandom();closeSidebar()">🎲 Rastgele</a></li>
+        <li><a onclick="navigate('templates');closeSidebar()">📋 Şablonlar</a></li>
+        <li id="admin-nav-li" style="display:none"><a onclick="navigate('admin');closeSidebar()">⚙️ Admin <span class="pending-badge" id="sidebar-pending-count" style="display:none">0</span></a></li>
       </ul>
     </div>
     <div class="sidebar-box">
@@ -211,10 +492,9 @@ input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);pad
       <div class="sidebar-count" id="article-count">Yükleniyor…</div>
     </div>
     <div class="sidebar-box">
-      <h3>Araçlar</h3>
+      <h3>Hesap</h3>
       <ul>
-        <li><a onclick="openEditor()">İçerik Ekle</a></li>
-        <li><a onclick="showLoginModal()">Giriş / Kayıt</a></li>
+        <li><a onclick="toggleUserMenu();closeSidebar()" id="sidebar-login-link">Giriş / Kayıt</a></li>
       </ul>
     </div>
   </aside>
@@ -225,7 +505,7 @@ input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);pad
 <div id="status-bar">
   <span id="status-msg">Hazır</span>
   <span id="status-blocks"></span>
-  <span style="margin-left:auto;">© 2026 Bilinmeyen Dünya — anonim açık arşiv</span>
+  <span style="margin-left:auto;">© 2026 Bilinmeyen Dünya</span>
 </div>
 
 <!-- MODAL -->
@@ -253,65 +533,110 @@ input.tb-color{width:26px;height:22px;border:1px solid var(--toolbar-border);pad
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script>
-/* ══ FIREBASE ══ */
-const firebaseConfig = {
-  apiKey: "AIzaSyDAR05cMYAUjkub0smCQHpUZeoGPYe5vL0",
-  authDomain: "bbd1-df752.firebaseapp.com",
-  projectId: "bbd1-df752",
-  storageBucket: "bbd1-df752.firebasestorage.app",
-  messagingSenderId: "969753899093",
-  appId: "1:969753899093:web:47b337dff43a0af4cde4dc",
-  measurementId: "G-G7L3FHFEV9"
+/* ══════════════════════════════════════════════
+   FIREBASE INIT
+══════════════════════════════════════════════ */
+const firebaseConfig={
+  apiKey:"AIzaSyDAR05cMYAUjkub0smCQHpUZeoGPYe5vL0",
+  authDomain:"bbd1-df752.firebaseapp.com",
+  projectId:"bbd1-df752",
+  storageBucket:"bbd1-df752.firebasestorage.app",
+  messagingSenderId:"969753899093",
+  appId:"1:969753899093:web:47b337dff43a0af4cde4dc",
+  measurementId:"G-G7L3FHFEV9"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db=firebase.database();
 
-/* ══ AUTH ══ */
-const ADMIN_USER="sly", ADMIN_PASS="sevil177";
-let currentUser = null;
+/* ══════════════════════════════════════════════
+   BUILT-IN TEMPLATES (seeded once to Firebase)
+══════════════════════════════════════════════ */
+const BUILTIN_TEMPLATES=[
+  {
+    name:"Öne Çıkan",
+    slug:"one-cikan",
+    desc:"Sarı gradyan arka planlı duyuru kutusu",
+    html:`<table style="margin:5px auto;padding:.2em;width:fit-content;background:linear-gradient(180deg,#d60022,#d75f09,#F7C800);border:2px solid #000;font-size:95%;text-align:center;border-collapse:collapse;border-radius:4px;" cellspacing="0" cellpadding="0"><tr><td style="padding:6px 4px;"><span style="font-size:1.4em;color:#fff;text-shadow:-1px -1px #000,1px -1px #000,-1px 1px #000,1px 1px #000"><b>{{{içerik|Bu sayfa öne çıkarılmıştır!}}}</b></span><br><span style="color:#fff;text-shadow:-1px -1px #000,1px -1px #000,-1px 1px #000,1px 1px #000">{{{alt|Önemli bir içerik}}}</span></td></tr></table>`
+  },
+  {
+    name:"Bilgi Kutusu",
+    slug:"bilgi-kutusu",
+    desc:"Mavi kenarlıklı bilgi kutusu",
+    html:`<table style="float:right;clear:right;margin:0 0 12px 18px;background:#f8fbff;border:1px solid #a7d7f9;font-size:13px;width:220px;border-radius:3px;border-collapse:collapse;"><tr><th colspan="2" style="background:linear-gradient(90deg,#2a5bd6,#1e40a8);color:#fff;padding:7px 10px;text-align:center;font-family:sans-serif;font-size:14px;border-radius:3px 3px 0 0;">{{{başlık|Bilgi Kutusu}}}</th></tr><tr><td style="padding:5px 8px;border-top:1px solid #d0e8ff;font-weight:bold;font-family:sans-serif;">Alan 1</td><td style="padding:5px 8px;border-top:1px solid #d0e8ff;">{{{alan1|Değer}}}</td></tr><tr><td style="padding:5px 8px;border-top:1px solid #d0e8ff;font-weight:bold;font-family:sans-serif;">Alan 2</td><td style="padding:5px 8px;border-top:1px solid #d0e8ff;">{{{alan2|Değer}}}</td></tr></table>`
+  },
+  {
+    name:"Uyarı",
+    slug:"uyari",
+    desc:"Turuncu uyarı banner'ı",
+    html:`<div style="border-left:4px solid #e8a000;background:linear-gradient(90deg,#fff8e8,#fff3d0);padding:9px 14px;margin:8px 0;border-radius:0 3px 3px 0;"><span style="font-size:1.1em;">⚠️</span> <strong style="font-family:sans-serif;">{{{başlık|Dikkat!}}}</strong><br><span style="font-family:sans-serif;font-size:13px;color:#555;">{{{içerik|Bu sayfada eksik veya hatalı bilgi bulunabilir.}}}</span></div>`
+  },
+  {
+    name:"Alıntı",
+    slug:"alinti",
+    desc:"Dekoratif alıntı bloğu",
+    html:`<blockquote style="border-left:3px solid #2a5bd6;background:linear-gradient(135deg,#f4f8ff,#eef3ff);margin:12px 0;padding:12px 16px;border-radius:0 6px 6px 0;font-style:italic;color:#2a2a4a;position:relative;"><span style="font-size:2.5em;color:#2a5bd6;opacity:.25;position:absolute;top:2px;left:8px;font-family:Georgia,serif;line-height:1;">"</span><span style="display:block;margin-left:20px;font-size:1.05em;">{{{metin|Bir alıntı buraya gelecek.}}}</span><cite style="display:block;margin-top:6px;margin-left:20px;font-size:.85em;color:#666;font-style:normal;">— {{{kaynak|Kaynak}}}</cite></blockquote>`
+  },
+  {
+    name:"Stub (Taslak)",
+    slug:"taslak",
+    desc:"Sayfa taslak bildirimi",
+    html:`<table style="width:100%;background:linear-gradient(135deg,#f0f8ff,#e8f4ff);border:1px solid #b0d0f0;padding:8px 12px;margin:10px 0;border-radius:3px;border-collapse:collapse;"><tr><td style="width:36px;font-size:24px;">📝</td><td style="font-family:sans-serif;font-size:13px;color:#444;">Bu makale bir <b>taslak</b> niteliğindedir. İçeriği genişleterek Bilinmeyen Dünya'ya katkıda bulunabilirsiniz.</td></tr></table>`
+  }
+];
+
+/* ══════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════ */
+const ADMIN_USER="sly",ADMIN_PASS="sevil177";
+let currentUser=null;
 
 function loadSession(){
-  try{ const s=sessionStorage.getItem("bbd_u"); if(s) currentUser=JSON.parse(s); }catch(e){}
-  updateUserPill(); updateAdminNav();
+  try{const s=sessionStorage.getItem("bbd_u");if(s)currentUser=JSON.parse(s);}catch(e){}
+  updateUserPill();updateAdminNav();
 }
-function saveSession(u){ currentUser=u; sessionStorage.setItem("bbd_u",JSON.stringify(u)); }
-function clearSession(){ currentUser=null; sessionStorage.removeItem("bbd_u"); }
-function isAdmin(){ return currentUser&&currentUser.role==="admin"; }
-function isLoggedIn(){ return !!currentUser; }
+function saveSession(u){currentUser=u;sessionStorage.setItem("bbd_u",JSON.stringify(u));}
+function clearSession(){currentUser=null;sessionStorage.removeItem("bbd_u");}
+function isAdmin(){return currentUser&&currentUser.role==="admin";}
+function isLoggedIn(){return!!currentUser;}
 
 function updateUserPill(){
   const p=document.getElementById("user-pill");
-  if(!currentUser){ p.textContent="Giriş Yap"; p.className=""; return; }
+  const sl=document.getElementById("sidebar-login-link");
+  if(!currentUser){
+    p.textContent="Giriş Yap";p.className="";
+    if(sl)sl.textContent="Giriş / Kayıt";
+    return;
+  }
   p.textContent=(isAdmin()?"⚙️ ":"👤 ")+currentUser.username;
   p.className=isAdmin()?"admin-pill":"";
+  if(sl)sl.textContent="🚪 Çıkış Yap ("+currentUser.username+")";
 }
 function updateAdminNav(){
   document.getElementById("admin-nav-li").style.display=isAdmin()?"block":"none";
-  if(isAdmin()) refreshPendingCount();
+  if(isAdmin())refreshPendingCount();
 }
 function refreshPendingCount(){
   db.ref("pending").once("value",snap=>{
     const n=snap.val()?Object.keys(snap.val()).length:0;
     const b=document.getElementById("sidebar-pending-count");
-    if(b){ b.textContent=n; b.style.display=n>0?"inline-block":"none"; }
+    if(b){b.textContent=n;b.style.display=n>0?"inline-block":"none";}
   });
 }
-
 function toggleUserMenu(){
-  if(!currentUser){ showLoginModal(); return; }
+  if(!currentUser){showLoginModal();return;}
   showConfirmModal(`"${currentUser.username}" olarak çıkış yap?`,()=>{
-    clearSession(); updateUserPill(); updateAdminNav(); setStatus("Çıkış yapıldı.");
+    clearSession();updateUserPill();updateAdminNav();setStatus("Çıkış yapıldı.");
   });
 }
 
-/* ── SHOW LOGIN MODAL ── */
+/* Login modal */
 function showLoginModal(){
   document.getElementById("modal-title").textContent="Giriş Yap / Kayıt Ol";
   document.getElementById("modal-footer").style.display="none";
   document.getElementById("modal-body").innerHTML=`
-    <div style="display:flex;gap:0;margin-bottom:14px;">
+    <div class="auth-tab-row">
       <button class="auth-tab-btn on" id="atab-login" onclick="switchAuthTab('login')">Giriş Yap</button>
-      <button class="auth-tab-btn" id="atab-reg" onclick="switchAuthTab('reg')" style="border-left:none;border-radius:0 2px 2px 0;">Kayıt Ol</button>
+      <button class="auth-tab-btn" id="atab-reg" onclick="switchAuthTab('reg')">Kayıt Ol</button>
     </div>
     <div id="auth-err" class="modal-err" style="display:none"></div>
     <div id="auth-login">
@@ -320,12 +645,12 @@ function showLoginModal(){
       <button class="auth-submit" onclick="doLogin()">Giriş Yap</button>
     </div>
     <div id="auth-reg" style="display:none">
-      <input class="auth-input" id="r-user" placeholder="Kullanıcı Adı (min 3 karakter)" autocomplete="off">
-      <input class="auth-input" type="password" id="r-pass" placeholder="Şifre (min 6 karakter)" onkeydown="if(event.key==='Enter')doRegister()">
+      <input class="auth-input" id="r-user" placeholder="Kullanıcı Adı (min 3)" autocomplete="off">
+      <input class="auth-input" type="password" id="r-pass" placeholder="Şifre (min 6)" onkeydown="if(event.key==='Enter')doRegister()">
       <button class="auth-submit" onclick="doRegister()">Kayıt Ol</button>
     </div>`;
   document.getElementById("modal-overlay").style.display="flex";
-  setTimeout(()=>{ const e=document.getElementById("l-user"); if(e)e.focus(); },60);
+  setTimeout(()=>{const e=document.getElementById("l-user");if(e)e.focus();},60);
 }
 function switchAuthTab(tab){
   const isL=tab==="login";
@@ -335,149 +660,244 @@ function switchAuthTab(tab){
   document.getElementById("atab-reg").className="auth-tab-btn"+(isL?"":" on");
   document.getElementById("auth-err").style.display="none";
 }
-function authErr(msg){ const e=document.getElementById("auth-err"); if(e){e.textContent=msg;e.style.display="block";} }
+function authErr(msg){const e=document.getElementById("auth-err");if(e){e.textContent=msg;e.style.display="block";}}
 
 function doLogin(){
   const u=(document.getElementById("l-user").value||"").trim();
   const p=(document.getElementById("l-pass").value||"").trim();
-  if(!u||!p){ authErr("Kullanıcı adı ve şifre gerekli."); return; }
+  if(!u||!p){authErr("Kullanıcı adı ve şifre gerekli.");return;}
   if(u===ADMIN_USER&&p===ADMIN_PASS){
-    saveSession({username:u,role:"admin"}); closeModal(); updateUserPill(); updateAdminNav();
-    setStatus("Admin girişi: "+u); return;
+    saveSession({username:u,role:"admin"});closeModal();updateUserPill();updateAdminNav();
+    setStatus("Admin girişi: "+u);return;
   }
   db.ref("users/"+u).once("value",snap=>{
-    if(!snap.exists()){ authErr("Kullanıcı bulunamadı."); return; }
+    if(!snap.exists()){authErr("Kullanıcı bulunamadı.");return;}
     const d=snap.val();
-    if(d.password!==p){ authErr("Şifre yanlış."); return; }
-    saveSession({username:u,role:d.role||"user"}); closeModal(); updateUserPill(); updateAdminNav();
+    if(d.password!==p){authErr("Şifre yanlış.");return;}
+    saveSession({username:u,role:d.role||"user"});closeModal();updateUserPill();updateAdminNav();
     setStatus("Giriş yapıldı: "+u);
   });
 }
 function doRegister(){
   const u=(document.getElementById("r-user").value||"").trim();
   const p=(document.getElementById("r-pass").value||"").trim();
-  if(u.length<3){ authErr("Kullanıcı adı en az 3 karakter."); return; }
-  if(p.length<6){ authErr("Şifre en az 6 karakter."); return; }
-  if(u===ADMIN_USER){ authErr("Bu ad kullanılamaz."); return; }
+  if(u.length<3){authErr("Kullanıcı adı en az 3 karakter.");return;}
+  if(p.length<6){authErr("Şifre en az 6 karakter.");return;}
+  if(u===ADMIN_USER){authErr("Bu ad kullanılamaz.");return;}
   db.ref("users/"+u).once("value",snap=>{
-    if(snap.exists()){ authErr("Bu kullanıcı adı alınmış."); return; }
+    if(snap.exists()){authErr("Bu kullanıcı adı alınmış.");return;}
     db.ref("users/"+u).set({password:p,role:"user",createdAt:Date.now()},err=>{
-      if(err){ authErr("Hata: "+err.message); return; }
-      saveSession({username:u,role:"user"}); closeModal(); updateUserPill(); updateAdminNav();
+      if(err){authErr("Hata: "+err.message);return;}
+      saveSession({username:u,role:"user"});closeModal();updateUserPill();updateAdminNav();
       setStatus("Kayıt olundu: "+u);
     });
   });
 }
 
-/* ══ ROUTER ══ */
+/* ══════════════════════════════════════════════
+   ROUTER
+══════════════════════════════════════════════ */
 window.addEventListener("hashchange",router);
-function navigate(path){ location.hash="#"+path; }
-function goHome(){ navigate(""); }
-function openEditor(){ navigate("editor"); }
-
+function navigate(path){location.hash="#"+path;}
+function goHome(){navigate("");}
+function openEditor(){navigate("editor");}
 function goRandom(){
   setStatus("Rastgele seçiliyor…");
   db.ref("articles").once("value",snap=>{
     const data=snap.val();
-    if(!data){ setStatus("Hiç sayfa yok."); return; }
+    if(!data){setStatus("Hiç sayfa yok.");return;}
     const vals=Object.values(data);
-    const rand=vals[Math.floor(Math.random()*vals.length)];
-    navigate("article/"+rand.slug);
+    navigate("article/"+vals[Math.floor(Math.random()*vals.length)].slug);
   });
 }
-
 function router(){
   closeEmojiPicker();
   const hash=location.hash.replace(/^#\/?/,"");
-  if(hash.startsWith("article/")) loadArticle(hash.split("/")[1]);
-  else if(hash.startsWith("editor/")) renderEditor(hash.split("/")[1]);
-  else if(hash==="editor") renderEditor(null);
-  else if(hash==="admin") renderAdmin();
+  if(hash.startsWith("article/"))loadArticle(hash.split("/")[1]);
+  else if(hash.startsWith("editor/"))renderEditor(hash.split("/")[1]);
+  else if(hash==="editor")renderEditor(null);
+  else if(hash==="admin")renderAdmin();
+  else if(hash==="templates")renderTemplates();
   else renderHome();
 }
 
+/* ══════════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════════ */
 function slugify(t){
   return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
     .replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s")
     .replace(/ı/g,"i").replace(/ö/g,"o").replace(/ç/g,"c")
     .replace(/\s+/g,"-").replace(/[^\w\-]+/g,"").replace(/--+/g,"-").substring(0,80);
 }
-function setStatus(m){ document.getElementById("status-msg").textContent=m; }
-function setStatusBlocks(m){ document.getElementById("status-blocks").textContent=m; }
+function setStatus(m){document.getElementById("status-msg").textContent=m;}
+function setStatusBlocks(m){document.getElementById("status-blocks").textContent=m;}
+function escHtml(s){if(typeof s!=="string")return"";return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function stripTags(s){return(s||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();}
 
-/* ══ HOME ══ */
+/* Sidebar mobile */
+function toggleSidebar(){
+  const sb=document.getElementById("sidebar");
+  const ov=document.getElementById("sidebar-overlay");
+  sb.classList.toggle("mobile-open");
+  ov.classList.toggle("on");
+}
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("mobile-open");
+  document.getElementById("sidebar-overlay").classList.remove("on");
+}
+
+/* ══════════════════════════════════════════════
+   TEMPLATE ENGINE
+══════════════════════════════════════════════ */
+/* Parse {{{param|default}}} and replace with provided args */
+function renderTemplate(html, args){
+  // args is an object like {0:"val1", içerik:"...", ...} or array
+  return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{
+    name=name.trim();
+    if(args&&args[name]!==undefined) return args[name];
+    if(args&&args[0]!==undefined&&/^\d+$/.test(name)) return args[name]||def||"";
+    return def!==undefined?def:"";
+  });
+}
+
+/* Render {{TemplateName|arg1|arg2|key=val}} tags inside HTML string */
+function renderTemplateTags(html, templates){
+  return html.replace(/\{\{([^}|]+)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{
+    name=name.trim();
+    const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));
+    if(!tpl) return match; // keep as-is if not found
+    const args={};
+    if(argsStr){
+      const parts=argsStr.slice(1).split("|");
+      parts.forEach((p,i)=>{
+        const eq=p.indexOf("=");
+        if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}
+        else{args[i+1]=p;args[i]=p;}
+      });
+    }
+    return `<span class="tpl-render">${renderTemplate(tpl.html,args)}</span>`;
+  });
+}
+
+/* Load all templates (builtins + firebase) */
+async function loadAllTemplates(){
+  return new Promise(resolve=>{
+    db.ref("templates").once("value",snap=>{
+      const stored=snap.val()?Object.values(snap.val()):[];
+      // Merge: stored overrides builtins by slug
+      const map={};
+      BUILTIN_TEMPLATES.forEach(t=>map[t.slug]=t);
+      stored.forEach(t=>map[t.slug]=t);
+      resolve(Object.values(map));
+    });
+  });
+}
+
+/* Seed built-in templates to Firebase if not present */
+function seedTemplates(){
+  db.ref("templates").once("value",snap=>{
+    BUILTIN_TEMPLATES.forEach(tpl=>{
+      if(!snap.child(tpl.slug).exists()){
+        db.ref("templates/"+tpl.slug).set(tpl);
+      }
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════
+   HOME
+══════════════════════════════════════════════ */
 function renderHome(){
   document.title="Ana Sayfa — Bilinmeyen Dünya";
   setStatus("Ana sayfa");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-tabs">
-        <span class="page-tab active">Ana Sayfa</span>
-        <div class="page-actions"><a class="page-action-link" onclick="openEditor()">Sayfa oluştur</a></div>
+        <span class="page-tab active">🏠 Ana Sayfa</span>
+        <div class="page-actions">
+          <a class="page-action-link" onclick="openEditor()">✏️ Sayfa oluştur</a>
+        </div>
       </div>
       <div class="page-body">
-        <div class="notice"><b>Bilinmeyen Dünya</b>'ya hoş geldiniz — anonim açık arşiv.</div>
+        <div class="notice">🌍 <b>Bilinmeyen Dünya</b>'ya hoş geldiniz — anonim açık Türkçe arşiv. <a style="color:var(--link);cursor:pointer" onclick="openEditor()">İlk sayfanı oluştur →</a></div>
         <h1 class="article-title-h1">Tüm Sayfalar</h1>
-        <div id="article-list"><div class="empty-state">Yükleniyor…</div></div>
+        <div id="article-list"><div class="empty-state">⏳ Yükleniyor…</div></div>
       </div>
     </div>`;
   db.ref("articles").once("value",snap=>{
     const data=snap.val();
     const listEl=document.getElementById("article-list");
     const cEl=document.getElementById("article-count");
-    if(!data){ listEl.innerHTML=`<div class="empty-state">Henüz hiçbir sayfa yok.<br>İlk sayfayı sen oluştur!</div>`; if(cEl)cEl.textContent="0 sayfa"; return; }
+    if(!data){
+      listEl.innerHTML=`<div class="empty-state">📭 Henüz hiçbir sayfa yok.<br><br><button class="btn-save" onclick="openEditor()">İlk Sayfayı Oluştur</button></div>`;
+      if(cEl)cEl.textContent="0 sayfa";return;
+    }
     const arr=Object.values(data).sort((a,b)=>b.createdAt-a.createdAt);
     if(cEl)cEl.textContent=arr.length+" sayfa";
     listEl.innerHTML=arr.map(a=>{
       const tb=(a.blocks||[]).find(b=>b.type==="text");
-      const ex=tb?stripTags(tb.content).substring(0,120):"";
-      return `<div class="article-card">
+      const ex=tb?stripTags(tb.content).substring(0,130):"";
+      const d=new Date(a.createdAt).toLocaleDateString("tr-TR");
+      return `<div class="article-card" style="padding:12px 0;">
         <div class="article-card-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div>
-        <div class="article-card-meta">${escHtml(a.location||"Anonim")} &mdash; ${new Date(a.createdAt).toLocaleString("tr-TR")}${a.author?" &bull; ✍️ "+escHtml(a.author):""}</div>
+        <div class="article-card-meta">📍 ${escHtml(a.location||"Anonim")} &bull; 📅 ${d}${a.author?" &bull; ✍️ "+escHtml(a.author):""}</div>
         ${ex?`<div class="article-card-excerpt">${escHtml(ex)}…</div>`:""}
       </div>`;
     }).join("");
   });
 }
 
-/* ══ ARTICLE VIEW ══ */
-function loadArticle(slug){
+/* ══════════════════════════════════════════════
+   ARTICLE VIEW
+══════════════════════════════════════════════ */
+async function loadArticle(slug){
   setStatus("Yükleniyor…");
-  db.ref("articles/"+slug).once("value",snap=>{
-    if(!snap.exists()){
-      document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Bu sayfa mevcut değil.</div><button class="btn-save" onclick="openEditor()">Sayfa Oluştur</button></div></div>`;
-      setStatus("404"); return;
+  const [snap,templates]=await Promise.all([
+    db.ref("articles/"+slug).once("value"),
+    loadAllTemplates()
+  ]);
+  if(!snap.exists()){
+    document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">⚠️ Bu sayfa mevcut değil.</div><button class="btn-save" onclick="openEditor()">Sayfa Oluştur</button></div></div>`;
+    setStatus("404");return;
+  }
+  const a=snap.val();
+  document.title=a.title+" — Bilinmeyen Dünya";
+  setStatus("Yüklendi: "+a.title);
+  const canvasH=computeCanvasH(a.blocks||[]);
+  const bHtml=(a.blocks||[]).map(b=>{
+    const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";
+    if(b.type==="text"){
+      const rendered=renderTemplateTags(b.content,templates);
+      return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${rendered}</div>`;
     }
-    const a=snap.val();
-    document.title=a.title+" — Bilinmeyen Dünya";
-    setStatus("Yüklendi: "+a.title);
-    const canvasH=computeCanvasH(a.blocks||[]);
-    const bHtml=(a.blocks||[]).map(b=>{
-      const w=b.width?`width:${b.width};`:"", h=b.height?`height:${b.height};`:"";
-      if(b.type==="text") return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${b.content}</div>`;
-      return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
-    }).join("");
-    document.getElementById("main-content").innerHTML=`
-      <div class="page-wrap">
-        <div class="page-tabs">
-          <span class="page-tab active">Sayfa</span>
-          <span class="page-tab" onclick="navigate('editor/${slug}')">Düzenle</span>
-          <div class="page-actions">
-            <a class="page-action-link" onclick="navigate('editor/${slug}')">✏️ Düzenle</a>
-            <a class="page-action-link red" onclick="deleteArticle('${slug}')">🗑️ Sil</a>
-          </div>
+    return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
+  }).join("");
+  const d=new Date(a.createdAt).toLocaleString("tr-TR");
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-tabs">
+        <span class="page-tab active">📄 Sayfa</span>
+        <span class="page-tab" onclick="navigate('editor/${slug}')">✏️ Düzenle</span>
+        <div class="page-actions">
+          <a class="page-action-link" onclick="navigate('editor/${slug}')">✏️ Düzenle</a>
+          <a class="page-action-link red" onclick="deleteArticle('${slug}')">🗑️ Sil</a>
         </div>
-        <div class="page-body">
-          <h1 class="article-title-h1">${escHtml(a.title)}</h1>
-          <div class="article-meta">📍 ${escHtml(a.location||"Anonim")} &bull; 🕐 ${new Date(a.createdAt).toLocaleString("tr-TR")}${a.author?" &bull; ✍️ "+escHtml(a.author):""}</div>
-          <div class="viewer-canvas" style="min-height:${canvasH}px;">${bHtml}</div>
+      </div>
+      <div class="page-body">
+        <h1 class="article-title-h1">${escHtml(a.title)}</h1>
+        <div class="article-meta">
+          <span>📍 ${escHtml(a.location||"Anonim")}</span>
+          <span>🕐 ${d}</span>
+          ${a.author?`<span>✍️ ${escHtml(a.author)}</span>`:""}
         </div>
-      </div>`;
-  });
+        <div class="viewer-canvas" style="min-height:${canvasH}px;">${bHtml}</div>
+      </div>
+    </div>`;
 }
 function computeCanvasH(blocks){
-  let max=400;
-  blocks.forEach(b=>{ max=Math.max(max,(parseInt(b.top)||0)+(parseInt(b.height)||150)+40); });
+  let max=350;
+  blocks.forEach(b=>{max=Math.max(max,(parseInt(b.top)||0)+(parseInt(b.height)||150)+50);});
   return max;
 }
 function deleteArticle(slug){
@@ -486,101 +906,292 @@ function deleteArticle(slug){
   });
 }
 
-/* ══ ADMIN PANEL ══ */
+/* ══════════════════════════════════════════════
+   TEMPLATES PAGE
+══════════════════════════════════════════════ */
+async function renderTemplates(){
+  if(!isAdmin()){
+    document.getElementById("main-content").innerHTML=`
+      <div class="page-wrap"><div class="page-body">
+        <div class="notice warn">⚠️ Şablonları yönetmek için admin girişi gerekli.</div>
+        <h1 class="article-title-h1">📋 Şablonlar</h1>
+        <div id="tpl-list-public"><div class="empty-state">⏳ Yükleniyor…</div></div>
+      </div></div>`;
+    const templates=await loadAllTemplates();
+    const listEl=document.getElementById("tpl-list-public");
+    if(!templates.length){listEl.innerHTML=`<div class="empty-state">Henüz şablon yok.</div>`;return;}
+    listEl.innerHTML=templates.map(t=>`
+      <div class="tpl-card">
+        <div class="tpl-card-info">
+          <h4>📋 {{${t.name}}}</h4>
+          <div class="tpl-desc">${escHtml(t.desc||"")}</div>
+        </div>
+      </div>`).join("");
+    return;
+  }
+  document.title="Şablonlar — Bilinmeyen Dünya";
+  setStatus("Şablon yöneticisi");
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-tabs">
+        <span class="page-tab active">📋 Şablonlar</span>
+        <div class="page-actions">
+          <a class="page-action-link" onclick="openTemplateEditor(null)">+ Yeni Şablon</a>
+          <a class="page-action-link" onclick="goHome()">Ana Sayfa</a>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="notice">Şablonlar sayfaya <code style="background:#e8f0ff;padding:1px 5px;border-radius:2px;">{{ŞablonAdı|parametre}}</code> şeklinde eklenir.</div>
+        <h1 class="article-title-h1">📋 Şablon Yöneticisi</h1>
+        <div id="tpl-list"><div class="empty-state">⏳ Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  loadTemplateList();
+}
+
+async function loadTemplateList(){
+  const listEl=document.getElementById("tpl-list");
+  if(!listEl) return;
+  const templates=await loadAllTemplates();
+  if(!templates.length){listEl.innerHTML=`<div class="empty-state">Henüz şablon yok. Yeni ekle →</div>`;return;}
+  listEl.innerHTML=templates.map(t=>`
+    <div class="tpl-card">
+      <div class="tpl-card-info" style="flex:1;">
+        <h4>📋 ${escHtml(t.name)}</h4>
+        <div class="tpl-desc">${escHtml(t.desc||"")} &bull; <code style="background:#eef;padding:1px 4px;border-radius:2px;font-size:11px;">{{${escHtml(t.name)}}}</code></div>
+        <div style="margin-top:8px;padding:8px;background:#f8fbff;border:1px solid #d0e8ff;border-radius:3px;max-height:80px;overflow:hidden;font-size:11px;color:#666;">${escHtml(t.html).substring(0,200)}…</div>
+      </div>
+      <div class="tpl-card-actions" style="flex-direction:column;">
+        <button class="btn-tpl btn-tpl-edit" onclick="openTemplateEditor('${t.slug}')">✏️ Düzenle</button>
+        <button class="btn-tpl btn-tpl-del" onclick="deleteTemplate('${t.slug}')">🗑️ Sil</button>
+        <button class="btn-tpl btn-tpl-ins" onclick="previewTemplate('${t.slug}')">👁 Önizle</button>
+      </div>
+    </div>`).join("");
+}
+
+function openTemplateEditor(slug){
+  const isNew=!slug;
+  document.getElementById("modal-title").textContent=isNew?"➕ Yeni Şablon":"✏️ Şablonu Düzenle";
+  document.getElementById("modal-footer").style.display="flex";
+
+  const doLoad=()=>{
+    if(!isNew){
+      db.ref("templates/"+slug).once("value",snap=>{
+        if(!snap.exists()) return;
+        const t=snap.val();
+        document.getElementById("tpl-name").value=t.name||"";
+        document.getElementById("tpl-desc").value=t.desc||"";
+        document.getElementById("tpl-html").value=t.html||"";
+      });
+    }
+  };
+
+  document.getElementById("modal-body").innerHTML=`
+    <label>Şablon Adı:</label>
+    <input type="text" id="tpl-name" placeholder="ör: Uyarı" ${!isNew?"readonly":""}>
+    <label>Açıklama (opsiyonel):</label>
+    <input type="text" id="tpl-desc" placeholder="Kısa açıklama…">
+    <label>HTML Kodu <small style="color:#888;">(parametreler: {{{isim|varsayılan}}})</small>:</label>
+    <textarea id="tpl-html" rows="8" style="font-family:monospace;font-size:12px;resize:vertical;" placeholder='&lt;div style="..."&gt;{{{içerik|Varsayılan metin}}}&lt;/div&gt;'></textarea>
+    <button onclick="previewTemplateHtml()" style="padding:5px 12px;background:#eaf3fb;border:1px solid var(--border);cursor:pointer;border-radius:3px;font-size:13px;margin-bottom:8px;">👁 Önizle</button>
+    <div id="tpl-preview-box" style="display:none;border:1px solid #ddd;padding:10px;margin-bottom:10px;background:#fafafa;border-radius:3px;"></div>`;
+
+  document.getElementById("modal-ok").textContent=isNew?"Oluştur":"Kaydet";
+  document.getElementById("modal-overlay").style.display="flex";
+  doLoad();
+
+  window._tplModalCb=()=>{
+    const name=(document.getElementById("tpl-name").value||"").trim();
+    const desc=(document.getElementById("tpl-desc").value||"").trim();
+    const html=(document.getElementById("tpl-html").value||"").trim();
+    if(!name){alert("Şablon adı gerekli.");return false;}
+    if(!html){alert("HTML kodu gerekli.");return false;}
+    const key=slug||slugify(name);
+    db.ref("templates/"+key).set({name,slug:key,desc,html},err=>{
+      if(err){alert("Hata: "+err.message);return;}
+      setStatus("Şablon kaydedildi: "+name);
+      loadTemplateList();
+    });
+    return true;
+  };
+}
+
+function previewTemplateHtml(){
+  const html=document.getElementById("tpl-html").value||"";
+  const box=document.getElementById("tpl-preview-box");
+  box.style.display="block";
+  box.innerHTML=renderTemplate(html,{});
+}
+
+function deleteTemplate(slug){
+  // Don't allow deleting builtins permanently (they're re-seeded)
+  showConfirmModal("Bu şablonu silmek istediğine emin misin?",()=>{
+    db.ref("templates/"+slug).remove(()=>{setStatus("Silindi.");loadTemplateList();});
+  });
+}
+
+function previewTemplate(slug){
+  loadAllTemplates().then(templates=>{
+    const t=templates.find(t=>t.slug===slug);
+    if(!t)return;
+    document.getElementById("modal-title").textContent="👁 Önizle: "+t.name;
+    document.getElementById("modal-body").innerHTML=`<div style="padding:8px;">${renderTemplate(t.html,{})}</div>`;
+    document.getElementById("modal-footer").style.display="none";
+    document.getElementById("modal-overlay").style.display="flex";
+  });
+}
+
+/* Insert template into active editor block */
+function insertTemplateIntoEditor(slug){
+  loadAllTemplates().then(templates=>{
+    const t=templates.find(t=>t.slug===slug);
+    if(!t)return;
+    closeModal();
+    // Extract param names
+    const params=[];
+    const rx=/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g;
+    let m;
+    while((m=rx.exec(t.html))!==null){
+      if(!params.find(p=>p.name===m[1].trim()))
+        params.push({name:m[1].trim(),def:m[2]||""});
+    }
+    if(params.length===0){
+      // No params — insert directly
+      const inner=getActiveInner();
+      if(inner){inner.focus();document.execCommand('insertHTML',false,`{{${t.name}}}`);}
+      return;
+    }
+    // Prompt for params
+    showInputModal(`📋 ${t.name} — Parametreler`,
+      params.map(p=>({id:"tpl_"+p.name,label:p.name+(p.def?" (varsayılan: "+p.def+")":"")+":",placeholder:p.def,type:"text"})),
+      vals=>{
+        let tag=`{{${t.name}`;
+        params.forEach(p=>{ tag+=`|${p.name}=${vals["tpl_"+p.name]||p.def}`; });
+        tag+=`}}`;
+        const inner=getActiveInner();
+        if(inner){inner.focus();document.execCommand('insertHTML',false,tag);}
+      });
+  });
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN
+══════════════════════════════════════════════ */
 function renderAdmin(){
-  if(!isAdmin()){ renderHome(); return; }
+  if(!isAdmin()){renderHome();return;}
   document.title="Admin — Bilinmeyen Dünya";
   setStatus("Admin paneli");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
-      <div class="page-tabs"><span class="page-tab active">⚙️ Admin Paneli</span><div class="page-actions"><a class="page-action-link" onclick="goHome()">Ana Sayfaya Dön</a></div></div>
+      <div class="page-tabs">
+        <span class="page-tab active">⚙️ Admin</span>
+        <span class="page-tab" onclick="navigate('templates')">📋 Şablonlar</span>
+        <div class="page-actions"><a class="page-action-link" onclick="goHome()">Ana Sayfa</a></div>
+      </div>
       <div class="page-body">
-        <div class="notice">Admin: <b>${escHtml(currentUser.username)}</b></div>
+        <div class="notice">⚙️ Admin: <b>${escHtml(currentUser.username)}</b></div>
         <h1 class="article-title-h1">Bekleyen Düzenlemeler</h1>
-        <div id="pending-list"><div class="empty-state">Yükleniyor…</div></div>
-        <h2 style="margin-top:22px;font-family:'Linux Libertine Display',Georgia,serif;font-size:20px;font-weight:normal;margin-bottom:12px;">Kayıtlı Kullanıcılar</h2>
-        <div id="user-list"><div class="empty-state">Yükleniyor…</div></div>
+        <div id="pending-list"><div class="empty-state">⏳ Yükleniyor…</div></div>
+        <h2 style="margin-top:22px;font-family:var(--font-display);font-size:20px;font-weight:normal;margin-bottom:12px;">👥 Kayıtlı Kullanıcılar</h2>
+        <div id="user-list"><div class="empty-state">⏳ Yükleniyor…</div></div>
       </div>
     </div>`;
   db.ref("pending").once("value",snap=>{
     const data=snap.val();
     const el=document.getElementById("pending-list");
-    if(!data){ el.innerHTML=`<div class="empty-state">Bekleyen düzenleme yok ✅</div>`; }
+    if(!data){el.innerHTML=`<div class="empty-state">✅ Bekleyen düzenleme yok.</div>`;}
     else el.innerHTML=Object.entries(data).map(([key,p])=>`
       <div class="pending-card">
-        <h4>${escHtml(p.title)}</h4>
-        <div class="pm">Gönderen: ${escHtml(p.author||"Anonim")} &bull; ${new Date(p.createdAt).toLocaleString("tr-TR")}</div>
+        <h4>📄 ${escHtml(p.title)}</h4>
+        <div class="pm">✍️ ${escHtml(p.author||"Anonim")} &bull; 📅 ${new Date(p.createdAt).toLocaleString("tr-TR")}</div>
         <div class="pending-actions">
           <button class="btn-approve" onclick="approvePending('${key}')">✅ Onayla</button>
           <button class="btn-reject" onclick="rejectPending('${key}')">❌ Reddet</button>
-          <button class="btn-cancel" style="margin-left:4px;padding:4px 10px;cursor:pointer;font-size:13px;" onclick="previewPending('${key}')">👁 Önizle</button>
+          <button class="btn-cancel" style="padding:5px 12px;cursor:pointer;font-size:13px;font-family:var(--font-ui);" onclick="previewPending('${key}')">👁 Önizle</button>
         </div>
       </div>`).join("");
   });
   db.ref("users").once("value",snap=>{
     const data=snap.val();
     const el=document.getElementById("user-list");
-    if(!data){ el.innerHTML=`<div class="empty-state">Hiç kayıtlı kullanıcı yok.</div>`; return; }
-    el.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:13px;">
-      <tr style="background:#eaf3fb;"><th style="padding:6px 10px;text-align:left;border:1px solid #ddd;">Kullanıcı</th><th style="padding:6px 10px;border:1px solid #ddd;text-align:left;">Rol</th><th style="padding:6px 10px;border:1px solid #ddd;text-align:left;">Kayıt</th></tr>
-      ${Object.entries(data).map(([u,d])=>`<tr><td style="padding:5px 10px;border:1px solid #eee;">${escHtml(u)}</td><td style="padding:5px 10px;border:1px solid #eee;">${d.role||"user"}</td><td style="padding:5px 10px;border:1px solid #eee;">${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td></tr>`).join("")}
+    if(!data){el.innerHTML=`<div class="empty-state">Hiç kayıtlı kullanıcı yok.</div>`;return;}
+    el.innerHTML=`<table class="wiki-table">
+      <tr><th>Kullanıcı</th><th>Rol</th><th>Kayıt</th></tr>
+      ${Object.entries(data).map(([u,d])=>`<tr>
+        <td>👤 ${escHtml(u)}</td>
+        <td>${d.role||"user"}</td>
+        <td>${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td>
+      </tr>`).join("")}
     </table>`;
   });
 }
 function approvePending(key){
   db.ref("pending/"+key).once("value",snap=>{
-    if(!snap.exists()) return;
+    if(!snap.exists())return;
     const p=snap.val();
     db.ref("articles/"+p.slug).set(p,err=>{
-      if(err){ alert("Hata: "+err.message); return; }
+      if(err){alert("Hata: "+err.message);return;}
       db.ref("pending/"+key).remove();
-      setStatus("Onaylandı: "+p.title);
-      renderAdmin();
+      setStatus("Onaylandı: "+p.title);renderAdmin();
     });
   });
 }
 function rejectPending(key){
   showConfirmModal("Bu düzenlemeyi reddet ve sil?",()=>{
-    db.ref("pending/"+key).remove(()=>{ renderAdmin(); setStatus("Reddedildi."); });
+    db.ref("pending/"+key).remove(()=>{renderAdmin();setStatus("Reddedildi.");});
   });
 }
-function previewPending(key){
-  db.ref("pending/"+key).once("value",snap=>{
-    if(!snap.exists()) return;
-    const a=snap.val();
-    const canvasH=computeCanvasH(a.blocks||[]);
-    const bHtml=(a.blocks||[]).map(b=>{
-      const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";
-      if(b.type==="text") return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${b.content}</div>`;
-      return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
-    }).join("");
-    document.getElementById("modal-title").textContent="Önizleme: "+a.title;
-    document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${canvasH}px;border:1px solid #ddd;">${bHtml}</div>`;
-    document.getElementById("modal-footer").style.display="none";
-    document.getElementById("modal-overlay").style.display="flex";
-  });
+async function previewPending(key){
+  const [snap,templates]=await Promise.all([
+    db.ref("pending/"+key).once("value"),
+    loadAllTemplates()
+  ]);
+  if(!snap.exists())return;
+  const a=snap.val();
+  const canvasH=computeCanvasH(a.blocks||[]);
+  const bHtml=(a.blocks||[]).map(b=>{
+    const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";
+    if(b.type==="text") return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;
+    return `<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
+  }).join("");
+  document.getElementById("modal-title").textContent="👁 Önizleme: "+a.title;
+  document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${canvasH}px;border:1px solid #ddd;">${bHtml}</div>`;
+  document.getElementById("modal-footer").style.display="none";
+  document.getElementById("modal-overlay").style.display="flex";
 }
 
-/* ══ EDITOR ══ */
-let selectedBlock=null, editingSlug=null, blockIdCounter=0, activeInner=null;
+/* ══════════════════════════════════════════════
+   EDITOR
+══════════════════════════════════════════════ */
+let selectedBlock=null,editingSlug=null,blockIdCounter=0,activeInner=null;
 
 function renderEditor(loadSlug){
   document.title="Düzenle — Bilinmeyen Dünya";
   setStatus("Editör hazır");
-  editingSlug=loadSlug||null; selectedBlock=null; blockIdCounter=0; activeInner=null;
+  editingSlug=loadSlug||null;selectedBlock=null;blockIdCounter=0;activeInner=null;
+
+  const adminMsg=isAdmin()
+    ?`<div class="notice success">⚙️ Admin: değişiklikler doğrudan yayınlanır.</div>`
+    :isLoggedIn()
+    ?`<div class="notice">👤 ${escHtml(currentUser.username)}: Düzenlemeler admin onayına gidecek.</div>`
+    :`<div class="notice warn">⚠️ Giriş yapmadan gönderilen içerikler onaya gidecek. <a style="cursor:pointer;text-decoration:underline;color:#7a4a00" onclick="showLoginModal()">Giriş Yap</a></div>`;
 
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-tabs">
-        <span class="page-tab" onclick="goHome()">Ana Sayfa</span>
-        <span class="page-tab active">Düzenle</span>
-        ${loadSlug?`<span class="page-tab" onclick="navigate('article/${loadSlug}')">Sayfaya Dön</span>`:""}
+        <span class="page-tab" onclick="goHome()">🏠 Ana Sayfa</span>
+        <span class="page-tab active">✏️ Düzenle</span>
+        ${loadSlug?`<span class="page-tab" onclick="navigate('article/${loadSlug}')">📄 Sayfaya Dön</span>`:""}
       </div>
       <div class="editor-wrap">
         <input type="text" id="ed-title" class="editor-title-input" placeholder="Sayfa başlığı…">
-        <input type="text" id="ed-location" class="editor-location-input" placeholder="📍 Konum (opsiyonel)">
-        ${isAdmin()?`<div class="notice success">⚙️ Admin: değişiklikler doğrudan yayınlanır.</div>`:isLoggedIn()?`<div class="notice">👤 ${escHtml(currentUser.username)}: Düzenlemeler admin onayına gidecek.</div>`:`<div class="notice warn">⚠️ Giriş yapmadan gönderilen içerikler admin onayına gidecek. <a style="cursor:pointer;color:#795500;text-decoration:underline" onclick="showLoginModal()">Giriş Yap</a></div>`}
-        <div class="wiki-toolbar">
+        <div class="editor-meta-row">
+          <input type="text" id="ed-location" class="editor-loc-input" placeholder="📍 Konum (opsiyonel)">
+        </div>
+        ${adminMsg}
+
+        <!-- TOOLBAR -->
+        <div class="wiki-toolbar" id="wiki-toolbar">
           <div class="toolbar-group">
             <button class="tb" onclick="edUndo()" title="Geri Al">↩</button>
             <button class="tb" onclick="edRedo()" title="İleri Al">↪</button>
@@ -590,11 +1201,9 @@ function renderEditor(loadSlug){
             <button class="tb" onclick="fmt('italic')"><i>I</i></button>
             <button class="tb" onclick="fmt('underline')"><u>U</u></button>
             <button class="tb" onclick="fmt('strikeThrough')"><s>S</s></button>
-            <button class="tb" onclick="fmt('superscript')">x²</button>
-            <button class="tb" onclick="fmt('subscript')">x₂</button>
           </div>
           <div class="toolbar-group">
-            <select class="tb-select" id="heading-select" onchange="applyHeading(this.value)">
+            <select class="tb-select" onchange="applyHeading(this.value)" title="Başlık">
               <option value="">Paragraf</option>
               <option value="h1">Başlık 1</option>
               <option value="h2">Başlık 2</option>
@@ -603,24 +1212,17 @@ function renderEditor(loadSlug){
             </select>
           </div>
           <div class="toolbar-group">
-            <button class="tb" onclick="fmt('insertUnorderedList')">• Liste</button>
-            <button class="tb" onclick="fmt('insertOrderedList')">1. Liste</button>
-            <button class="tb" onclick="fmt('indent')">→</button>
-            <button class="tb" onclick="fmt('outdent')">←</button>
+            <select class="tb-select" onchange="applyFontFamily(this.value)" title="Yazı Tipi">
+              <option value="">Varsayılan</option>
+              <option value="Georgia,serif">Georgia</option>
+              <option value="Arial,sans-serif">Arial</option>
+              <option value="'Courier New',monospace">Courier</option>
+              <option value="'Times New Roman',serif">Times</option>
+              <option value="Verdana,sans-serif">Verdana</option>
+            </select>
           </div>
           <div class="toolbar-group">
-            <button class="tb" onclick="fmt('justifyLeft')">⬛╌╌</button>
-            <button class="tb" onclick="fmt('justifyCenter')">╌⬛╌</button>
-            <button class="tb" onclick="fmt('justifyRight')">╌╌⬛</button>
-          </div>
-          <div class="toolbar-group">
-            <span class="toolbar-label">A:</span>
-            <input type="color" class="tb-color" value="#000000" onchange="applyColor('foreColor',this.value)" title="Yazı Rengi">
-            <span class="toolbar-label">BG:</span>
-            <input type="color" class="tb-color" value="#ffff00" onchange="applyColor('hiliteColor',this.value)" title="Arka Plan">
-          </div>
-          <div class="toolbar-group">
-            <select class="tb-select" onchange="applyFontSize(this.value)">
+            <select class="tb-select" onchange="applyFontSize(this.value)" title="Boyut">
               <option value="">Boyut</option>
               <option value="1">XS</option>
               <option value="2">S</option>
@@ -631,10 +1233,32 @@ function renderEditor(loadSlug){
             </select>
           </div>
           <div class="toolbar-group">
+            <div class="tb-color-wrap">
+              <span class="tb-color-label">Yaz:</span>
+              <input type="color" class="tb-color" value="#000000" onchange="applyColor('foreColor',this.value)" title="Yazı Rengi">
+            </div>
+            <div class="tb-color-wrap">
+              <span class="tb-color-label">BG:</span>
+              <input type="color" class="tb-color" value="#ffff00" onchange="applyColor('hiliteColor',this.value)" title="Arka Plan Rengi">
+            </div>
+          </div>
+          <div class="toolbar-group">
+            <button class="tb" onclick="fmt('justifyLeft')" title="Sola">⬛╌</button>
+            <button class="tb" onclick="fmt('justifyCenter')" title="Ortala">╌⬛╌</button>
+            <button class="tb" onclick="fmt('justifyRight')" title="Sağa">╌⬛</button>
+          </div>
+          <div class="toolbar-group">
+            <button class="tb" onclick="fmt('insertUnorderedList')">• Liste</button>
+            <button class="tb" onclick="fmt('insertOrderedList')">1. Liste</button>
+          </div>
+          <div class="toolbar-group">
             <button class="tb" onclick="fmt('insertHorizontalRule')">──</button>
-            <button class="tb" onclick="insertLink()">🔗 Link</button>
-            <button class="tb" onclick="insertTable()">⊞ Tablo</button>
-            <button class="tb" id="emoji-btn" onclick="toggleEmojiPicker(event)">😀 Emoji</button>
+            <button class="tb" onclick="insertLink()">🔗</button>
+            <button class="tb" onclick="insertTable()">⊞</button>
+            <button class="tb" id="emoji-btn" onclick="toggleEmojiPicker(event)">😀</button>
+          </div>
+          <div class="toolbar-group">
+            <button class="tb" onclick="openInsertTemplatePicker()" title="Şablon Ekle" style="color:#1a5bd6;font-weight:bold;">📋 Şablon</button>
           </div>
           <div class="toolbar-group">
             <button class="tb" onclick="addTextBlock()">📝 Metin</button>
@@ -642,18 +1266,24 @@ function renderEditor(loadSlug){
             <button class="tb" onclick="addBoxBlock()">📦 Kutu</button>
           </div>
           <div class="toolbar-group">
-            <button class="tb" onclick="changeCanvasSize()">⤢ Boyut</button>
-            <button class="tb" onclick="clearCanvas()" style="color:#cc3333">🗑️ Temizle</button>
+            <button class="tb" onclick="changeCanvasSize()">⤢</button>
+            <button class="tb" onclick="clearCanvas()" style="color:var(--danger)">🗑️</button>
           </div>
         </div>
+
         <div class="editor-canvas" id="editor-canvas">
-          <div class="editor-canvas-hint" id="canvas-hint">📝 Metin veya 🖼️ Resim eklemek için araç çubuğunu kullan</div>
+          <div class="editor-canvas-hint" id="canvas-hint">
+            <div class="hint-icon">📝</div>
+            <div>Araç çubuğundan <b>Metin</b> veya <b>Resim</b> ekle</div>
+            <div style="font-size:12px;">Blokları sürükleyerek konumlandır</div>
+          </div>
         </div>
+
         <div class="editor-bottombar">
           <button class="btn-save" onclick="saveArticle()">💾 ${isAdmin()?"Kaydet":"Onaya Gönder"}</button>
           <button class="btn-cancel" onclick="goHome()">İptal</button>
           <span style="margin-left:8px;font-size:12px;color:var(--muted)" id="ed-block-count">0 blok</span>
-          <span style="margin-left:auto;font-size:12px;color:var(--muted)">Seç → sürükle konumlandır • Seçiliyken yaz</span>
+          <span style="margin-left:auto;font-size:11px;color:var(--muted);display:none;" id="ed-hint-desktop">Seç → sürükle • Seçiliyken yaz</span>
         </div>
       </div>
     </div>`;
@@ -661,10 +1291,13 @@ function renderEditor(loadSlug){
   document.getElementById("editor-canvas").addEventListener("mousedown",e=>{
     if(e.target.id==="editor-canvas") deselectAll();
   });
+  document.getElementById("editor-canvas").addEventListener("touchstart",e=>{
+    if(e.target.id==="editor-canvas") deselectAll();
+  },{passive:true});
 
   if(loadSlug){
     db.ref("articles/"+loadSlug).once("value",snap=>{
-      if(!snap.exists()) return;
+      if(!snap.exists())return;
       const a=snap.val();
       document.getElementById("ed-title").value=a.title;
       document.getElementById("ed-location").value=a.location||"";
@@ -673,26 +1306,45 @@ function renderEditor(loadSlug){
   }
 }
 
-/* FORMAT */
-function fmt(cmd){ ensureFocus(); document.execCommand(cmd,false,null); }
-function applyColor(cmd,val){ ensureFocus(); document.execCommand(cmd,false,val); }
-function applyFontSize(val){ if(!val)return; ensureFocus(); document.execCommand('fontSize',false,val); }
-function applyHeading(val){
-  ensureFocus();
-  document.execCommand('formatBlock',false,val||'p');
-  document.getElementById("heading-select").value="";
+/* ══ TEMPLATE PICKER (in editor) ══ */
+async function openInsertTemplatePicker(){
+  const templates=await loadAllTemplates();
+  document.getElementById("modal-title").textContent="📋 Şablon Ekle";
+  document.getElementById("modal-footer").style.display="none";
+  document.getElementById("modal-body").innerHTML=`
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;font-family:var(--font-ui);">Bir şablon seç. Eklemek istediğin metin bloğunu önce seçmeyi unutma.</p>
+    ${templates.length===0?`<div class="empty-state">Şablon yok. <a onclick="navigate('templates')" style="color:var(--link);cursor:pointer">Şablon oluştur →</a></div>`:""}
+    ${templates.map(t=>`
+      <div class="tpl-card" style="margin-bottom:8px;">
+        <div class="tpl-card-info">
+          <h4 style="font-size:15px;">📋 ${escHtml(t.name)}</h4>
+          <div class="tpl-desc">${escHtml(t.desc||"")}</div>
+        </div>
+        <div class="tpl-card-actions">
+          <button class="btn-tpl btn-tpl-ins" onclick="insertTemplateIntoEditor('${t.slug}')">Ekle</button>
+          <button class="btn-tpl btn-tpl-edit" onclick="previewTemplate('${t.slug}')">👁</button>
+        </div>
+      </div>`).join("")}`;
+  document.getElementById("modal-overlay").style.display="flex";
 }
+
+/* ══ FORMAT ══ */
+function fmt(cmd){ensureFocus();document.execCommand(cmd,false,null);}
+function applyColor(cmd,val){ensureFocus();document.execCommand(cmd,false,val);}
+function applyFontSize(val){if(!val)return;ensureFocus();document.execCommand('fontSize',false,val);}
+function applyFontFamily(val){if(!val)return;ensureFocus();document.execCommand('fontName',false,val);}
+function applyHeading(val){ensureFocus();document.execCommand('formatBlock',false,val||'p');}
 function ensureFocus(){
   const inner=getActiveInner();
   if(inner&&document.activeElement!==inner&&!inner.contains(document.activeElement)) inner.focus();
 }
 function getActiveInner(){
-  if(activeInner) return activeInner;
-  if(selectedBlock) return selectedBlock.querySelector(".e-block-inner");
+  if(activeInner)return activeInner;
+  if(selectedBlock)return selectedBlock.querySelector(".e-block-inner");
   return null;
 }
-function edUndo(){ document.execCommand('undo',false,null); }
-function edRedo(){ document.execCommand('redo',false,null); }
+function edUndo(){document.execCommand('undo',false,null);}
+function edRedo(){document.execCommand('redo',false,null);}
 
 function insertLink(){
   showInputModal("🔗 Bağlantı Ekle",[
@@ -710,136 +1362,108 @@ function insertTable(){
     {id:"tc",label:"Sütun:",placeholder:"3",type:"number"}
   ],vals=>{
     const rows=parseInt(vals.tr)||3,cols=parseInt(vals.tc)||3;
-    let html='<table border="1" style="border-collapse:collapse;width:100%;font-size:14px;">';
+    let html='<table class="wiki-table">';
     for(let r=0;r<rows;r++){
       html+='<tr>';
-      for(let c=0;c<cols;c++) html+=`<td style="border:1px solid #aaa;padding:5px 9px;">${r===0?`<b>Başlık ${c+1}</b>`:"Hücre"}</td>`;
+      for(let c=0;c<cols;c++) html+=`<td>${r===0?`<b>Başlık ${c+1}</b>`:"Hücre"}</td>`;
       html+='</tr>';
     }
     html+='</table>';
     const inner=getActiveInner();
-    if(inner){ inner.focus(); document.execCommand('insertHTML',false,html); } else addTextBlock(html);
+    if(inner){inner.focus();document.execCommand('insertHTML',false,html);}else addTextBlock(html);
   });
 }
 
 /* ══ EMOJI ══ */
-const ALL_EMOJIS=[
-  '😀','😁','😂','🤣','😍','🥰','😎','🤔','😭','😡','🤯','🥺','😱','😴','🤮','😈','🤡','💀','👻','🤖',
-  '👍','👎','👋','🤝','💪','🙏','👀','🫶','🫡','🤌',
-  '❤️','💔','🧡','💛','💚','💙','💜','🖤','🤍','🔥','✨','💯','🎉','🚀','⚡','🌟','⭐','💥','🎯','🏆',
-  '🌍','🕳️','🌈','🌙','☀️','❄️','💧','🌊','🌹','🌻','🍀','🎵','🎶','📝','📸','💻','📱','🔗','⚠️',
-  '✅','❌','🔴','🟢','🟡','💡','🔑','📌','🗑️','🔒','🔓','🎮','🕹️','🎲','🃏','🎭','🎨','📚','🔬','🧪',
-  '⚔️','🛡️','🏠','🚗','✈️','🚀','🍕','🍔','☕','🍺','🐱','🐶','🦊','🐸','🦁','🐺','🐧','🦅','🐲','👾'
-];
+const ALL_EMOJIS=['😀','😁','😂','🤣','😍','🥰','😎','🤔','😭','😡','🤯','🥺','😱','😴','🤮','😈','🤡','💀','👻','🤖','👍','👎','👋','🤝','💪','🙏','👀','🫶','🫡','🤌','❤️','💔','🧡','💛','💚','💙','💜','🖤','🤍','🔥','✨','💯','🎉','🚀','⚡','🌟','⭐','💥','🎯','🏆','🌍','🌈','🌙','☀️','❄️','💧','🌊','🌹','🌻','🍀','🎵','🎶','📝','📸','💻','📱','🔗','⚠️','✅','❌','🔴','🟢','🟡','💡','🔑','📌','🗑️','🔒','🔓','🎮','🕹️','🎲','🃏','🎭','🎨','📚','🔬','🧪','⚔️','🛡️','🏠','🚗','✈️','🍕','🍔','☕','🍺','🐱','🐶','🦊','🐸','🦁','🐺','🐧','🦅','🐲','👾'];
 let emojiOpen=false;
 
 function buildEmojiGrid(q){
   const list=q?ALL_EMOJIS.filter(e=>e.includes(q)):ALL_EMOJIS;
-  document.getElementById("emoji-grid").innerHTML=list.map(e=>`<span onclick="insertEmoji('${e}')" title="${e}">${e}</span>`).join("");
+  document.getElementById("emoji-grid").innerHTML=list.map(e=>`<span onclick="insertEmoji('${e}')">${e}</span>`).join("");
 }
-function filterEmojis(q){ buildEmojiGrid(q); }
-
+function filterEmojis(q){buildEmojiGrid(q);}
 function toggleEmojiPicker(e){
   const picker=document.getElementById("emoji-picker");
-  if(emojiOpen){ closeEmojiPicker(); return; }
+  if(emojiOpen){closeEmojiPicker();return;}
   const btn=document.getElementById("emoji-btn");
   const rect=btn.getBoundingClientRect();
   picker.style.top=(rect.bottom+window.scrollY+4)+"px";
-  picker.style.left=Math.min(rect.left,window.innerWidth-295)+"px";
+  picker.style.left=Math.min(rect.left+window.scrollX,window.innerWidth-305)+"px";
   picker.style.display="block";
-  emojiOpen=true;
-  buildEmojiGrid("");
+  emojiOpen=true;buildEmojiGrid("");
   document.getElementById("emoji-search").value="";
   setTimeout(()=>document.getElementById("emoji-search").focus(),50);
 }
 function closeEmojiPicker(){
   const p=document.getElementById("emoji-picker");
-  if(p) p.style.display="none";
-  emojiOpen=false;
+  if(p)p.style.display="none";emojiOpen=false;
 }
 function insertEmoji(emoji){
   const inner=getActiveInner();
-  if(inner){ inner.focus(); document.execCommand('insertText',false,emoji); }
+  if(inner){inner.focus();document.execCommand('insertText',false,emoji);}
   closeEmojiPicker();
 }
 document.addEventListener("mousedown",e=>{
-  if(emojiOpen&&!document.getElementById("emoji-picker").contains(e.target)&&e.target.id!=="emoji-btn") closeEmojiPicker();
+  if(emojiOpen&&!document.getElementById("emoji-picker").contains(e.target)&&e.target.id!=="emoji-btn")closeEmojiPicker();
 });
 
 /* ══ BLOCKS ══ */
 function updateBlockCount(){
   const canvas=document.getElementById("editor-canvas");
-  if(!canvas) return;
+  if(!canvas)return;
   const n=canvas.querySelectorAll(".e-block").length;
   const hint=document.getElementById("canvas-hint");
-  if(hint) hint.style.display=n>0?"none":"flex";
+  if(hint)hint.style.display=n>0?"none":"flex";
   const ce=document.getElementById("ed-block-count");
-  if(ce) ce.textContent=n+" blok";
+  if(ce)ce.textContent=n+" blok";
   setStatusBlocks(n+" blok");
 }
 
 function addTextBlock(initHtml){
-  const canvas=document.getElementById("editor-canvas");
-  if(!canvas) return;
-  const block=createBlock("text",20+Math.random()*80,20+Math.random()*60);
+  const canvas=document.getElementById("editor-canvas");if(!canvas)return;
+  const block=createBlock("text",20+Math.random()*60,20+Math.random()*50);
   block.style.width="300px";
   const inner=block.querySelector(".e-block-inner");
   inner.innerHTML=initHtml||"<p>Buraya yazın…</p>";
-  canvas.appendChild(block);
-  updateBlockCount();
-  setTimeout(()=>{ inner.focus(); activeInner=inner; selectAllContent(inner); },60);
+  canvas.appendChild(block);updateBlockCount();
+  setTimeout(()=>{inner.focus();activeInner=inner;selectAllContent(inner);},60);
 }
-
 function addImageBlock(){
   showImageModal(src=>{
-    const canvas=document.getElementById("editor-canvas");
-    if(!canvas) return;
-    const block=createBlock("image",20+Math.random()*80,20+Math.random()*60);
-    block.style.width="280px";
-    block.style.height="200px";
+    const canvas=document.getElementById("editor-canvas");if(!canvas)return;
+    const block=createBlock("image",20+Math.random()*60,20+Math.random()*50);
+    block.style.width="280px";block.style.height="200px";
     const inner=block.querySelector(".e-block-inner");
     inner.contentEditable=false;
-    const img=document.createElement("img");
-    img.src=src; img.draggable=false;
-    inner.appendChild(img);
-    canvas.appendChild(block);
-    updateBlockCount();
-    selectBlock(block);
+    const img=document.createElement("img");img.src=src;img.draggable=false;
+    inner.appendChild(img);canvas.appendChild(block);updateBlockCount();selectBlock(block);
   });
 }
-
 function addBoxBlock(){
-  const canvas=document.getElementById("editor-canvas");
-  if(!canvas) return;
-  const block=createBlock("text",30+Math.random()*80,30+Math.random()*60);
+  const canvas=document.getElementById("editor-canvas");if(!canvas)return;
+  const block=createBlock("text",30+Math.random()*60,30+Math.random()*50);
   block.style.width="260px";
-  block.style.borderStyle="solid";
-  block.style.borderWidth="2px";
-  block.style.borderColor="#a7d7f9";
-  block.style.background="#eaf3fb";
+  block.style.border="2px solid #a7d7f9";
+  block.style.background="linear-gradient(135deg,#eaf3fb,#f4f8ff)";
   block.style.borderRadius="4px";
   const inner=block.querySelector(".e-block-inner");
-  inner.innerHTML="<b>Kutu Başlığı</b><p>İçerik buraya…</p>";
-  canvas.appendChild(block);
-  updateBlockCount();
-  setTimeout(()=>{ inner.focus(); activeInner=inner; },60);
+  inner.innerHTML="<b>Kutu Başlığı</b><p style='font-size:13px;color:#555;margin-top:4px;'>İçerik buraya…</p>";
+  canvas.appendChild(block);updateBlockCount();
+  setTimeout(()=>{inner.focus();activeInner=inner;},60);
 }
-
 function loadBlock(b){
-  const canvas=document.getElementById("editor-canvas");
-  if(!canvas) return;
+  const canvas=document.getElementById("editor-canvas");if(!canvas)return;
   const block=createBlock(b.type,parseInt(b.left)||10,parseInt(b.top)||10);
-  if(b.width) block.style.width=b.width;
-  if(b.height) block.style.height=b.height;
+  if(b.width)block.style.width=b.width;
+  if(b.height)block.style.height=b.height;
   const inner=block.querySelector(".e-block-inner");
   if(b.type==="image"){
     inner.contentEditable=false;
-    const img=document.createElement("img");
-    img.src=b.content; img.draggable=false;
+    const img=document.createElement("img");img.src=b.content;img.draggable=false;
     inner.appendChild(img);
-  } else inner.innerHTML=b.content||"";
-  canvas.appendChild(block);
-  updateBlockCount();
+  }else inner.innerHTML=b.content||"";
+  canvas.appendChild(block);updateBlockCount();
 }
 
 function createBlock(type,left,top){
@@ -850,128 +1474,151 @@ function createBlock(type,left,top){
   block.style.left=left+"px";
   block.style.top=top+"px";
 
+  // Type badge
+  const badge=document.createElement("div");
+  badge.className="e-block-type-badge";
+  badge.textContent=type==="image"?"🖼️ Resim":"📝 Metin";
+  block.appendChild(badge);
+
   const inner=document.createElement("div");
   inner.className="e-block-inner";
   if(type==="text"){
-    inner.contentEditable=true;
-    inner.spellcheck=true;
-    inner.addEventListener("focus",()=>{ activeInner=inner; });
+    inner.contentEditable=true;inner.spellcheck=true;
+    inner.addEventListener("focus",()=>{activeInner=inner;});
   }
   block.appendChild(inner);
 
   // Resize handles
   ["nw","n","ne","e","se","s","sw","w"].forEach(d=>{
-    const h=document.createElement("div");
-    h.className=`rh rh-${d}`;
-    block.appendChild(h);
+    const h=document.createElement("div");h.className=`rh rh-${d}`;block.appendChild(h);
     makeResizable(block,h,d);
+    makeTouchResizable(block,h,d);
   });
 
-  // Delete button
+  // Delete
   const del=document.createElement("button");
-  del.className="block-delete";
-  del.innerHTML="✕";
+  del.className="block-delete";del.innerHTML="✕";
   del.addEventListener("mousedown",e=>{e.stopPropagation();e.preventDefault();});
   del.addEventListener("click",e=>{
     e.stopPropagation();
     if(selectedBlock===block){selectedBlock=null;activeInner=null;}
-    block.remove(); updateBlockCount();
+    block.remove();updateBlockCount();
   });
   block.appendChild(del);
 
-  // ══════════════════════════════════════
-  // DRAG LOGIC - THE KEY FIX
-  // First click on unselected block → select it (no drag yet)
-  // Second click on already-selected text block inner → allow typing
-  // Drag only initiates with mouse MOVEMENT, not just mousedown
-  // ══════════════════════════════════════
+  /* ── MOUSE DRAG ── */
   block.addEventListener("mousedown",e=>{
-    if(e.target.classList.contains("rh")||e.target.classList.contains("block-delete")) return;
-
-    // If clicking on the inner of an ALREADY SELECTED text block → let the browser handle cursor placement
-    if(type==="text" && block.classList.contains("selected") && inner.contains(e.target)){
-      // Don't preventDefault — let normal click-to-position-cursor work
-      return;
-    }
-
-    // Select the block
+    if(e.target.classList.contains("rh")||e.target.classList.contains("block-delete"))return;
+    if(type==="text"&&block.classList.contains("selected")&&inner.contains(e.target))return;
     selectBlock(block);
-
-    // Start potential drag (only becomes real drag if mouse moves > 4px)
-    const startX=e.clientX, startY=e.clientY;
-    const origL=parseInt(block.style.left)||0, origT=parseInt(block.style.top)||0;
+    const startX=e.clientX,startY=e.clientY;
+    const origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;
     let dragging=false;
-
-    // Must preventDefault AFTER we know it's actually a drag, but we need to
-    // track mousedown position. Compromise: preventDefault here but allow
-    // re-focus on mouseup if no drag occurred.
     e.preventDefault();
-
     function onMove(mv){
-      const dx=mv.clientX-startX, dy=mv.clientY-startY;
-      if(!dragging&&(Math.abs(dx)>4||Math.abs(dy)>4)){
-        dragging=true;
-        block.style.opacity="0.82";
-        block.style.zIndex="99";
-      }
+      const dx=mv.clientX-startX,dy=mv.clientY-startY;
+      if(!dragging&&(Math.abs(dx)>4||Math.abs(dy)>4)){dragging=true;block.style.opacity=".82";block.style.zIndex="99";}
       if(dragging){
         block.style.left=Math.max(0,origL+dx)+"px";
         block.style.top=Math.max(0,origT+dy)+"px";
-        setStatus(`X:${Math.max(0,origL+dx)}px Y:${Math.max(0,origT+dy)}px`);
+        setStatus(`X:${Math.max(0,origL+dx).toFixed(0)} Y:${Math.max(0,origT+dy).toFixed(0)}`);
       }
     }
-    function onUp(up){
-      document.removeEventListener("mousemove",onMove);
-      document.removeEventListener("mouseup",onUp);
-      block.style.opacity="";
-      block.style.zIndex="";
-      if(!dragging && type==="text"){
-        // No drag happened — focus the inner so user can type
-        inner.focus();
-        activeInner=inner;
-      }
-      if(dragging) dragging=false;
+    function onUp(){
+      document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);
+      block.style.opacity="";block.style.zIndex="";
+      if(!dragging&&type==="text"){inner.focus();activeInner=inner;}
+      dragging=false;
     }
-    document.addEventListener("mousemove",onMove);
-    document.addEventListener("mouseup",onUp);
+    document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);
   });
+
+  /* ── TOUCH DRAG ── */
+  block.addEventListener("touchstart",e=>{
+    if(e.target.classList.contains("rh")||e.target.classList.contains("block-delete"))return;
+    const t0=e.touches[0];
+    selectBlock(block);
+    const startX=t0.clientX,startY=t0.clientY;
+    const origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;
+    let dragging=false;
+    function onMove(mv){
+      const t=mv.touches[0];
+      const dx=t.clientX-startX,dy=t.clientY-startY;
+      if(!dragging&&(Math.abs(dx)>6||Math.abs(dy)>6)){dragging=true;block.style.opacity=".82";block.style.zIndex="99";}
+      if(dragging){
+        mv.preventDefault();
+        block.style.left=Math.max(0,origL+dx)+"px";
+        block.style.top=Math.max(0,origT+dy)+"px";
+      }
+    }
+    function onEnd(){
+      block.removeEventListener("touchmove",onMove);block.removeEventListener("touchend",onEnd);
+      block.style.opacity="";block.style.zIndex="";dragging=false;
+    }
+    block.addEventListener("touchmove",onMove,{passive:false});
+    block.addEventListener("touchend",onEnd);
+  },{passive:true});
 
   return block;
 }
 
 function selectBlock(block){
-  if(selectedBlock&&selectedBlock!==block) selectedBlock.classList.remove("selected");
-  selectedBlock=block;
-  block.classList.add("selected");
+  if(selectedBlock&&selectedBlock!==block)selectedBlock.classList.remove("selected");
+  selectedBlock=block;block.classList.add("selected");
 }
 function deselectAll(){
   if(selectedBlock){selectedBlock.classList.remove("selected");selectedBlock=null;}
 }
 function selectAllContent(el){
-  const r=document.createRange(); r.selectNodeContents(el);
-  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  const r=document.createRange();r.selectNodeContents(el);
+  const s=window.getSelection();s.removeAllRanges();s.addRange(r);
 }
 
-/* ══ RESIZE ══ */
+/* ══ RESIZE — MOUSE ══ */
 function makeResizable(block,handle,dir){
   handle.addEventListener("mousedown",e=>{
-    e.preventDefault(); e.stopPropagation();
+    e.preventDefault();e.stopPropagation();
     const sx=e.clientX,sy=e.clientY,sw=block.offsetWidth,sh=block.offsetHeight;
     const sl=parseInt(block.style.left)||0,st=parseInt(block.style.top)||0;
     function onMove(mv){
       const dx=mv.clientX-sx,dy=mv.clientY-sy;
       let w=sw,h=sh,l=sl,t=st;
-      if(dir.includes("e")) w=Math.max(60,sw+dx);
-      if(dir.includes("s")) h=Math.max(24,sh+dy);
+      if(dir.includes("e"))w=Math.max(60,sw+dx);
+      if(dir.includes("s"))h=Math.max(28,sh+dy);
       if(dir.includes("w")){w=Math.max(60,sw-dx);l=sl+(sw-w);}
-      if(dir.includes("n")){h=Math.max(24,sh-dy);t=st+(sh-h);}
-      block.style.width=w+"px"; block.style.height=h+"px";
-      block.style.left=l+"px"; block.style.top=t+"px";
+      if(dir.includes("n")){h=Math.max(28,sh-dy);t=st+(sh-h);}
+      block.style.width=w+"px";block.style.height=h+"px";
+      block.style.left=l+"px";block.style.top=t+"px";
     }
     function onUp(){document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);}
-    document.addEventListener("mousemove",onMove);
-    document.addEventListener("mouseup",onUp);
+    document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);
   });
+}
+
+/* ══ RESIZE — TOUCH ══ */
+function makeTouchResizable(block,handle,dir){
+  handle.addEventListener("touchstart",e=>{
+    e.stopPropagation();e.preventDefault();
+    const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY;
+    const sw=block.offsetWidth,sh=block.offsetHeight;
+    const sl=parseInt(block.style.left)||0,st=parseInt(block.style.top)||0;
+    function onMove(mv){
+      mv.preventDefault();
+      const t=mv.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+      let w=sw,h=sh,l=sl,tt=st;
+      if(dir.includes("e"))w=Math.max(60,sw+dx);
+      if(dir.includes("s"))h=Math.max(28,sh+dy);
+      if(dir.includes("w")){w=Math.max(60,sw-dx);l=sl+(sw-w);}
+      if(dir.includes("n")){h=Math.max(28,sh-dy);tt=st+(sh-h);}
+      block.style.width=w+"px";block.style.height=h+"px";
+      block.style.left=l+"px";block.style.top=tt+"px";
+    }
+    function onEnd(){
+      document.removeEventListener("touchmove",onMove);document.removeEventListener("touchend",onEnd);
+    }
+    document.addEventListener("touchmove",onMove,{passive:false});
+    document.addEventListener("touchend",onEnd);
+  },{passive:false});
 }
 
 /* ══ CANVAS UTILS ══ */
@@ -986,7 +1633,7 @@ function changeCanvasSize(){
 function clearCanvas(){
   showConfirmModal("Tüm blokları silmek istediğine emin misin?",()=>{
     document.getElementById("editor-canvas").querySelectorAll(".e-block").forEach(b=>b.remove());
-    selectedBlock=null; activeInner=null; updateBlockCount();
+    selectedBlock=null;activeInner=null;updateBlockCount();
   });
 }
 
@@ -994,8 +1641,7 @@ function clearCanvas(){
 function saveArticle(){
   const title=(document.getElementById("ed-title").value||"").trim();
   const location=(document.getElementById("ed-location").value||"").trim();
-  if(!title){ alert("Lütfen bir başlık girin."); document.getElementById("ed-title").focus(); return; }
-
+  if(!title){alert("Lütfen bir başlık girin.");document.getElementById("ed-title").focus();return;}
   const canvas=document.getElementById("editor-canvas");
   const blocks=[];
   canvas.querySelectorAll(".e-block").forEach(block=>{
@@ -1006,26 +1652,23 @@ function saveArticle(){
     else content=inner.innerHTML;
     blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content});
   });
-
   const slug=editingSlug||slugify(title);
   const payload={title,location,slug,blocks,createdAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
-
   if(isAdmin()){
     db.ref("articles/"+slug).set(payload,err=>{
       if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}
-      setStatus("Kaydedildi!"); navigate("article/"+slug);
+      setStatus("Kaydedildi! ✅");navigate("article/"+slug);
     });
-  } else {
-    // Send to pending for admin approval
+  }else{
     const pkey=slug+"_"+Date.now();
     db.ref("pending/"+pkey).set(payload,err=>{
       if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}
-      setStatus("Onaya gönderildi!");
+      setStatus("Onaya gönderildi! ✅");
       document.getElementById("main-content").innerHTML=`
         <div class="page-wrap"><div class="page-body">
-          <div class="notice success">✅ İçeriğiniz admin onayına gönderildi! Onaylandıktan sonra yayınlanacak.</div>
-          <button class="btn-save" onclick="goHome()" style="margin-top:10px">Ana Sayfaya Dön</button>
+          <div class="notice success">✅ İçeriğiniz admin onayına gönderildi!</div>
+          <button class="btn-save" onclick="goHome()" style="margin-top:12px">🏠 Ana Sayfaya Dön</button>
         </div></div>`;
     });
   }
@@ -1036,10 +1679,11 @@ let modalCb=null;
 function closeModal(){
   document.getElementById("modal-overlay").style.display="none";
   document.getElementById("modal-footer").style.display="flex";
-  modalCb=null;
+  modalCb=null;window._tplModalCb=null;
 }
 function closeModalOutside(e){if(e.target.id==="modal-overlay")closeModal();}
 function confirmModal(){
+  if(window._tplModalCb){if(window._tplModalCb()!==false)closeModal();return;}
   if(typeof modalCb==="function"){
     const inputs=document.querySelectorAll("#modal-body input[data-id],#modal-body textarea[data-id]");
     if(inputs.length){const v={};inputs.forEach(i=>v[i.dataset.id]=i.value);modalCb(v);}
@@ -1050,7 +1694,7 @@ function confirmModal(){
 function showConfirmModal(msg,cb){
   modalCb=cb;
   document.getElementById("modal-title").textContent="Onayla";
-  document.getElementById("modal-body").innerHTML=`<p>${escHtml(msg)}</p>`;
+  document.getElementById("modal-body").innerHTML=`<p style="font-size:15px;">${escHtml(msg)}</p>`;
   document.getElementById("modal-ok").textContent="Evet";
   document.getElementById("modal-cancel").textContent="Hayır";
   document.getElementById("modal-footer").style.display="flex";
@@ -1072,20 +1716,20 @@ function showImageModal(cb){
   document.getElementById("modal-title").textContent="🖼️ Resim Ekle";
   document.getElementById("modal-footer").style.display="none";
   document.getElementById("modal-body").innerHTML=`
+    <div class="notice" style="margin-bottom:12px;">💡 Resim URL'si girin. <b>imgur.com</b>, <b>postimg.cc</b> veya <b>wikimedia.org</b> önerilir.</div>
     <label>Resim URL'si:</label>
-    <input type="text" id="img-url" placeholder="https://i.imgur.com/… veya başka bir URL" style="margin-bottom:8px;">
-    <div style="display:flex;gap:8px;margin-bottom:10px;">
-      <button onclick="confirmImgUrl()" style="flex:1;padding:7px;background:linear-gradient(to bottom,#3679d8,#2a62c0);color:white;border:none;cursor:pointer;border-radius:2px;font-family:inherit;font-size:13px;">✅ Ekle</button>
-      <button onclick="closeModal()" style="padding:7px 14px;background:#eaecf0;border:1px solid #aaa;cursor:pointer;border-radius:2px;font-family:inherit;font-size:13px;">İptal</button>
+    <input type="text" id="img-url" placeholder="https://i.imgur.com/xxxxx.jpg" style="margin-bottom:8px;">
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <button onclick="confirmImgUrl()" style="flex:1;padding:8px;background:linear-gradient(135deg,#2a5bd6,#1e40a8);color:white;border:none;cursor:pointer;border-radius:3px;font-family:var(--font-ui);font-size:13px;">✅ Ekle</button>
+      <button onclick="closeModal()" style="padding:8px 16px;background:#eaecf0;border:1px solid #aaa;cursor:pointer;border-radius:3px;font-family:var(--font-ui);font-size:13px;">İptal</button>
     </div>
-    <div class="modal-preview" id="img-preview"><span class="no-preview">URL gir → önizleme burada görünür</span></div>
-    <p style="font-size:11px;color:var(--muted);margin-top:6px;">💡 Önerilen: imgur.com, wikimedia.org, i.postimg.cc — CORS'a izin veren siteler</p>`;
+    <div class="modal-preview" id="img-preview"><span class="no-preview">URL gir → önizleme burada görünür</span></div>`;
   const input=document.getElementById("img-url");
   const preview=document.getElementById("img-preview");
   input.addEventListener("input",()=>{
     const url=input.value.trim();
-    if(!url){preview.innerHTML='<span class="no-preview">URL gir → önizleme burada görünür</span>';return;}
-    preview.innerHTML=`<img src="${escHtml(url)}" onerror="this.parentElement.innerHTML='<span class=\\'no-preview\\'>❌ Resim yüklenemedi</span>'" style="max-width:100%;max-height:200px;object-fit:contain;">`;
+    if(!url){preview.innerHTML='<span class="no-preview">URL gir → önizleme</span>';return;}
+    preview.innerHTML=`<img src="${escHtml(url)}" onerror="this.parentElement.innerHTML='<span class=\\'no-preview\\'>❌ Yüklenemedi</span>'" style="max-width:100%;max-height:200px;object-fit:contain;">`;
   });
   input.addEventListener("keydown",e=>{if(e.key==="Enter")confirmImgUrl();});
   window._imgCb=cb;
@@ -1102,7 +1746,7 @@ function confirmImgUrl(){
 /* ══ SEARCH ══ */
 function doSearch(){
   const q=(document.getElementById("search-input").value||"").trim().toLowerCase();
-  if(!q) return;
+  if(!q)return;
   setStatus("Aranıyor: "+q);
   db.ref("articles").once("value",snap=>{
     const data=snap.val();
@@ -1113,30 +1757,27 @@ function doSearch(){
     document.title=`"${q}" — Bilinmeyen Dünya`;
     el.innerHTML=`
       <div class="page-wrap">
-        <div class="page-tabs"><span class="page-tab active">Arama</span></div>
+        <div class="page-tabs"><span class="page-tab active">🔍 Arama</span></div>
         <div class="page-body">
           <h1 class="article-title-h1">Arama: "${escHtml(q)}"</h1>
-          <p style="color:var(--muted);margin-bottom:12px;">${res.length} sonuç</p>
+          <p style="color:var(--muted);margin-bottom:14px;font-family:var(--font-ui);font-size:13px;">${res.length} sonuç</p>
           ${res.length?res.map(a=>`<div class="article-card">
             <div class="article-card-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div>
-            <div class="article-card-meta">${escHtml(a.location||"Anonim")} — ${new Date(a.createdAt).toLocaleString("tr-TR")}</div>
-          </div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}
+            <div class="article-card-meta">📍 ${escHtml(a.location||"Anonim")} &bull; 📅 ${new Date(a.createdAt).toLocaleDateString("tr-TR")}</div>
+          </div>`).join(""):'<div class="empty-state">📭 Sonuç bulunamadı.</div>'}
         </div>
       </div>`;
     setStatus(res.length+" sonuç");
   });
 }
 
-/* ══ UTILS ══ */
-function escHtml(s){if(typeof s!=="string")return"";return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-function stripTags(s){return(s||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();}
-
-/* KEYBOARD */
+/* ══ KEYBOARD ══ */
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape"){closeModal();closeEmojiPicker();}
+  if((e.ctrlKey||e.metaKey)&&e.key==="s"){e.preventDefault();if(document.getElementById("ed-title"))saveArticle();}
 });
 
-/* LIVE ARTICLE COUNT */
+/* ══ LIVE COUNT ══ */
 db.ref("articles").on("value",snap=>{
   const n=snap.val()?Object.keys(snap.val()).length:0;
   const el=document.getElementById("article-count");
@@ -1145,6 +1786,7 @@ db.ref("articles").on("value",snap=>{
 
 /* ══ INIT ══ */
 loadSession();
+seedTemplates();
 router();
 </script>
 </body>
