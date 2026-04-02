@@ -493,6 +493,62 @@ const firebaseConfig={apiKey:"AIzaSyDAR05cMYAUjkub0smCQHpUZeoGPYe5vL0",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 
+/* ══ IMAGE CACHE — [[File:ad.png]] için Firebase görsellerini önbelleğe al ══ */
+window._imageCache = {}; // key: normalize edilmiş isim → dataUrl
+
+function preloadFirebaseImages(){
+  return new Promise(resolve=>{
+    db.ref("images").once("value",snap=>{
+      window._imageCache = {};
+      const data = snap.val();
+      if(data){
+        Object.values(data).forEach(img=>{
+          if(img.name && img.dataUrl){
+            // Hem orijinal adla hem küçük harfle hem de uzantısız olarak kaydet
+            const norm = img.name.trim();
+            window._imageCache[norm] = img.dataUrl;
+            window._imageCache[norm.toLowerCase()] = img.dataUrl;
+            // uzantısız
+            const noExt = norm.replace(/\.[^.]+$/, "");
+            window._imageCache[noExt] = img.dataUrl;
+            window._imageCache[noExt.toLowerCase()] = img.dataUrl;
+          }
+        });
+      }
+      resolve();
+    });
+  });
+}
+
+// Firebase images değişince cache'i güncelle
+db.ref("images").on("value", snap=>{
+  window._imageCache = {};
+  const data = snap.val();
+  if(data){
+    Object.values(data).forEach(img=>{
+      if(img.name && img.dataUrl){
+        const norm = img.name.trim();
+        window._imageCache[norm] = img.dataUrl;
+        window._imageCache[norm.toLowerCase()] = img.dataUrl;
+        const noExt = norm.replace(/\.[^.]+$/, "");
+        window._imageCache[noExt] = img.dataUrl;
+        window._imageCache[noExt.toLowerCase()] = img.dataUrl;
+      }
+    });
+  }
+});
+
+// Cache'den görsel URL'si bul — büyük/küçük harf ve uzantı farkını tolere eder
+function getCachedImageUrl(filename){
+  if(!filename) return null;
+  const f = filename.trim();
+  return window._imageCache[f]
+      || window._imageCache[f.toLowerCase()]
+      || window._imageCache[f.replace(/\.[^.]+$/, "")]
+      || window._imageCache[f.replace(/\.[^.]+$/, "").toLowerCase()]
+      || null;
+}
+
 /* ══ BUILT-IN TEMPLATES ══ */
 const BUILTIN_TEMPLATES=[
   {name:"Öne Çıkan",slug:"one-cikan",desc:"Kırmızı-turuncu gradyan banner",html:`<table style="margin:5px auto;padding:.2em;width:fit-content;background:linear-gradient(180deg,#d60022,#d75f09,#F7C800);border:2px solid #000;font-size:95%;text-align:center;border-collapse:collapse;" cellspacing="0" cellpadding="0"><tr><td style="padding:6px 10px;"><span style="font-size:1.4em;color:#fff;text-shadow:-1px -1px #000,1px -1px #000,-1px 1px #000,1px 1px #000"><b>{{{içerik|Bu sayfa öne çıkarılmıştır!}}}</b></span><br><span style="color:#fff;text-shadow:-1px -1px #000,1px -1px #000,-1px 1px #000,1px 1px #000">{{{alt|Önemli içerik}}}</span></td></tr></table>`},
@@ -682,7 +738,10 @@ function closeSidebar(){document.getElementById("sidebar").classList.remove("mob
 /* ══ TEMPLATE ENGINE ══ */
 function renderTemplate(html,args){return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{name=name.trim();if(args&&args[name]!==undefined)return args[name];return def!==undefined?def:"";});}
 
-/* ══ WIKI MARKUP PROCESSOR ══ */
+/* ══ WIKI MARKUP PROCESSOR ══
+   [[File:Kerem.png|180px]] → Firebase cache'den gerçek img etiketi
+   Eğer cache'de yoksa placeholder göster
+*/
 function convertWikiTable(text){
   return text.replace(/\{\|([^\n]*)\n([\s\S]*?)\n?\|\}/g,function(match,attrs,body){
     let tableAttr=attrs.trim();let html=`<table ${tableAttr}>`;
@@ -691,12 +750,35 @@ function convertWikiTable(text){
     return html+'</table>';
   });
 }
+
 function processWikiMarkup(html){
   if(!html)return html;
   html=html.replace(/<includeonly>([\s\S]*?)<\/includeonly>/gi,'$1');
   html=html.replace(/<noinclude>[\s\S]*?<\/noinclude>/gi,'');
   html=convertWikiTable(html);
-  html=html.replace(/\[\[(?:File|Dosya|Image|Resim):([^\]|]+)(?:\|([^\]]*))?\]\]/gi,function(m,filename,params){filename=filename.trim();let width='180';if(params){const sm=params.match(/(\d+)px/);if(sm)width=sm[1];}return`<span style="color:#888;font-style:italic;border:1px dashed #bbb;padding:1px 5px;font-size:8pt;display:inline-block;">📷 ${escHtml(filename)}</span>`;});
+
+  // ══ [[File:...]] / [[Dosya:...]] / [[Image:...]] / [[Resim:...]] ══
+  // Cache'den gerçek görsel yükle; yoksa placeholder
+  html=html.replace(/\[\[(?:File|Dosya|Image|Resim):([^\]|]+)(?:\|([^\]]*))?\]\]/gi,function(m,filename,params){
+    filename=filename.trim();
+    let width='180';
+    let floatStyle='';
+    if(params){
+      // boyut: 180px
+      const sm=params.match(/(\d+)px/);if(sm)width=sm[1];
+      // hizalama: right/left/center/thumb
+      if(/\bright\b/i.test(params))floatStyle='float:right;margin:0 0 8px 12px;';
+      else if(/\bleft\b/i.test(params))floatStyle='float:left;margin:0 12px 8px 0;';
+      else if(/\bcenter\b/i.test(params))floatStyle='display:block;margin:0 auto;';
+    }
+    const cachedUrl = getCachedImageUrl(filename);
+    if(cachedUrl){
+      return `<img src="${escHtml(cachedUrl)}" alt="${escHtml(filename)}" style="width:${width}px;max-width:100%;height:auto;border:1px solid #d9bfb7;${floatStyle}" loading="lazy">`;
+    }
+    // Cache'de yok → placeholder (küçük ve net)
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:#f0e0d6;border:1px dashed #d9bfb7;padding:2px 6px;font-size:8pt;color:#a98;border-radius:2px;" title="${escHtml(filename)}">📷 ${escHtml(filename)}</span>`;
+  });
+
   html=html.replace(/\[\[([^\]|#\n]+)(?:\|([^\]\n]*))?\]\]/g,function(m,target,text){const sl=slugify(target.trim());const label=text?text.trim():target.trim();return`<a href="#article/${sl}" onclick="event.preventDefault();navigate('article/${sl}')">${escHtml(label)}</a>`;});
   html=html.replace(/'''([\s\S]*?)'''/g,'<b>$1</b>');
   html=html.replace(/''([\s\S]*?)''/g,'<i>$1</i>');
@@ -712,8 +794,7 @@ function renderHome(){
   document.title="Ana Sayfa — Bilinmeyen Dünya";setStatus("Ana sayfa");
   const mc=document.getElementById("main-content");
   mc.innerHTML=`<div class="empty-state">Yükleniyor…</div>`;
-  db.ref("homepage").once("value",async snap=>{
-    const templates=await loadAllTemplates();
+  Promise.all([db.ref("homepage").once("value"), loadAllTemplates(), preloadFirebaseImages()]).then(([snap, templates])=>{
     const hp=snap.val();
     const adminActions=isAdmin()?`<a onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</a>`:""
     if(!hp||!(hp.blocks&&hp.blocks.length)){
@@ -754,12 +835,16 @@ function editHomepage(){
 async function loadArticle(slug){
   if(slug==="__homepage__"){renderHomepageEditor();return;}
   setStatus("Yükleniyor…");
-  const [snap,templates]=await Promise.all([db.ref("articles/"+slug).once("value"),loadAllTemplates()]);
+  // Önce image cache'i yükle, sonra makaleyi render et
+  const [snap, templates] = await Promise.all([
+    db.ref("articles/"+slug).once("value"),
+    loadAllTemplates(),
+    preloadFirebaseImages()
+  ]);
   if(!snap.exists()){document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">⚠️ Bu sayfa mevcut değil.</div><button class="btn-post" onclick="openEditor()">Sayfa Oluştur</button></div></div>`;setStatus("404");return;}
   const a=snap.val();
   document.title=a.title+" — Bilinmeyen Dünya";setStatus("Yüklendi: "+a.title);
   const ch=computeCanvasH(a.blocks||[]);
-  // FIX: template blokları için tplTag ile render et
   const bHtml=(a.blocks||[]).map(b=>{
     const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";
     if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;
@@ -783,10 +868,8 @@ function deleteArticle(slug){showConfirmModal("Bu sayfayı sil?",()=>{db.ref("ar
 function renderTemplateTags(html, templates){
   if(!html) return "";
   html = processWikiMarkup(html);
-  // FIX: hem {{ hem de {{{ desteği
   return html.replace(/\{\{(\{)?([^}|#]+?)(\|[^}]*)?\}\}\}?/g, (match, triple, name, argsStr) => {
     name = (triple ? name : (name || "")).trim();
-    // Eğer üçlü parantez varsa, raw HTML olarak render et (escape yapma)
     const isRaw = !!triple;
     const tpl = templates.find(t => t.name === name || t.slug === slugify(name));
     if(!tpl) return match;
@@ -862,15 +945,33 @@ function openTemplateEditor(slug){
   setTimeout(()=>{const n=document.getElementById("tpl-name");if(n&&isNew)n.focus();else{const h=document.getElementById("tpl-html");if(h)h.focus();}},60);
 }
 function copyTplCode(){const el=document.getElementById("tpl-html");if(!el)return;el.select();try{document.execCommand("copy");setStatus("Kod kopyalandı!");}catch(e){navigator.clipboard.writeText(el.value).then(()=>setStatus("Kod kopyalandı!")).catch(()=>alert("Kopyalanamadı."));}}
-function previewTemplateHtml(){const html=document.getElementById("tpl-html").value||"";const box=document.getElementById("tpl-prev-box");box.style.display="block";box.innerHTML=processWikiMarkup(renderTemplate(html,{}));}
+function previewTemplateHtml(){
+  const html=document.getElementById("tpl-html").value||"";
+  const box=document.getElementById("tpl-prev-box");box.style.display="block";
+  // Önizlemede de cache kullan
+  preloadFirebaseImages().then(()=>{
+    box.innerHTML=processWikiMarkup(renderTemplate(html,{}));
+  });
+}
 function deleteTemplate(slug){showConfirmModal("Bu şablonu sil?",()=>{db.ref("templates/"+slug).remove(()=>{setStatus("Silindi.");reloadTplList();refreshEditorTplPanel();});});}
-function previewTemplate(slug){loadAllTemplates().then(templates=>{const t=templates.find(t=>t.slug===slug);if(!t)return;document.getElementById("modal-title").textContent="👁 "+t.name;document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";});}
+function previewTemplate(slug){
+  loadAllTemplates().then(templates=>{
+    const t=templates.find(t=>t.slug===slug);if(!t)return;
+    preloadFirebaseImages().then(()=>{
+      document.getElementById("modal-title").textContent="👁 "+t.name;
+      document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>`;
+      document.getElementById("modal-footer").style.display="none";
+      document.getElementById("modal-overlay").style.display="flex";
+    });
+  });
+}
 
 /* ══ EDITOR TEMPLATE PANEL ══ */
 let editorTplCache=[];
 
 async function refreshEditorTplPanel(){
   editorTplCache=await loadAllTemplates();
+  await preloadFirebaseImages();
   // Desktop sol panel
   const list=document.getElementById("ed-tpl-list");
   if(list){
@@ -975,7 +1076,13 @@ function renderAdmin(){
 }
 function approvePending(key){db.ref("pending/"+key).once("value",snap=>{if(!snap.exists())return;const p=snap.val();db.ref("articles/"+p.slug).set(p,err=>{if(err){alert("Hata: "+err.message);return;}db.ref("pending/"+key).remove();setStatus("Onaylandı: "+p.title);renderAdmin();});});}
 function rejectPending(key){showConfirmModal("Reddet?",()=>{db.ref("pending/"+key).remove(()=>{renderAdmin();setStatus("Reddedildi.");});});}
-async function previewPending(key){const [snap,templates]=await Promise.all([db.ref("pending/"+key).once("value"),loadAllTemplates()]);if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";}
+async function previewPending(key){
+  const [snap, templates] = await Promise.all([
+    db.ref("pending/"+key).once("value"),
+    loadAllTemplates(),
+    preloadFirebaseImages()
+  ]);
+  if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";}
 
 /* ══ EDITOR ══ */
 let selectedBlock=null,editingSlug=null,blockIdCounter=0,activeInner=null,lastSpawnX=30,lastSpawnY=30;
@@ -1128,7 +1235,6 @@ function loadBlock(b){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   if(b.type==="template"){
     const tpl=editorTplCache.find(t=>t.slug===b.tplSlug)||null;
-    // FIX: editörde yüklerken tplTag'ı renderla (önizleme için), ama tplTag'ı koru
     const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,{})):b.content;
     const block=createBlock("template",parseInt(b.left)||10,parseInt(b.top)||10);
     if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
@@ -1239,7 +1345,7 @@ function makeTouchResizable(block,handle,dir){handle.addEventListener("touchstar
 function changeCanvasSize(){showInputModal("⤢ Tuval Boyutu",[{id:"cvw",label:"Genişlik (px):",placeholder:"900",type:"number"},{id:"cvh",label:"Yükseklik (px):",placeholder:"600",type:"number"}],vals=>{const inner=document.getElementById("editor-canvas-inner");if(inner){if(vals.cvw)inner.style.minWidth=(parseInt(vals.cvw)||900)+"px";if(vals.cvh)inner.style.minHeight=(parseInt(vals.cvh)||600)+"px";}});}
 function clearCanvas(){showConfirmModal("Tüm blokları sil?",()=>{document.getElementById("editor-canvas-inner").querySelectorAll(".e-block").forEach(b=>b.remove());selectedBlock=null;activeInner=null;updateBlockCount();});}
 
-/* ══ SAVE — FIX: template blokları için tplTag kaydet, innerHTML DEĞİL ══ */
+/* ══ SAVE ══ */
 function saveArticle(){
   if(isHomepageEditor){
     if(!isAdmin()){alert("Sadece admin kaydedebilir.");return;}
@@ -1250,7 +1356,6 @@ function saveArticle(){
         const img=inner.querySelector("img");
         blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});
       } else if(type==="template"){
-        // Şablonu tag olarak kaydet, önizlenmiş HTML olarak DEĞİL
         blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
       } else {
         blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
@@ -1272,7 +1377,6 @@ function saveArticle(){
       const img=inner.querySelector("img");
       blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});
     } else if(type==="template"){
-      // Şablonu tag olarak kaydet, önizlenmiş HTML olarak DEĞİL
       blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
     } else {
       blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
@@ -1307,7 +1411,11 @@ document.addEventListener("keydown",e=>{
 db.ref("articles").on("value",snap=>{const n=snap.val()?Object.keys(snap.val()).length:0;const el=document.getElementById("article-count");if(el)el.textContent=n+" sayfa";});
 
 /* ══ INIT ══ */
-loadSession();seedTemplates();renderSidebarImages();router();
+loadSession();
+seedTemplates();
+renderSidebarImages();
+// Image cache'i önceden yükle, sonra router'ı çalıştır
+preloadFirebaseImages().then(()=>router());
 </script>
 </body>
 </html>
