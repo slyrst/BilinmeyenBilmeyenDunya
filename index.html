@@ -780,13 +780,32 @@ function computeCanvasH(blocks){let max=300;blocks.forEach(b=>{max=Math.max(max,
 function deleteArticle(slug){showConfirmModal("Bu sayfayı sil?",()=>{db.ref("articles/"+slug).remove(()=>goHome());});}
 
 /* ══ RENDER TEMPLATE TAGS ══ */
-function renderTemplateTags(html,templates){
-  if(!html)return"";
-  html=processWikiMarkup(html);
-  return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{
-    name=name.trim();const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));if(!tpl)return match;
-    const args={};if(argsStr){const parts=argsStr.slice(1).split("|");parts.forEach((p,i)=>{const eq=p.indexOf("=");if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}else{args[i+1]=p;args[i]=p;}});}
-    const rendered=renderTemplate(tpl.html,args);return`<span class="tpl-render">${processWikiMarkup(rendered)}</span>`;
+function renderTemplateTags(html, templates){
+  if(!html) return "";
+  html = processWikiMarkup(html);
+  // FIX: hem {{ hem de {{{ desteği
+  return html.replace(/\{\{(\{)?([^}|#]+?)(\|[^}]*)?\}\}\}?/g, (match, triple, name, argsStr) => {
+    name = (triple ? name : (name || "")).trim();
+    // Eğer üçlü parantez varsa, raw HTML olarak render et (escape yapma)
+    const isRaw = !!triple;
+    const tpl = templates.find(t => t.name === name || t.slug === slugify(name));
+    if(!tpl) return match;
+    const args = {};
+    if(argsStr){
+      const parts = argsStr.slice(1).split("|");
+      parts.forEach((p,i) => {
+        const eq = p.indexOf("=");
+        if(eq > 0) {
+          args[p.slice(0,eq).trim()] = p.slice(eq+1);
+        } else {
+          args[i+1] = p;
+          args[i] = p;
+        }
+      });
+    }
+    let rendered = renderTemplate(tpl.html, args);
+    if(!isRaw) rendered = processWikiMarkup(rendered);
+    return `<span class="tpl-render">${rendered}</span>`;
   });
 }
 
