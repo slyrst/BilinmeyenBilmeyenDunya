@@ -6,14 +6,14 @@
 <title>Bilinmeyen Dünya</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:arial,helvetica,sans-serif;font-size:10pt;background:#ffe;color:#800000;padding-top:28px;padding-bottom:80px;} /* Alt boşluk artırıldı */
+body{font-family:arial,helvetica,sans-serif;font-size:10pt;background:#ffe;color:#800000;padding-top:28px;padding-bottom:80px;}
 a,a:visited{color:#0000ff;text-decoration:underline;}
 a:hover{color:#d00;}
 h1{font-family:tahoma;letter-spacing:-2px;font-size:20pt;text-align:center;color:#800000;}
 h2{font-size:11pt;}
 hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 
-/* ÜST NAVBAR - HER ZAMAN SABİT */
+/* ÜST NAVBAR */
 #topnav{position:fixed;top:0;left:0;right:0;z-index:9999;background:#e8722a;border-bottom:1px solid #c45a18;padding:2px 6px;font-size:9pt;white-space:nowrap;overflow-x:auto;display:flex;align-items:center;gap:4px;box-shadow:0 2px 6px rgba(0,0,0,.18);}
 #topnav::-webkit-scrollbar{height:0;}
 #topnav a{color:#fff5ee!important;text-decoration:none;}
@@ -22,21 +22,22 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 #topnav strong{color:#fff;font-size:10pt;cursor:pointer;}
 #topnav-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-shrink:0;}
 
-/* MOBİL İÇİN EDİTÖR ARAÇ ÇUBUĞUNU ÜSTE SABİTLEME */
+/* EDİTÖR ARAÇ ÇUBUĞU — PC ve MOBİL STICKY */
 .wiki-tb {
+    position: -webkit-sticky;
     position: sticky;
-    top: 24px; /* Turuncu navbar'ın hemen altı */
+    top: 28px; /* topnav yüksekliği */
     z-index: 999;
     background: #f0e0d6;
     border: 1px solid #d9bfb7;
     padding: 4px;
     display: flex;
-    flex-wrap: nowrap; /* Mobilde taşmasın diye yana kaydırılabilir yaptık */
+    flex-wrap: nowrap;
     overflow-x: auto;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
-/* EDİTÖR ALT BARINI (KAYDET/İPTAL) ALTA SABİTLEME */
+/* EDİTÖR ALT BARI */
 .ed-bar {
     position: fixed;
     bottom: 0;
@@ -108,7 +109,6 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 .ed-loc{font-size:9pt;border:1px solid #a9a9a9;padding:3px 7px;outline:none;width:220px;background:#fff;color:#800000;}
 .ed-loc:focus{border-color:#e87020;}
 
-/* Araç çubuğu mobil uyumu için ekleme */
 .tbg{display:flex;gap:1px;border-right:1px solid #c8b8b0;padding-right:3px;margin-right:2px;flex-shrink:0;}
 .tbg:last-child{border-right:none;}
 .tb{padding:4px 8px;font-size:10pt;border:1px solid transparent;background:transparent;cursor:pointer;color:#800000;white-space:nowrap;min-width:22px;text-align:center;}
@@ -200,7 +200,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .btn-tpl.del{background:#fff0f0;border-color:#ffa0a0;color:#d00;}
 
 #status-bar{position:fixed;bottom:0;left:0;right:0;background:#f0e0d6;border-top:1px solid #d9bfb7;padding:2px 10px;font-size:9pt;color:#800;z-index:800;display:flex;gap:12px;align-items:center;}
-/* Status barı mobilde editör barının altına gizleyebiliriz veya editör açıkken saklayabiliriz */
 
 .wiki-table{border-collapse:collapse;width:100%;font-size:9pt;margin:6px 0;}
 .wiki-table th,.wiki-table td{border:1px solid #aaa;padding:4px 8px;}
@@ -254,61 +253,54 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 
 @media(max-width:700px){
   #hamburger{display:flex;}
-  #sidebar{position:fixed;left:0;top:24px;bottom:0;z-index:860;background:#ffe;width:175px;overflow-y:auto;transform:translateX(-100%);box-shadow:3px 0 12px rgba(0,0,0,.2);border-right:1px solid #d9bfb7;transition:transform .22s;}
+  #sidebar{position:fixed;left:0;top:28px;bottom:0;z-index:860;background:#ffe;width:175px;overflow-y:auto;transform:translateX(-100%);box-shadow:3px 0 12px rgba(0,0,0,.2);border-right:1px solid #d9bfb7;transition:transform .22s;}
   #layout{padding:8px 5px 60px;}
   .page-body{padding:10px 8px;}
   #search-wrap input{width:100px;}
-  .ed-tpl-panel{display:none;} /* Mobilde şablon panelini gizleyerek alan açtık */
+  .ed-tpl-panel{display:none;}
   .ed-tpl-info{width:180px;}
-  .wiki-tb { top: 24px; } /* Mobilde navbar altına tam yapışsın */
+  .wiki-tb { top: 28px; }
 }
 @media(max-width:480px){
   .ph-actions{display:none;}
   .ed-loc{width:100%;}
   .ed-tpl-panel{display:none;}
 }
-/* --- MOBİL ŞABLON PANELİ DÜZENLEMESİ --- */
 @media (max-width: 700px) {
     .ed-layout {
-        flex-direction: column !important; /* Panelleri alt alta diz */
+        flex-direction: column !important;
     }
-
     .ed-tpl-panel {
         width: 100% !important;
         height: auto !important;
-        max-height: 140px !important; /* Mobilde çok yer kaplamasın */
+        max-height: 140px !important;
         border-right: none !important;
         border-bottom: 2px solid #d9bfb7 !important;
     }
-
     .ed-tpl-list {
-        display: flex !important; /* Şablonları yan yana (yatay) diz */
+        display: flex !important;
         flex-direction: row !important;
-        overflow-x: auto !important; /* Parmağınla sağa kaydırabilmen için */
+        overflow-x: auto !important;
         padding: 8px !important;
         gap: 10px !important;
         -webkit-overflow-scrolling: touch;
     }
-
     .ed-tpl-item {
-        flex: 0 0 110px !important; /* Her şablon kutusunun genişliği */
+        flex: 0 0 110px !important;
         background: #fff !important;
         border: 1px solid #ea8 !important;
         border-radius: 4px;
         text-align: center;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-
     .ed-tpl-item-desc {
-        display: none !important; /* Mobilde açıklamayı gizle, yer kazandır */
+        display: none !important;
     }
-
     .ed-tpl-info {
-        width: 100% !important; /* Ayar kutusu tam ekran genişliği olsun */
+        width: 100% !important;
         border-left: none !important;
-        display: none; /* Seçilmediğinde gizli kalsın */
+        display: none;
     }
-    
     .ed-tpl-info.visible {
         display: flex !important;
     }
@@ -562,7 +554,81 @@ function closeSidebar(){document.getElementById("sidebar").classList.remove("mob
 /* ══ TEMPLATE ENGINE ══ */
 function renderTemplate(html,args){return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{name=name.trim();if(args&&args[name]!==undefined)return args[name];return def!==undefined?def:"";});}
 function resolveImageSrcs(html){return html.replace(/src="([^"]+)"/g,(match,src)=>{if(src.startsWith("data:")||src.startsWith("http")||src.startsWith("//"))return match;const img=getImageByName(src);return img?`src="${img.dataUrl}"`:match;});}
-function renderTemplateTags(html,templates){html=resolveImageSrcs(html);return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{name=name.trim();const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));if(!tpl)return match;const args={};if(argsStr){const parts=argsStr.slice(1).split("|");parts.forEach((p,i)=>{const eq=p.indexOf("=");if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}else{args[i+1]=p;args[i]=p;}});}return`<span class="tpl-render">${renderTemplate(tpl.html,args)}</span>`;});}
+
+/* ══ WIKI MARKUP PROCESSOR ══ */
+function convertWikiTable(text){
+  // Converts {| ... |} wiki table syntax to HTML tables
+  return text.replace(/\{\|([^\n]*)\n([\s\S]*?)\n?\|\}/g,function(match,attrs,body){
+    let tableAttr=attrs.trim();
+    let html=`<table ${tableAttr}>`;
+    // Split rows by |-
+    const rowParts=('\n'+body).split(/\n\s*\|-[^\n]*/);
+    rowParts.forEach(function(rowContent){
+      if(!rowContent.trim())return;
+      const lines=rowContent.split('\n');
+      const cells=[];
+      lines.forEach(function(line){
+        line=line.trimEnd();
+        if(!line)return;
+        if(line.charAt(0)==='!'&&line.charAt(1)!=='!'){
+          // Header row: ! cell !! cell !! cell
+          line.slice(1).split('!!').forEach(function(c){cells.push({c:c.trim(),h:true});});
+        } else if(line.charAt(0)==='|'&&line.charAt(1)!=='}'&&line.charAt(1)!=='|'&&line.charAt(1)!=='+'){
+          // Data row: | cell || cell || cell
+          line.slice(1).split('||').forEach(function(c){cells.push({c:c.trim(),h:false});});
+        }
+      });
+      if(cells.length){
+        html+='<tr>';
+        cells.forEach(function(cell){
+          const tag=cell.h?'th':'td';
+          // Check for inline cell attributes: style="..."|content
+          const pi=cell.c.indexOf('|');
+          let att='',txt=cell.c;
+          if(pi>-1){
+            const before=cell.c.slice(0,pi);
+            if(!/<|{/.test(before)&&/style=|colspan=|rowspan=|align=|width=|background|padding|color|font/.test(before)){
+              att=before.trim();txt=cell.c.slice(pi+1).trim();
+            }
+          }
+          html+=`<${tag} ${att}>${txt}</${tag}>`;
+        });
+        html+='</tr>';
+      }
+    });
+    return html+'</table>';
+  });
+}
+
+function processWikiMarkup(html){
+  if(!html)return html;
+  // 1. <includeonly> → keep content, remove tags
+  html=html.replace(/<includeonly>([\s\S]*?)<\/includeonly>/gi,'$1');
+  // 2. <noinclude> → remove entirely (with content)
+  html=html.replace(/<noinclude>[\s\S]*?<\/noinclude>/gi,'');
+  // 3. Wiki tables {|...|} → HTML tables
+  html=convertWikiTable(html);
+  // 4. [[File:name|size]] / [[Dosya:name|size]] / [[Image:name]] → <img>
+  html=html.replace(/\[\[(?:File|Dosya|Image|Resim):([^\]|]+)(?:\|([^\]]*))?\]\]/gi,function(m,filename,params){
+    filename=filename.trim();
+    let width='180';
+    if(params){const sm=params.match(/(\d+)px/);if(sm)width=sm[1];}
+    const imgObj=getImageByName(filename);
+    if(!imgObj)return`<span style="color:#888;font-style:italic;border:1px dashed #bbb;padding:1px 5px;font-size:8pt;display:inline-block;">📷 ${escHtml(filename)}</span>`;
+    return`<img src="${imgObj.dataUrl}" style="max-width:${escHtml(width)}px;height:auto;display:inline-block;border:1px solid #d9bfb7;">`;
+  });
+  // 5. [[ArticleName|Label]] or [[ArticleName]] → internal links
+  html=html.replace(/\[\[([^\]|#\n]+)(?:\|([^\]\n]*))?\]\]/g,function(m,target,text){
+    const sl=slugify(target.trim());
+    const label=text?text.trim():target.trim();
+    return`<a href="#article/${sl}" onclick="event.preventDefault();navigate('article/${sl}')">${escHtml(label)}</a>`;
+  });
+  // 6. ''italic'' → <i>
+  html=html.replace(/'''([\s\S]*?)'''/g,'<b>$1</b>');
+  html=html.replace(/''([\s\S]*?)''/g,'<i>$1</i>');
+  return html;
+}
+
 async function loadAllTemplates(){return new Promise(resolve=>{db.ref("templates").once("value",snap=>{const stored=snap.val()?Object.values(snap.val()):[];const map={};BUILTIN_TEMPLATES.forEach(t=>map[t.slug]=t);stored.forEach(t=>map[t.slug]=t);resolve(Object.values(map));});});}
 function seedTemplates(){db.ref("templates").once("value",snap=>{BUILTIN_TEMPLATES.forEach(tpl=>{if(!snap.child(tpl.slug).exists())db.ref("templates/"+tpl.slug).set(tpl);});});}
 
@@ -616,6 +682,21 @@ async function loadArticle(slug){
 function computeCanvasH(blocks){let max=300;blocks.forEach(b=>{max=Math.max(max,(parseInt(b.top)||0)+(parseInt(b.height)||150)+50);});return max;}
 function deleteArticle(slug){showConfirmModal("Bu sayfayı sil?",()=>{db.ref("articles/"+slug).remove(()=>goHome());});}
 
+/* ══ RENDER TEMPLATE TAGS — wiki markup entegre ══ */
+function renderTemplateTags(html,templates){
+  html=resolveImageSrcs(html);
+  html=processWikiMarkup(html);
+  return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{
+    name=name.trim();
+    const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));
+    if(!tpl)return match;
+    const args={};
+    if(argsStr){const parts=argsStr.slice(1).split("|");parts.forEach((p,i)=>{const eq=p.indexOf("=");if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}else{args[i+1]=p;args[i]=p;}});}
+    const rendered=renderTemplate(tpl.html,args);
+    return`<span class="tpl-render">${processWikiMarkup(rendered)}</span>`;
+  });
+}
+
 /* ══ TEMPLATES PAGE ══ */
 async function renderTemplates(){
   document.title="Şablonlar — Bilinmeyen Dünya";setStatus("Şablonlar");
@@ -624,7 +705,8 @@ async function renderTemplates(){
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">📋 Şablonlar</span></div><div class="ph-actions">${isAdm?`<a onclick="openTemplateEditor(null)" class="tpl-new-btn" style="background:#4a7d44;border:1px solid #3a6234;padding:1px 9px;color:#fff;font-weight:bold;text-decoration:none;">+ Yeni Şablon</a>`:""}<a onclick="goHome()">Ana Sayfa</a></div></div>
       <div class="page-body">
-        <div class="notice">Şablonlar: <code style="background:#f0e0d6;padding:1px 4px;border:1px solid #d9bfb7;">{{ŞablonAdı|parametre=değer}}</code> şeklinde kullanılır.</div>
+        <div class="notice">Şablonlar: <code style="background:#f0e0d6;padding:1px 4px;border:1px solid #d9bfb7;">{{ŞablonAdı|parametre=değer}}</code> şeklinde kullanılır.<br>
+        Wiki sözdizimi desteklenir: <code>[[File:resim.png|150px]]</code> · <code>[[Bağlantı|Metin]]</code> · <code>&#39;&#39;italik&#39;&#39;</code> · <code>&#39;&#39;&#39;kalın&#39;&#39;&#39;</code> · <code>{|...|}</code> wikitablo</div>
         <p class="art-title" style="font-size:12pt;margin:10px 0 8px;">Mevcut Şablonlar</p>
         <div id="tpl-list">${renderTplCards(templates,isAdm)}</div>
       </div>
@@ -636,7 +718,7 @@ function renderTplCards(templates,isAdm){
 }
 async function reloadTplList(){const t=await loadAllTemplates();const el=document.getElementById("tpl-list");if(el)el.innerHTML=renderTplCards(t,isAdmin());}
 
-/* ══ TEMPLATE CODE EDITOR MODAL (NEW/EDIT) ══ */
+/* ══ TEMPLATE CODE EDITOR MODAL ══ */
 function openTemplateEditor(slug){
   const isNew=!slug;
   document.getElementById("modal-title").textContent=isNew?"➕ Yeni Şablon Oluştur":"✏️ Şablon Düzenle";
@@ -648,16 +730,16 @@ function openTemplateEditor(slug){
     <input type="text" id="tpl-name" placeholder="ör: Uyarı Kutusu" ${!isNew?"readonly":""} style="font-family:arial;">
     <label>Açıklama:</label>
     <input type="text" id="tpl-desc" placeholder="Kısa açıklama…" style="font-family:arial;">
-    <label>HTML Kodu <span style="font-weight:normal;font-size:8pt;color:#800;">— Değişkenler: <code style="background:#f0e0d6;padding:1px 3px;">{{{değişken|varsayılan}}}</code></span>:</label>
+    <label>HTML Kodu <span style="font-weight:normal;font-size:8pt;color:#800;">— Değişkenler: <code style="background:#f0e0d6;padding:1px 3px;">{{{değişken|varsayılan}}}</code> · Wiki: <code>[[File:ad.png|180px]]</code></span>:</label>
     <div class="code-editor-wrap">
-      <textarea id="tpl-html" rows="10" style="font-family:'Courier New',monospace;font-size:9pt;resize:vertical;background:#1e1e1e;color:#d4d4d4;border:1px solid #555;padding:8px;line-height:1.5;width:100%;outline:none;" placeholder='&lt;div style="border-left:3px solid #800000;padding:8px;"&gt;\n  {{{başlık|Başlık}}}\n  {{{içerik|İçerik buraya}}}\n&lt;/div&gt;' spellcheck="false"></textarea>
-      <div class="ce-hint">💡 Ctrl+A ile tümünü seçip yapıştırabilirsin. Değişkenler <code>{{{isim|varsayılan}}}</code> formatında.</div>
+      <textarea id="tpl-html" rows="10" style="font-family:'Courier New',monospace;font-size:9pt;resize:vertical;background:#1e1e1e;color:#d4d4d4;border:1px solid #555;padding:8px;line-height:1.5;width:100%;outline:none;" spellcheck="false"></textarea>
+      <div class="ce-hint">💡 Değişkenler: <code>{{{isim|varsayılan}}}</code> · Görseller: <code>[[File:Kerem.png|180px]]</code> · Wikitablo: <code>{|...|}</code></div>
     </div>
     <div style="display:flex;gap:6px;margin-top:6px;">
       <button onclick="previewTemplateHtml()" style="padding:2px 10px;background:#f0e0d6;border:1px solid #d9bfb7;cursor:pointer;font-size:9pt;">👁 Önizle</button>
       <button onclick="copyTplCode()" style="padding:2px 10px;background:#fff0e0;border:1px solid #e8c890;cursor:pointer;font-size:9pt;">📋 Kodu Kopyala</button>
     </div>
-    <div id="tpl-prev-box" style="display:none;border:1px solid #d9bfb7;padding:8px;background:#fffef0;margin-top:8px;"></div>`;
+    <div id="tpl-prev-box" style="display:none;border:1px solid #d9bfb7;padding:8px;background:#fffef0;margin-top:8px;overflow:auto;"></div>`;
   document.getElementById("modal-overlay").style.display="flex";
   if(!isNew){
     db.ref("templates/"+slug).once("value",snap=>{
@@ -694,9 +776,23 @@ function copyTplCode(){
   el.select();try{document.execCommand("copy");setStatus("Kod kopyalandı!");}
   catch(e){navigator.clipboard.writeText(el.value).then(()=>setStatus("Kod kopyalandı!")).catch(()=>alert("Kopyalanamadı."));}
 }
-function previewTemplateHtml(){const html=document.getElementById("tpl-html").value||"";const box=document.getElementById("tpl-prev-box");box.style.display="block";box.innerHTML=renderTemplate(html,{});}
+function previewTemplateHtml(){
+  const html=document.getElementById("tpl-html").value||"";
+  const box=document.getElementById("tpl-prev-box");
+  box.style.display="block";
+  box.innerHTML=processWikiMarkup(renderTemplate(html,{}));
+}
 function deleteTemplate(slug){showConfirmModal("Bu şablonu sil?",()=>{db.ref("templates/"+slug).remove(()=>{setStatus("Silindi.");reloadTplList();refreshEditorTplPanel();});});}
-function previewTemplate(slug){loadAllTemplates().then(templates=>{const t=templates.find(t=>t.slug===slug);if(!t)return;document.getElementById("modal-title").textContent="👁 "+t.name;document.getElementById("modal-body").innerHTML=`<div style="padding:6px;">${renderTemplate(t.html,{})}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";});}
+function previewTemplate(slug){
+  loadAllTemplates().then(templates=>{
+    const t=templates.find(t=>t.slug===slug);
+    if(!t)return;
+    document.getElementById("modal-title").textContent="👁 "+t.name;
+    document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>`;
+    document.getElementById("modal-footer").style.display="none";
+    document.getElementById("modal-overlay").style.display="flex";
+  });
+}
 
 /* ══ EDITOR TEMPLATE PANEL ══ */
 let editorTplCache=[];
@@ -716,10 +812,8 @@ async function refreshEditorTplPanel(){
 
 function selectEditorTemplate(slug){
   selectedTplSlug=slug;
-  /* update active state */
   document.querySelectorAll(".ed-tpl-item").forEach(el=>el.classList.remove("active"));
   const active=document.getElementById("edti-"+slug);if(active)active.classList.add("active");
-  /* show info panel */
   const tpl=editorTplCache.find(t=>t.slug===slug);
   if(!tpl)return;
   const panel=document.getElementById("ed-tpl-info");
@@ -727,7 +821,6 @@ function selectEditorTemplate(slug){
   panel.classList.add("visible");
   document.getElementById("ed-tpl-info-name").textContent=tpl.name;
   document.getElementById("ed-tpl-info-desc").textContent=tpl.desc||"";
-  /* build variable inputs */
   const vars=extractTemplateVars(tpl.html);
   const varsEl=document.getElementById("ed-tpl-info-vars");
   if(vars.length){
@@ -740,7 +833,6 @@ function selectEditorTemplate(slug){
   } else {
     varsEl.innerHTML=`<div style="font-size:8pt;color:#a98;font-style:italic;margin-bottom:6px;">Bu şablonun değişkeni yok.</div>`;
   }
-  /* live preview */
   updateTplInfoPreview(tpl);
 }
 
@@ -751,7 +843,7 @@ function updateTplInfoPreview(tpl){
   const args={};
   vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));if(el)args[v.name]=el.value||v.def||"";});
   const prev=document.getElementById("ed-tpl-preview");
-  if(prev)prev.innerHTML=renderTemplate(tpl.html,args);
+  if(prev)prev.innerHTML=processWikiMarkup(renderTemplate(tpl.html,args));
 }
 
 function insertSelectedTemplate(){
@@ -760,7 +852,6 @@ function insertSelectedTemplate(){
   const vars=extractTemplateVars(tpl.html);
   const args={};
   vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));if(el)args[v.name]=el.value||v.def||"";});
-  /* build wiki tag */
   let tag=`{{${tpl.name}`;
   if(vars.length){
     vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));const val=el?el.value:"";if(val&&val!==v.def)tag+=`|${v.name}=${val}`;});
@@ -768,9 +859,7 @@ function insertSelectedTemplate(){
   tag+=`}}`;
   const inner=getActiveInner();
   if(inner){inner.focus();document.execCommand('insertHTML',false,tag);setStatus("Şablon eklendi: "+tpl.name);}
-  else{/* no active block — create text block with tag */
-    addTextBlock(tag);setStatus("Şablon bloğu oluşturuldu: "+tpl.name);
-  }
+  else{addTextBlock(tag);setStatus("Şablon bloğu oluşturuldu: "+tpl.name);}
 }
 
 /* ══ ADMIN ══ */
@@ -833,9 +922,8 @@ function renderEditor(loadSlug){
             <div class="tbg"><button class="tb" onclick="addTextBlock()">📝 Metin</button><button class="tb" onclick="addImageBlock()">🖼️ Resim</button><button class="tb" onclick="addBoxBlock()">📦 Kutu</button></div>
             <div class="tbg"><button class="tb" onclick="changeCanvasSize()">⤢</button><button class="tb" onclick="clearCanvas()" style="color:#d00">🗑️</button></div>
           </div>
-          <!-- EDITOR LAYOUT: TEMPLATE PANEL + CANVAS -->
+          <!-- EDITOR LAYOUT -->
           <div class="ed-layout">
-            <!-- LEFT: TEMPLATE PANEL -->
             <div class="ed-tpl-panel">
               <div class="ed-tpl-panel-head">
                 <span>📋 Şablonlar</span>
@@ -845,7 +933,6 @@ function renderEditor(loadSlug){
                 <div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div>
               </div>
             </div>
-            <!-- MIDDLE: TEMPLATE INFO PANEL (hidden until template selected) -->
             <div class="ed-tpl-info" id="ed-tpl-info">
               <div class="ed-tpl-info-head">
                 <span id="ed-tpl-info-name">Şablon</span>
@@ -863,7 +950,6 @@ function renderEditor(loadSlug){
                 <button class="btn-tpl-copy" onclick="copySelectedTplTag()">📋 Tag Kopyala</button>`:`<button class="btn-tpl-copy" onclick="copySelectedTplTag()">📋 Tag Kopyala</button>`}
               </div>
             </div>
-            <!-- RIGHT: CANVAS -->
             <div class="ed-canvas-wrap">
               <div class="ed-canvas" id="editor-canvas">
                 <div class="ed-canvas-inner" id="editor-canvas-inner">
@@ -889,7 +975,6 @@ function renderEditor(loadSlug){
   cvs.addEventListener("mousedown",e=>{trackPos(e.clientX,e.clientY);});
   cvs.addEventListener("touchstart",e=>{const t=e.touches[0];trackPos(t.clientX,t.clientY);},{passive:true});
 
-  /* live preview update on input change */
   document.getElementById("ed-tpl-info").addEventListener("input",e=>{
     if(e.target.tagName==="INPUT")updateTplInfoPreview();
   });
