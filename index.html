@@ -368,9 +368,27 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   .wiki-tb{top:28px;}
   .ed-layout{border:none;}
   .ed-canvas-wrap{border:1px solid #d9bfb7;}
-  .ed-canvas{min-height:300px;}
-  .ed-canvas-inner{min-width:320px;min-height:300px;}
+  /* MOBİL CANVAS: ekrana sığsın, yatay scroll ile */
+  .ed-canvas{
+    min-height:300px;
+    overflow-x:auto;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .ed-canvas-inner{
+    min-width:600px;
+    min-height:300px;
+  }
   .booru-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));}
+  /* Toolbar mobilde daha iyi scroll */
+  .wiki-tb{
+    gap:2px;
+    padding:3px 4px;
+  }
+  .tb{padding:3px 6px;font-size:9pt;}
+  select.tb-sel{max-width:70px;font-size:8pt;}
+  .ed-bar{padding:8px 10px;gap:6px;}
+  .ed-bar .btn-post,.ed-bar .btn-cancel{padding:4px 10px;font-size:9pt;}
 }
 @media(max-width:480px){
   .ph-actions{display:none;}
@@ -699,7 +717,6 @@ function renderHome(){
     const hp=snap.val();
     const adminActions=isAdmin()?`<a onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</a>`:""
     if(!hp||!(hp.blocks&&hp.blocks.length)){
-      // Boş homepage
       mc.innerHTML=`
         <div class="page-wrap">
           <div class="page-head">
@@ -714,7 +731,7 @@ function renderHome(){
       return;
     }
     const ch=computeCanvasH(hp.blocks||[]);
-    const bHtml=(hp.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");
+    const bHtml=(hp.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");
     mc.innerHTML=`
       <div class="page-wrap">
         <div class="page-head">
@@ -742,7 +759,13 @@ async function loadArticle(slug){
   const a=snap.val();
   document.title=a.title+" — Bilinmeyen Dünya";setStatus("Yüklendi: "+a.title);
   const ch=computeCanvasH(a.blocks||[]);
-  const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");
+  // FIX: template blokları için tplTag ile render et
+  const bHtml=(a.blocks||[]).map(b=>{
+    const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";
+    if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;
+    if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;
+    return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
+  }).join("");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">📄 Sayfa</span><span class="ph-tab" onclick="navigate('editor/${slug}')">✏️ Düzenle</span></div><div class="ph-actions"><a onclick="navigate('editor/${slug}')">✏️ Düzenle</a><a class="red" onclick="deleteArticle('${slug}')">🗑️ Sil</a></div></div>
@@ -758,6 +781,7 @@ function deleteArticle(slug){showConfirmModal("Bu sayfayı sil?",()=>{db.ref("ar
 
 /* ══ RENDER TEMPLATE TAGS ══ */
 function renderTemplateTags(html,templates){
+  if(!html)return"";
   html=processWikiMarkup(html);
   return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{
     name=name.trim();const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));if(!tpl)return match;
@@ -932,7 +956,7 @@ function renderAdmin(){
 }
 function approvePending(key){db.ref("pending/"+key).once("value",snap=>{if(!snap.exists())return;const p=snap.val();db.ref("articles/"+p.slug).set(p,err=>{if(err){alert("Hata: "+err.message);return;}db.ref("pending/"+key).remove();setStatus("Onaylandı: "+p.title);renderAdmin();});});}
 function rejectPending(key){showConfirmModal("Reddet?",()=>{db.ref("pending/"+key).remove(()=>{renderAdmin();setStatus("Reddedildi.");});});}
-async function previewPending(key){const [snap,templates]=await Promise.all([db.ref("pending/"+key).once("value"),loadAllTemplates()]);if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";}
+async function previewPending(key){const [snap,templates]=await Promise.all([db.ref("pending/"+key).once("value"),loadAllTemplates()]);if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";}
 
 /* ══ EDITOR ══ */
 let selectedBlock=null,editingSlug=null,blockIdCounter=0,activeInner=null,lastSpawnX=30,lastSpawnY=30;
@@ -1085,11 +1109,12 @@ function loadBlock(b){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   if(b.type==="template"){
     const tpl=editorTplCache.find(t=>t.slug===b.tplSlug)||null;
+    // FIX: editörde yüklerken tplTag'ı renderla (önizleme için), ama tplTag'ı koru
     const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,{})):b.content;
     const block=createBlock("template",parseInt(b.left)||10,parseInt(b.top)||10);
     if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
     block.dataset.tplSlug=b.tplSlug||"";block.dataset.tplTag=b.tplTag||b.content||"";
-    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=b.content||renderedHtml||"";inner.style.padding="0";
+    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="0";
     const overlay=document.createElement("div");overlay.className="tpl-edit-overlay";overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
     block.appendChild(overlay);canvas.appendChild(block);updateBlockCount();return;
   }
@@ -1195,18 +1220,22 @@ function makeTouchResizable(block,handle,dir){handle.addEventListener("touchstar
 function changeCanvasSize(){showInputModal("⤢ Tuval Boyutu",[{id:"cvw",label:"Genişlik (px):",placeholder:"900",type:"number"},{id:"cvh",label:"Yükseklik (px):",placeholder:"600",type:"number"}],vals=>{const inner=document.getElementById("editor-canvas-inner");if(inner){if(vals.cvw)inner.style.minWidth=(parseInt(vals.cvw)||900)+"px";if(vals.cvh)inner.style.minHeight=(parseInt(vals.cvh)||600)+"px";}});}
 function clearCanvas(){showConfirmModal("Tüm blokları sil?",()=>{document.getElementById("editor-canvas-inner").querySelectorAll(".e-block").forEach(b=>b.remove());selectedBlock=null;activeInner=null;updateBlockCount();});}
 
-/* ══ SAVE ══ */
+/* ══ SAVE — FIX: template blokları için tplTag kaydet, innerHTML DEĞİL ══ */
 function saveArticle(){
   if(isHomepageEditor){
     if(!isAdmin()){alert("Sadece admin kaydedebilir.");return;}
     const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
     canvas.querySelectorAll(".e-block").forEach(block=>{
       const type=block.dataset.type,inner=block.querySelector(".e-block-inner");
-      let content;
-      if(type==="image"){const img=inner.querySelector("img");content=img?img.src:"";}
-      else if(type==="template"){content=inner.innerHTML;blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content,tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});return;}
-      else content=inner.innerHTML;
-      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content});
+      if(type==="image"){
+        const img=inner.querySelector("img");
+        blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});
+      } else if(type==="template"){
+        // Şablonu tag olarak kaydet, önizlenmiş HTML olarak DEĞİL
+        blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
+      } else {
+        blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
+      }
     });
     setStatus("Kaydediliyor…");
     db.ref("homepage").set({blocks,updatedAt:Date.now()},err=>{
@@ -1220,11 +1249,15 @@ function saveArticle(){
   const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
   canvas.querySelectorAll(".e-block").forEach(block=>{
     const type=block.dataset.type,inner=block.querySelector(".e-block-inner");
-    let content;
-    if(type==="image"){const img=inner.querySelector("img");content=img?img.src:"";}
-    else if(type==="template"){content=inner.innerHTML;blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content,tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});return;}
-    else content=inner.innerHTML;
-    blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content});
+    if(type==="image"){
+      const img=inner.querySelector("img");
+      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});
+    } else if(type==="template"){
+      // Şablonu tag olarak kaydet, önizlenmiş HTML olarak DEĞİL
+      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
+    } else {
+      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
+    }
   });
   const slug=editingSlug||slugify(title),payload={title,location,slug,blocks,createdAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
