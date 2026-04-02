@@ -22,34 +22,34 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 #topnav strong{color:#fff;font-size:10pt;cursor:pointer;}
 #topnav-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-shrink:0;}
 
-/* EDİTÖR ARAÇ ÇUBUĞU — PC ve MOBİL STICKY */
+/* EDİTÖR ARAÇ ÇUBUĞU */
 .wiki-tb {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 28px; /* topnav yüksekliği */
-    z-index: 999;
-    background: #f0e0d6;
-    border: 1px solid #d9bfb7;
-    padding: 4px;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    position:-webkit-sticky;
+    position:sticky;
+    top:28px;
+    z-index:999;
+    background:#f0e0d6;
+    border:1px solid #d9bfb7;
+    padding:4px;
+    display:flex;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    box-shadow:0 2px 5px rgba(0,0,0,0.15);
 }
 
 /* EDİTÖR ALT BARI */
 .ed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #f0e0d6;
-    border-top: 2px solid #d9bfb7;
-    padding: 10px 15px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    z-index: 1000;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#f0e0d6;
+    border-top:2px solid #d9bfb7;
+    padding:10px 15px;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    z-index:1000;
 }
 
 #search-wrap{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:2px;overflow:hidden;background:rgba(255,255,255,.12);}
@@ -205,51 +205,133 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .wiki-table th,.wiki-table td{border:1px solid #aaa;padding:4px 8px;}
 .wiki-table th{background:#f0e0d6;font-weight:bold;color:#800;}
 
-/* EDITOR TEMPLATE PANEL */
+/* ═══════════════════════════════════════════
+   EDITOR TEMPLATE PANEL — YENİ TASARIM
+   Sol panelde görselli kartlar
+═══════════════════════════════════════════ */
 .ed-layout{display:flex;gap:0;border:1px solid #d9bfb7;}
-.ed-tpl-panel{width:200px;flex-shrink:0;background:#f5ece4;border-right:1px solid #d9bfb7;display:flex;flex-direction:column;max-height:600px;}
-.ed-tpl-panel-head{background:#ea8;border-bottom:1px solid #d9bfb7;padding:4px 8px;font-size:9pt;font-weight:bold;color:#800;display:flex;align-items:center;justify-content:space-between;}
-.ed-tpl-panel-head button{background:#98e;border:1px solid #7799cc;color:#000;font-size:8pt;padding:1px 6px;cursor:pointer;font-weight:bold;}
+
+/* Sol şablon paneli */
+.ed-tpl-panel{
+    width:220px;
+    flex-shrink:0;
+    background:#f5ece4;
+    border-right:1px solid #d9bfb7;
+    display:flex;
+    flex-direction:column;
+    max-height:600px;
+    overflow:hidden;
+}
+.ed-tpl-panel-head{
+    background:#ea8;
+    border-bottom:1px solid #d9bfb7;
+    padding:4px 8px;
+    font-size:9pt;
+    font-weight:bold;
+    color:#800;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-shrink:0;
+}
+.ed-tpl-panel-head button{
+    background:#98e;border:1px solid #7799cc;color:#000;
+    font-size:8pt;padding:1px 6px;cursor:pointer;font-weight:bold;
+}
 .ed-tpl-panel-head button:hover{background:#aaf;}
-.ed-tpl-list{flex:1;overflow-y:auto;padding:3px 0;}
-.ed-tpl-item{padding:5px 8px;border-bottom:1px solid #e8d0c0;cursor:pointer;transition:background .1s;}
-.ed-tpl-item:hover{background:#ffe8d0;}
-.ed-tpl-item.active{background:#fff3e8;border-left:3px solid #e87020;}
-.ed-tpl-item-name{font-size:9pt;font-weight:bold;color:#800000;}
-.ed-tpl-item-desc{font-size:8pt;color:#a08070;margin-top:1px;}
-.ed-tpl-info{border-left:1px solid #d9bfb7;background:#fff9f5;padding:0;display:none;width:220px;flex-shrink:0;flex-direction:column;}
-.ed-tpl-info.visible{display:flex;}
-.ed-tpl-info-head{background:#f0e0d6;border-bottom:1px solid #d9bfb7;padding:4px 8px;display:flex;align-items:center;justify-content:space-between;}
-.ed-tpl-info-head span{font-size:9pt;font-weight:bold;color:#d00;}
-.ed-tpl-info-head button{background:none;border:none;cursor:pointer;color:#800;font-size:12px;padding:0 2px;}
-.ed-tpl-info-head button:hover{color:#d00;}
-.ed-tpl-info-body{padding:8px;flex:1;overflow-y:auto;font-size:9pt;}
-.ed-tpl-info-name{font-size:11pt;font-weight:bold;color:#d00;margin-bottom:3px;}
-.ed-tpl-info-desc{font-size:9pt;color:#800;margin-bottom:8px;font-style:italic;}
-.ed-tpl-info-vars{margin-bottom:8px;}
-.ed-tpl-var-row{margin-bottom:6px;}
-.ed-tpl-var-row label{display:block;font-size:8pt;font-weight:bold;color:#800;margin-bottom:2px;}
-.ed-tpl-var-row input{width:100%;border:1px solid #c9b8a8;padding:3px 6px;font-size:9pt;outline:none;background:#fff;color:#800000;}
-.ed-tpl-var-row input:focus{border-color:#e87020;}
-.ed-tpl-var-row .var-def{font-size:7pt;color:#a98;font-style:italic;}
-.ed-tpl-info-prev{border:1px solid #d9bfb7;background:#fffef0;padding:6px;margin-bottom:8px;font-size:9pt;min-height:40px;}
-.ed-tpl-info-actions{display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;}
-.btn-tpl-insert{padding:4px 8px;background:#98e;border:1px solid #7799cc;color:#000;font-weight:bold;cursor:pointer;font-size:9pt;width:100%;}
-.btn-tpl-insert:hover{background:#aaf;}
-.btn-tpl-edit{padding:3px 8px;background:#f0e0d6;border:1px solid #c8a890;color:#800;cursor:pointer;font-size:9pt;width:100%;}
-.btn-tpl-edit:hover{background:#e8d0c0;}
-.btn-tpl-copy{padding:3px 8px;background:#fff0e0;border:1px solid #e8c890;color:#600;cursor:pointer;font-size:9pt;width:100%;}
-.btn-tpl-copy:hover{background:#ffe8d0;}
+.ed-tpl-list{
+    flex:1;overflow-y:auto;padding:6px;
+    display:flex;flex-direction:column;gap:5px;
+}
+/* Şablon kartı — önizleme gösterir */
+.ed-tpl-item{
+    background:#fff;
+    border:1px solid #d9bfb7;
+    border-radius:3px;
+    cursor:pointer;
+    overflow:hidden;
+    transition:border-color .15s, box-shadow .15s;
+    flex-shrink:0;
+}
+.ed-tpl-item:hover{border-color:#e87020;box-shadow:0 2px 8px rgba(232,114,42,.18);}
+.ed-tpl-item.active{border-color:#e87020;box-shadow:0 0 0 2px rgba(232,114,42,.25);border-width:2px;}
+/* Önizleme alanı */
+.ed-tpl-preview-box{
+    pointer-events:none;
+    background:#fffef0;
+    border-bottom:1px solid #e8d0c0;
+    min-height:50px;
+    max-height:90px;
+    overflow:hidden;
+    padding:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.ed-tpl-preview-box *{pointer-events:none!important;}
+/* Şablon adı kısmı */
+.ed-tpl-item-footer{
+    padding:4px 7px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#f5ece4;
+}
+.ed-tpl-item-name{font-size:8pt;font-weight:bold;color:#800000;}
+.ed-tpl-item-ins{
+    background:#98e;border:1px solid #7799cc;color:#000;
+    font-size:7pt;padding:1px 5px;cursor:pointer;font-weight:bold;
+    border-radius:2px;pointer-events:auto;
+}
+.ed-tpl-item-ins:hover{background:#aaf;}
+
+/* Sağ info paneli kaldırıldı — artık yok */
+
 .ed-canvas-wrap{flex:1;min-width:0;display:flex;flex-direction:column;}
 .ed-canvas{border:none;min-height:480px;position:relative;background:linear-gradient(rgba(200,120,60,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,120,60,.04) 1px,transparent 1px),#fffef5;background-size:28px 28px;overflow:auto;cursor:default;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;}
 .ed-canvas-inner{position:relative;min-width:800px;min-height:480px;}
 .ed-canvas-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#c8a090;font-size:10pt;font-style:italic;pointer-events:none;user-select:none;gap:6px;}
+
+/* Şablon bloğu üstüne gelince edit overlay */
+.tpl-edit-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(232,114,42,.0);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:opacity .2s;
+    pointer-events:none;
+    z-index:5;
+}
+.e-block:hover .tpl-edit-overlay{opacity:1;pointer-events:auto;}
+.tpl-edit-btn{
+    background:#e87020;color:#fff;border:1px solid #c45a18;
+    padding:3px 10px;font-size:8pt;font-weight:bold;cursor:pointer;
+    border-radius:2px;box-shadow:0 2px 6px rgba(0,0,0,.3);
+    display:flex;align-items:center;gap:4px;
+}
+.tpl-edit-btn:hover{background:#c45a18;}
 
 .code-editor-wrap{position:relative;}
 .code-editor-wrap textarea{font-family:'Courier New',monospace;font-size:9pt;resize:vertical;background:#1e1e1e;color:#d4d4d4;border:1px solid #555;padding:8px;line-height:1.5;}
 .code-editor-wrap .ce-hint{font-size:8pt;color:#a98;margin-top:3px;}
 .tpl-new-btn{display:inline-block;padding:2px 10px;background:#4a7d44;border:1px solid #3a6234;color:#fff;font-weight:bold;cursor:pointer;font-size:9pt;}
 .tpl-new-btn:hover{background:#3a6234;}
+
+/* Görsel yükleme yükleniyor overlay */
+.img-uploading{
+    position:fixed;inset:0;background:rgba(0,0,0,.5);
+    z-index:9999;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:10px;color:#fff;font-size:12pt;
+}
+.img-uploading-spinner{
+    width:40px;height:40px;border:4px solid rgba(255,255,255,.3);
+    border-top-color:#fff;border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 @media(max-width:700px){
   #hamburger{display:flex;}
@@ -258,52 +340,26 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   .page-body{padding:10px 8px;}
   #search-wrap input{width:100px;}
   .ed-tpl-panel{display:none;}
-  .ed-tpl-info{width:180px;}
-  .wiki-tb { top: 28px; }
+  .wiki-tb{top:28px;}
 }
 @media(max-width:480px){
   .ph-actions{display:none;}
   .ed-loc{width:100%;}
   .ed-tpl-panel{display:none;}
 }
-@media (max-width: 700px) {
-    .ed-layout {
-        flex-direction: column !important;
-    }
-    .ed-tpl-panel {
-        width: 100% !important;
-        height: auto !important;
-        max-height: 140px !important;
-        border-right: none !important;
-        border-bottom: 2px solid #d9bfb7 !important;
-    }
-    .ed-tpl-list {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        padding: 8px !important;
-        gap: 10px !important;
-        -webkit-overflow-scrolling: touch;
-    }
-    .ed-tpl-item {
-        flex: 0 0 110px !important;
-        background: #fff !important;
-        border: 1px solid #ea8 !important;
-        border-radius: 4px;
-        text-align: center;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .ed-tpl-item-desc {
-        display: none !important;
-    }
-    .ed-tpl-info {
-        width: 100% !important;
-        border-left: none !important;
-        display: none;
-    }
-    .ed-tpl-info.visible {
-        display: flex !important;
-    }
+@media(max-width:700px){
+  .ed-layout{flex-direction:column!important;}
+  .ed-tpl-panel{
+    width:100%!important;height:auto!important;
+    max-height:160px!important;border-right:none!important;
+    border-bottom:2px solid #d9bfb7!important;
+  }
+  .ed-tpl-list{
+    flex-direction:row!important;overflow-x:auto!important;
+    overflow-y:hidden!important;padding:8px!important;gap:8px!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  .ed-tpl-item{flex:0 0 110px!important;min-width:110px;}
 }
 </style>
 </head>
@@ -347,7 +403,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
         <span>🗃️ Görseller</span>
         <button onclick="openAddImageToSidebar()" style="background:none;border:none;cursor:pointer;color:#800;font-size:13px;padding:0 2px;font-weight:bold;" title="Görsel Ekle">+</button>
       </div>
-      <div id="sb-images-list"><div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Henüz görsel yok</div></div>
+      <div id="sb-images-list"><div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div></div>
     </div>
     <div class="sbox">
       <div class="sbox-head">İstatistik</div>
@@ -409,38 +465,64 @@ function clearSession(){currentUser=null;localStorage.removeItem("bbd_u");}
 function isAdmin(){return currentUser&&currentUser.role==="admin";}
 function isLoggedIn(){return!!currentUser;}
 
-/* ══ IMAGES STORE ══ */
-function getStoredImages(){try{return JSON.parse(localStorage.getItem("bbd_images")||"[]");}catch(e){return[];}}
-function saveStoredImages(arr){localStorage.setItem("bbd_images",JSON.stringify(arr));}
-function addStoredImage(name,dataUrl){const arr=getStoredImages();if(arr.find(i=>i.name===name)){alert("Bu isimde görsel zaten var.");return false;}arr.unshift({name,dataUrl,addedAt:Date.now()});saveStoredImages(arr);return true;}
-function deleteStoredImage(name){saveStoredImages(getStoredImages().filter(i=>i.name!==name));renderSidebarImages();}
-function getImageByName(name){return(getStoredImages().find(i=>i.name===name)||null);}
+/* ══ IMAGES STORE — Firebase'e yükleme, herkes görebilsin ══ */
+function showUploadingOverlay(msg){
+  let el=document.getElementById("img-uploading-ov");
+  if(!el){el=document.createElement("div");el.id="img-uploading-ov";el.className="img-uploading";document.body.appendChild(el);}
+  el.innerHTML=`<div class="img-uploading-spinner"></div><div>${msg||"Yükleniyor…"}</div>`;
+  el.style.display="flex";
+}
+function hideUploadingOverlay(){const el=document.getElementById("img-uploading-ov");if(el)el.style.display="none";}
+
+function addFirebaseImage(name,dataUrl,cb){
+  showUploadingOverlay("Görsel Firebase'e yükleniyor…");
+  db.ref("images/"+name.replace(/[.#$\[\]]/g,"_")).set({name,dataUrl,addedAt:Date.now()},err=>{
+    hideUploadingOverlay();
+    if(err){alert("Yükleme hatası: "+err.message);return;}
+    renderSidebarImages();
+    if(cb)cb();
+  });
+}
+function deleteFirebaseImage(key){
+  db.ref("images/"+key).remove(()=>renderSidebarImages());
+}
 function renderSidebarImages(){
   const el=document.getElementById("sb-images-list");if(!el)return;
-  const imgs=getStoredImages();
-  if(!imgs.length){el.innerHTML=`<div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Henüz görsel yok</div>`;return;}
-  el.innerHTML=imgs.map(img=>`<div style="display:flex;align-items:center;gap:3px;padding:2px 6px;border-bottom:1px solid #e8d0c0;">
-    <img src="${escHtml(img.dataUrl)}" style="width:24px;height:24px;object-fit:cover;border:1px solid #d9bfb7;flex-shrink:0;">
-    <span style="flex:1;font-size:8pt;color:#800;word-break:break-all;cursor:pointer;" onclick="insertStoredImageToCanvas('${escHtml(img.name)}')" title="Tıkla: editöre ekle">${escHtml(img.name)}</span>
-    <button onclick="deleteStoredImage('${escHtml(img.name)}')" style="background:none;border:none;color:#d00;cursor:pointer;font-size:10px;padding:0 2px;flex-shrink:0;">✕</button>
-  </div>`).join("");
+  el.innerHTML=`<div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div>`;
+  db.ref("images").once("value",snap=>{
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Henüz görsel yok</div>`;return;}
+    const imgs=Object.entries(data).map(([k,v])=>({key:k,...v})).sort((a,b)=>b.addedAt-a.addedAt);
+    el.innerHTML=imgs.map(img=>`<div style="display:flex;align-items:center;gap:3px;padding:2px 6px;border-bottom:1px solid #e8d0c0;">
+      <img src="${escHtml(img.dataUrl)}" style="width:24px;height:24px;object-fit:cover;border:1px solid #d9bfb7;flex-shrink:0;">
+      <span style="flex:1;font-size:8pt;color:#800;word-break:break-all;cursor:pointer;" onclick="insertFirebaseImageToCanvas('${escHtml(img.key)}')" title="Tıkla: editöre ekle">${escHtml(img.name)}</span>
+      <button onclick="deleteFirebaseImage('${escHtml(img.key)}')" style="background:none;border:none;color:#d00;cursor:pointer;font-size:10px;padding:0 2px;flex-shrink:0;">✕</button>
+    </div>`).join("");
+  });
 }
-function insertStoredImageToCanvas(name){
-  const img=getImageByName(name);if(!img)return;
+function getFirebaseImage(key,cb){
+  db.ref("images/"+key).once("value",snap=>{if(snap.exists())cb(snap.val());else cb(null);});
+}
+function insertFirebaseImageToCanvas(key){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas){alert("Editörde açık değil.");return;}
-  const pos=getSpawnPos();
-  const block=createBlock("image",pos.x,pos.y);block.style.width="200px";block.style.height="150px";
-  const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
-  const imgEl=document.createElement("img");imgEl.src=img.dataUrl;imgEl.draggable=false;
-  inner.appendChild(imgEl);canvas.appendChild(block);updateBlockCount();selectBlock(block);
+  db.ref("images/"+key).once("value",snap=>{
+    if(!snap.exists())return;
+    const img=snap.val();
+    const pos=getSpawnPos();
+    const block=createBlock("image",pos.x,pos.y);block.style.width="200px";block.style.height="150px";
+    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
+    const imgEl=document.createElement("img");imgEl.src=img.dataUrl;imgEl.draggable=false;
+    inner.appendChild(imgEl);canvas.appendChild(block);updateBlockCount();selectBlock(block);
+  });
 }
+
 function openAddImageToSidebar(){
   document.getElementById("modal-title").textContent="🗃️ Görsel Ekle";
   document.getElementById("modal-footer").style.display="none";
   document.getElementById("modal-body").innerHTML=`
     <label>Görsel Adı (ör: saygo.png):</label>
     <input type="text" id="sb-img-name" placeholder="saygo.png" style="width:100%;border:1px solid #a9a9a9;padding:5px 8px;font-size:10pt;margin-bottom:10px;">
-    <label class="img-up-wrap" id="sb-upload-drop" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleSbDrop(event)" style="display:block;">
+    <label class="img-up-wrap" id="sb-upload-drop" ondragover="handleDragOver(event)" ondragleave="handleDragLeave2(event)" ondrop="handleSbDrop(event)" style="display:block;">
       <input type="file" id="sb-img-file" accept="image/*" onchange="handleSbFileSelect(event)">
       <div style="font-size:22px;">🖼️</div>
       <div>Sürükle veya <u>tıkla</u></div>
@@ -450,6 +532,7 @@ function openAddImageToSidebar(){
       <span id="sb-fname" style="font-size:9pt;color:#800;word-break:break-all;flex:1;"></span>
       <button onclick="clearSbUpload()" style="background:none;border:none;color:#d00;cursor:pointer;font-size:16px;">✕</button>
     </div>
+    <p style="font-size:8pt;color:#117743;margin-top:8px;">✅ Görsel Firebase'e yüklenecek — tüm kullanıcılar görebilir.</p>
     <div style="display:flex;gap:6px;margin-top:10px;">
       <button onclick="confirmAddSidebarImage()" style="flex:1;padding:4px;background:#98e;border:1px solid #7799cc;cursor:pointer;font-weight:bold;font-size:10pt;">✅ Kaydet</button>
       <button onclick="closeModal()" style="padding:4px 12px;background:#f0e0d6;border:1px solid #d9bfb7;cursor:pointer;font-size:10pt;">İptal</button>
@@ -474,7 +557,8 @@ function confirmAddSidebarImage(){
   const name=(document.getElementById("sb-img-name").value||"").trim();
   if(!name){alert("Görsel adı girin.");return;}
   if(!window._sbImgData){alert("Önce bir görsel seç.");return;}
-  if(addStoredImage(name,window._sbImgData)){closeModal();renderSidebarImages();setStatus("Görsel eklendi: "+name);}
+  closeModal();
+  addFirebaseImage(name,window._sbImgData,()=>setStatus("Görsel eklendi: "+name));
 }
 
 function updateUserPill(){
@@ -553,15 +637,16 @@ function closeSidebar(){document.getElementById("sidebar").classList.remove("mob
 
 /* ══ TEMPLATE ENGINE ══ */
 function renderTemplate(html,args){return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{name=name.trim();if(args&&args[name]!==undefined)return args[name];return def!==undefined?def:"";});}
-function resolveImageSrcs(html){return html.replace(/src="([^"]+)"/g,(match,src)=>{if(src.startsWith("data:")||src.startsWith("http")||src.startsWith("//"))return match;const img=getImageByName(src);return img?`src="${img.dataUrl}"`:match;});}
+function resolveImageSrcs(html){
+  // Firebase'deki görselleri çözümle (sync değil, direkt dataUrl'i kullanır)
+  return html;
+}
 
 /* ══ WIKI MARKUP PROCESSOR ══ */
 function convertWikiTable(text){
-  // Converts {| ... |} wiki table syntax to HTML tables
   return text.replace(/\{\|([^\n]*)\n([\s\S]*?)\n?\|\}/g,function(match,attrs,body){
     let tableAttr=attrs.trim();
     let html=`<table ${tableAttr}>`;
-    // Split rows by |-
     const rowParts=('\n'+body).split(/\n\s*\|-[^\n]*/);
     rowParts.forEach(function(rowContent){
       if(!rowContent.trim())return;
@@ -571,10 +656,8 @@ function convertWikiTable(text){
         line=line.trimEnd();
         if(!line)return;
         if(line.charAt(0)==='!'&&line.charAt(1)!=='!'){
-          // Header row: ! cell !! cell !! cell
           line.slice(1).split('!!').forEach(function(c){cells.push({c:c.trim(),h:true});});
         } else if(line.charAt(0)==='|'&&line.charAt(1)!=='}'&&line.charAt(1)!=='|'&&line.charAt(1)!=='+'){
-          // Data row: | cell || cell || cell
           line.slice(1).split('||').forEach(function(c){cells.push({c:c.trim(),h:false});});
         }
       });
@@ -582,15 +665,9 @@ function convertWikiTable(text){
         html+='<tr>';
         cells.forEach(function(cell){
           const tag=cell.h?'th':'td';
-          // Check for inline cell attributes: style="..."|content
           const pi=cell.c.indexOf('|');
           let att='',txt=cell.c;
-          if(pi>-1){
-            const before=cell.c.slice(0,pi);
-            if(!/<|{/.test(before)&&/style=|colspan=|rowspan=|align=|width=|background|padding|color|font/.test(before)){
-              att=before.trim();txt=cell.c.slice(pi+1).trim();
-            }
-          }
+          if(pi>-1){const before=cell.c.slice(0,pi);if(!/<|{/.test(before)&&/style=|colspan=|rowspan=|align=|width=|background|padding|color|font/.test(before)){att=before.trim();txt=cell.c.slice(pi+1).trim();}}
           html+=`<${tag} ${att}>${txt}</${tag}>`;
         });
         html+='</tr>';
@@ -602,28 +679,21 @@ function convertWikiTable(text){
 
 function processWikiMarkup(html){
   if(!html)return html;
-  // 1. <includeonly> → keep content, remove tags
   html=html.replace(/<includeonly>([\s\S]*?)<\/includeonly>/gi,'$1');
-  // 2. <noinclude> → remove entirely (with content)
   html=html.replace(/<noinclude>[\s\S]*?<\/noinclude>/gi,'');
-  // 3. Wiki tables {|...|} → HTML tables
   html=convertWikiTable(html);
-  // 4. [[File:name|size]] / [[Dosya:name|size]] / [[Image:name]] → <img>
   html=html.replace(/\[\[(?:File|Dosya|Image|Resim):([^\]|]+)(?:\|([^\]]*))?\]\]/gi,function(m,filename,params){
     filename=filename.trim();
     let width='180';
     if(params){const sm=params.match(/(\d+)px/);if(sm)width=sm[1];}
-    const imgObj=getImageByName(filename);
-    if(!imgObj)return`<span style="color:#888;font-style:italic;border:1px dashed #bbb;padding:1px 5px;font-size:8pt;display:inline-block;">📷 ${escHtml(filename)}</span>`;
-    return`<img src="${imgObj.dataUrl}" style="max-width:${escHtml(width)}px;height:auto;display:inline-block;border:1px solid #d9bfb7;">`;
+    // Firebase'den yüklenemez sync olarak, placeholder göster
+    return`<span style="color:#888;font-style:italic;border:1px dashed #bbb;padding:1px 5px;font-size:8pt;display:inline-block;">📷 ${escHtml(filename)}</span>`;
   });
-  // 5. [[ArticleName|Label]] or [[ArticleName]] → internal links
   html=html.replace(/\[\[([^\]|#\n]+)(?:\|([^\]\n]*))?\]\]/g,function(m,target,text){
     const sl=slugify(target.trim());
     const label=text?text.trim():target.trim();
     return`<a href="#article/${sl}" onclick="event.preventDefault();navigate('article/${sl}')">${escHtml(label)}</a>`;
   });
-  // 6. ''italic'' → <i>
   html=html.replace(/'''([\s\S]*?)'''/g,'<b>$1</b>');
   html=html.replace(/''([\s\S]*?)''/g,'<i>$1</i>');
   return html;
@@ -682,9 +752,8 @@ async function loadArticle(slug){
 function computeCanvasH(blocks){let max=300;blocks.forEach(b=>{max=Math.max(max,(parseInt(b.top)||0)+(parseInt(b.height)||150)+50);});return max;}
 function deleteArticle(slug){showConfirmModal("Bu sayfayı sil?",()=>{db.ref("articles/"+slug).remove(()=>goHome());});}
 
-/* ══ RENDER TEMPLATE TAGS — wiki markup entegre ══ */
+/* ══ RENDER TEMPLATE TAGS ══ */
 function renderTemplateTags(html,templates){
-  html=resolveImageSrcs(html);
   html=processWikiMarkup(html);
   return html.replace(/\{\{([^}|#]+?)(\|[^}]*)?\}\}/g,(match,name,argsStr)=>{
     name=name.trim();
@@ -730,14 +799,13 @@ function openTemplateEditor(slug){
     <input type="text" id="tpl-name" placeholder="ör: Uyarı Kutusu" ${!isNew?"readonly":""} style="font-family:arial;">
     <label>Açıklama:</label>
     <input type="text" id="tpl-desc" placeholder="Kısa açıklama…" style="font-family:arial;">
-    <label>HTML Kodu <span style="font-weight:normal;font-size:8pt;color:#800;">— Değişkenler: <code style="background:#f0e0d6;padding:1px 3px;">{{{değişken|varsayılan}}}</code> · Wiki: <code>[[File:ad.png|180px]]</code></span>:</label>
+    <label>HTML Kodu <span style="font-weight:normal;font-size:8pt;color:#800;">— Değişkenler: <code style="background:#f0e0d6;padding:1px 3px;">{{{değişken|varsayılan}}}</code></span>:</label>
     <div class="code-editor-wrap">
       <textarea id="tpl-html" rows="10" style="font-family:'Courier New',monospace;font-size:9pt;resize:vertical;background:#1e1e1e;color:#d4d4d4;border:1px solid #555;padding:8px;line-height:1.5;width:100%;outline:none;" spellcheck="false"></textarea>
-      <div class="ce-hint">💡 Değişkenler: <code>{{{isim|varsayılan}}}</code> · Görseller: <code>[[File:Kerem.png|180px]]</code> · Wikitablo: <code>{|...|}</code></div>
     </div>
     <div style="display:flex;gap:6px;margin-top:6px;">
       <button onclick="previewTemplateHtml()" style="padding:2px 10px;background:#f0e0d6;border:1px solid #d9bfb7;cursor:pointer;font-size:9pt;">👁 Önizle</button>
-      <button onclick="copyTplCode()" style="padding:2px 10px;background:#fff0e0;border:1px solid #e8c890;cursor:pointer;font-size:9pt;">📋 Kodu Kopyala</button>
+      <button onclick="copyTplCode()" style="padding:2px 10px;background:#fff0e0;border:1px solid #e8c890;cursor:pointer;font-size:9pt;">📋 Kopyala</button>
     </div>
     <div id="tpl-prev-box" style="display:none;border:1px solid #d9bfb7;padding:8px;background:#fffef0;margin-top:8px;overflow:auto;"></div>`;
   document.getElementById("modal-overlay").style.display="flex";
@@ -750,22 +818,15 @@ function openTemplateEditor(slug){
     });
   }
   window._tplModalCb=()=>{
-    const nameEl=document.getElementById("tpl-name");
-    const descEl=document.getElementById("tpl-desc");
-    const htmlEl=document.getElementById("tpl-html");
+    const nameEl=document.getElementById("tpl-name"),descEl=document.getElementById("tpl-desc"),htmlEl=document.getElementById("tpl-html");
     if(!nameEl||!htmlEl){alert("Form hatası.");return false;}
-    const name=nameEl.value.trim();
-    const desc=(descEl?descEl.value:"").trim();
-    const html=htmlEl.value.trim();
+    const name=nameEl.value.trim(),desc=(descEl?descEl.value:"").trim(),html=htmlEl.value.trim();
     if(!name){alert("Şablon adı gerekli.");nameEl.focus();return false;}
     if(!html){alert("HTML kodu gerekli.");htmlEl.focus();return false;}
-    let key=slug||slugify(name);
-    if(!key)key="tpl-"+Date.now();
+    let key=slug||slugify(name);if(!key)key="tpl-"+Date.now();
     db.ref("templates/"+key).set({name,slug:key,desc,html},err=>{
       if(err){alert("Firebase hatası: "+err.message);return;}
-      setStatus("Kaydedildi: "+name);
-      reloadTplList();
-      refreshEditorTplPanel();
+      setStatus("Kaydedildi: "+name);reloadTplList();refreshEditorTplPanel();
     });
     return true;
   };
@@ -785,8 +846,7 @@ function previewTemplateHtml(){
 function deleteTemplate(slug){showConfirmModal("Bu şablonu sil?",()=>{db.ref("templates/"+slug).remove(()=>{setStatus("Silindi.");reloadTplList();refreshEditorTplPanel();});});}
 function previewTemplate(slug){
   loadAllTemplates().then(templates=>{
-    const t=templates.find(t=>t.slug===slug);
-    if(!t)return;
+    const t=templates.find(t=>t.slug===slug);if(!t)return;
     document.getElementById("modal-title").textContent="👁 "+t.name;
     document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>`;
     document.getElementById("modal-footer").style.display="none";
@@ -794,72 +854,183 @@ function previewTemplate(slug){
   });
 }
 
-/* ══ EDITOR TEMPLATE PANEL ══ */
+/* ══════════════════════════════════════════════════
+   EDITOR TEMPLATE PANEL — Yeni: Görsel önizleme kartları
+   Tıklayınca direkt canvas'a rendered HTML olarak eklenir
+   Üstüne tıklayınca edit modali açılır
+══════════════════════════════════════════════════ */
 let editorTplCache=[];
-let selectedTplSlug=null;
 
 async function refreshEditorTplPanel(){
   editorTplCache=await loadAllTemplates();
   const list=document.getElementById("ed-tpl-list");
   if(!list)return;
   if(!editorTplCache.length){list.innerHTML=`<div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Şablon yok</div>`;return;}
-  list.innerHTML=editorTplCache.map(t=>`
-    <div class="ed-tpl-item${selectedTplSlug===t.slug?' active':''}" id="edti-${t.slug}" onclick="selectEditorTemplate('${t.slug}')">
-      <div class="ed-tpl-item-name">📋 ${escHtml(t.name)}</div>
-      <div class="ed-tpl-item-desc">${escHtml(t.desc||"")}</div>
-    </div>`).join("");
+  list.innerHTML=editorTplCache.map(t=>{
+    // Önizleme HTML'i oluştur (varsayılan değerlerle)
+    const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));
+    return`<div class="ed-tpl-item" id="edti-${t.slug}">
+      <div class="ed-tpl-preview-box">${prevHtml}</div>
+      <div class="ed-tpl-item-footer">
+        <span class="ed-tpl-item-name">📋 ${escHtml(t.name)}</span>
+        <button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}')">+ Ekle</button>
+      </div>
+    </div>`;
+  }).join("");
+  // Kart tıklama → scroll to canvas + insert
+  editorTplCache.forEach(t=>{
+    const el=document.getElementById("edti-"+t.slug);
+    if(el){
+      el.addEventListener("click",function(e){
+        if(e.target.tagName==="BUTTON")return;
+        insertTemplateToCanvas(t.slug);
+      });
+    }
+  });
 }
 
-function selectEditorTemplate(slug){
-  selectedTplSlug=slug;
-  document.querySelectorAll(".ed-tpl-item").forEach(el=>el.classList.remove("active"));
-  const active=document.getElementById("edti-"+slug);if(active)active.classList.add("active");
+/* Şablonu canvas'a ekle — metin tag'i değil, direkt rendered HTML preview bloğu olarak */
+function insertTemplateToCanvas(slug){
   const tpl=editorTplCache.find(t=>t.slug===slug);
-  if(!tpl)return;
-  const panel=document.getElementById("ed-tpl-info");
-  if(!panel)return;
-  panel.classList.add("visible");
-  document.getElementById("ed-tpl-info-name").textContent=tpl.name;
-  document.getElementById("ed-tpl-info-desc").textContent=tpl.desc||"";
+  if(!tpl){setStatus("Şablon bulunamadı.");return;}
+
+  // Vars için modal — eğer değişken yoksa direkt ekle
   const vars=extractTemplateVars(tpl.html);
-  const varsEl=document.getElementById("ed-tpl-info-vars");
-  if(vars.length){
-    varsEl.innerHTML=`<div style="font-size:8pt;font-weight:bold;color:#800;margin-bottom:4px;">Değişkenler:</div>`+
-      vars.map(v=>`<div class="ed-tpl-var-row">
-        <label>${escHtml(v.name)}</label>
-        <input type="text" id="etv-${slugify(v.name)}" placeholder="${escHtml(v.def||v.name)}" value="${escHtml(v.def)}">
-        ${v.def?`<div class="var-def">varsayılan: ${escHtml(v.def)}</div>`:""}
-      </div>`).join("");
+  if(vars.length>0){
+    // Değişken varsa mini form göster
+    openTplVarsModal(tpl,args=>{
+      const renderedHtml=processWikiMarkup(renderTemplate(tpl.html,args));
+      // Kaydet için de tag formatını tut
+      const tag=buildTplTag(tpl,args,vars);
+      addTemplateBlock(renderedHtml, tag, tpl.slug);
+    });
   } else {
-    varsEl.innerHTML=`<div style="font-size:8pt;color:#a98;font-style:italic;margin-bottom:6px;">Bu şablonun değişkeni yok.</div>`;
+    const renderedHtml=processWikiMarkup(renderTemplate(tpl.html,{}));
+    const tag=`{{${tpl.name}}}`;
+    addTemplateBlock(renderedHtml, tag, tpl.slug);
   }
-  updateTplInfoPreview(tpl);
 }
 
-function updateTplInfoPreview(tpl){
-  if(!tpl)tpl=editorTplCache.find(t=>t.slug===selectedTplSlug);
-  if(!tpl)return;
+function buildTplTag(tpl,args,vars){
+  let tag=`{{${tpl.name}`;
+  vars.forEach(v=>{const val=args[v.name]||"";if(val&&val!==v.def)tag+=`|${v.name}=${val}`;});
+  tag+=`}}`;
+  return tag;
+}
+
+function openTplVarsModal(tpl,cb){
+  document.getElementById("modal-title").textContent="📋 "+tpl.name+" — Değerler";
+  document.getElementById("modal-footer").style.display="flex";
+  document.getElementById("modal-ok").textContent="▶ Ekle";
+  document.getElementById("modal-cancel").textContent="İptal";
+  const vars=extractTemplateVars(tpl.html);
+  document.getElementById("modal-body").innerHTML=`
+    <div style="margin-bottom:8px;font-size:9pt;color:#800;">${escHtml(tpl.desc||"")}</div>
+    <div style="border:1px solid #d9bfb7;padding:8px;background:#fffef0;margin-bottom:12px;overflow:auto;" id="tpl-vars-prev">${processWikiMarkup(renderTemplate(tpl.html,{}))}</div>
+    ${vars.map(v=>`<label>${escHtml(v.name)}${v.def?` <span style="font-size:8pt;color:#a98;">(varsayılan: ${escHtml(v.def)})</span>`:""}</label>
+    <input type="text" id="tv-${slugify(v.name)}" placeholder="${escHtml(v.def||v.name)}" value="${escHtml(v.def)}" oninput="updateVarsPreview('${tpl.slug}')">`).join("")}`;
+  document.getElementById("modal-overlay").style.display="flex";
+  window._tplModalCb=()=>{
+    const args={};
+    vars.forEach(v=>{const el=document.getElementById("tv-"+slugify(v.name));args[v.name]=(el?el.value:"")||v.def||"";});
+    cb(args);return true;
+  };
+  setTimeout(()=>{const f=document.querySelector("#modal-body input");if(f)f.focus();},50);
+}
+function updateVarsPreview(slug){
+  const tpl=editorTplCache.find(t=>t.slug===slug);if(!tpl)return;
   const vars=extractTemplateVars(tpl.html);
   const args={};
-  vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));if(el)args[v.name]=el.value||v.def||"";});
-  const prev=document.getElementById("ed-tpl-preview");
+  vars.forEach(v=>{const el=document.getElementById("tv-"+slugify(v.name));args[v.name]=(el?el.value:"")||v.def||"";});
+  const prev=document.getElementById("tpl-vars-prev");
   if(prev)prev.innerHTML=processWikiMarkup(renderTemplate(tpl.html,args));
 }
 
-function insertSelectedTemplate(){
-  const tpl=editorTplCache.find(t=>t.slug===selectedTplSlug);
-  if(!tpl){alert("Önce bir şablon seç.");return;}
-  const vars=extractTemplateVars(tpl.html);
-  const args={};
-  vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));if(el)args[v.name]=el.value||v.def||"";});
-  let tag=`{{${tpl.name}`;
-  if(vars.length){
-    vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));const val=el?el.value:"";if(val&&val!==v.def)tag+=`|${v.name}=${val}`;});
+/* Şablon bloğu oluştur — HTML görsel olarak, üstüne tıklayınca edit modal */
+function addTemplateBlock(renderedHtml, sourceTag, tplSlug){
+  const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
+  const pos=getSpawnPos();
+  const block=createBlock("template",pos.x,pos.y);
+  block.style.width="auto";
+  block.dataset.tplSlug=tplSlug;
+  block.dataset.tplTag=sourceTag;
+
+  const inner=block.querySelector(".e-block-inner");
+  inner.contentEditable=false;
+  inner.innerHTML=renderedHtml;
+  inner.style.padding="0";
+  inner.style.cursor="default";
+
+  // Edit overlay — üstüne gelince göster
+  const overlay=document.createElement("div");
+  overlay.className="tpl-edit-overlay";
+  overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
+  block.appendChild(overlay);
+
+  canvas.appendChild(block);
+
+  // Canvas'a scroll et
+  block.scrollIntoView({behavior:"smooth",block:"nearest"});
+  updateBlockCount();
+  selectBlock(block);
+  setStatus("Şablon eklendi: "+tplSlug);
+}
+
+/* Mevcut şablon bloğunu düzenle */
+function editTemplateBlock(block){
+  const slug=block.dataset.tplSlug;
+  const tpl=editorTplCache.find(t=>t.slug===slug);
+  if(!tpl){
+    // Bilinen şablon değilse, ham HTML editi aç
+    openRawHtmlEdit(block);return;
   }
-  tag+=`}}`;
-  const inner=getActiveInner();
-  if(inner){inner.focus();document.execCommand('insertHTML',false,tag);setStatus("Şablon eklendi: "+tpl.name);}
-  else{addTextBlock(tag);setStatus("Şablon bloğu oluşturuldu: "+tpl.name);}
+  const vars=extractTemplateVars(tpl.html);
+  if(!vars.length){
+    // Değişken yok — sadece şablon hakkında bilgi ver
+    showConfirmModal(`"${tpl.name}" şablonunu sil?`,()=>{block.remove();updateBlockCount();});
+    return;
+  }
+  // Mevcut değerleri parse et
+  const currentTag=block.dataset.tplTag||"";
+  const currentArgs=parseTplTag(currentTag,tpl.name,vars);
+  openTplVarsModal(tpl,args=>{
+    const renderedHtml=processWikiMarkup(renderTemplate(tpl.html,args));
+    const tag=buildTplTag(tpl,args,vars);
+    const inner=block.querySelector(".e-block-inner");
+    inner.innerHTML=renderedHtml;
+    block.dataset.tplTag=tag;
+    setStatus("Şablon güncellendi.");
+  });
+  // Mevcut değerleri forma doldur
+  setTimeout(()=>{
+    vars.forEach(v=>{const el=document.getElementById("tv-"+slugify(v.name));if(el&&currentArgs[v.name])el.value=currentArgs[v.name];});
+  },80);
+}
+
+function parseTplTag(tag,name,vars){
+  const args={};
+  // {{Name|key=val|key2=val2}} parse
+  const inner=tag.replace(/^\{\{[^|]+/,"").replace(/\}\}$/,"");
+  if(!inner)return args;
+  inner.split("|").forEach(part=>{
+    const eq=part.indexOf("=");
+    if(eq>0){args[part.slice(0,eq).trim()]=part.slice(eq+1);}
+  });
+  return args;
+}
+
+function openRawHtmlEdit(block){
+  const inner=block.querySelector(".e-block-inner");
+  document.getElementById("modal-title").textContent="✏️ HTML Düzenle";
+  document.getElementById("modal-footer").style.display="flex";
+  document.getElementById("modal-ok").textContent="Uygula";
+  document.getElementById("modal-body").innerHTML=`
+    <textarea id="raw-html-ed" rows="10" style="font-family:'Courier New',monospace;font-size:9pt;width:100%;border:1px solid #555;background:#1e1e1e;color:#d4d4d4;padding:8px;outline:none;">${escHtml(inner.innerHTML)}</textarea>`;
+  document.getElementById("modal-overlay").style.display="flex";
+  window._tplModalCb=()=>{
+    const v=document.getElementById("raw-html-ed").value;
+    inner.innerHTML=v;return true;
+  };
 }
 
 /* ══ ADMIN ══ */
@@ -890,7 +1061,7 @@ function getSpawnPos(){return{x:Math.max(10,lastSpawnX+Math.random()*10-5),y:Mat
 
 function renderEditor(loadSlug){
   document.title="Düzenle — Bilinmeyen Dünya";setStatus("Editör hazır");
-  editingSlug=loadSlug||null;selectedBlock=null;blockIdCounter=0;activeInner=null;selectedTplSlug=null;
+  editingSlug=loadSlug||null;selectedBlock=null;blockIdCounter=0;activeInner=null;
   const adminMsg=isAdmin()?`<div class="notice success">⚙️ Admin: değişiklikler doğrudan yayınlanır.</div>`:isLoggedIn()?`<div class="notice">👤 ${escHtml(currentUser.username)}: Onaya gidecek.</div>`:`<div class="notice warn">⚠️ Giriş yapmadan gönderilen içerikler onaya gidecek. <a style="cursor:pointer;text-decoration:underline;" onclick="showLoginModal()">Giriş Yap</a></div>`;
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
@@ -922,8 +1093,9 @@ function renderEditor(loadSlug){
             <div class="tbg"><button class="tb" onclick="addTextBlock()">📝 Metin</button><button class="tb" onclick="addImageBlock()">🖼️ Resim</button><button class="tb" onclick="addBoxBlock()">📦 Kutu</button></div>
             <div class="tbg"><button class="tb" onclick="changeCanvasSize()">⤢</button><button class="tb" onclick="clearCanvas()" style="color:#d00">🗑️</button></div>
           </div>
-          <!-- EDITOR LAYOUT -->
+          <!-- EDITOR LAYOUT: Sol panel + Canvas -->
           <div class="ed-layout">
+            <!-- Sol şablon paneli -->
             <div class="ed-tpl-panel">
               <div class="ed-tpl-panel-head">
                 <span>📋 Şablonlar</span>
@@ -933,27 +1105,14 @@ function renderEditor(loadSlug){
                 <div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div>
               </div>
             </div>
-            <div class="ed-tpl-info" id="ed-tpl-info">
-              <div class="ed-tpl-info-head">
-                <span id="ed-tpl-info-name">Şablon</span>
-                <button onclick="closeEditorTplInfo()" title="Kapat">✕</button>
-              </div>
-              <div class="ed-tpl-info-body">
-                <div class="ed-tpl-info-desc" id="ed-tpl-info-desc"></div>
-                <div class="ed-tpl-info-vars" id="ed-tpl-info-vars"></div>
-                <div style="font-size:8pt;font-weight:bold;color:#800;margin-bottom:3px;">Önizleme:</div>
-                <div class="ed-tpl-info-prev" id="ed-tpl-preview"></div>
-              </div>
-              <div class="ed-tpl-info-actions">
-                <button class="btn-tpl-insert" onclick="insertSelectedTemplate()">▶ Canvas'a Ekle</button>
-                ${isAdmin()?`<button class="btn-tpl-edit" onclick="openTemplateEditor(selectedTplSlug)">✏️ Düzenle</button>
-                <button class="btn-tpl-copy" onclick="copySelectedTplTag()">📋 Tag Kopyala</button>`:`<button class="btn-tpl-copy" onclick="copySelectedTplTag()">📋 Tag Kopyala</button>`}
-              </div>
-            </div>
+            <!-- Canvas -->
             <div class="ed-canvas-wrap">
               <div class="ed-canvas" id="editor-canvas">
                 <div class="ed-canvas-inner" id="editor-canvas-inner">
-                  <div class="ed-canvas-hint" id="canvas-hint"><div style="font-size:24px;">📝</div><div>Şablondan veya araç çubuğundan başla</div></div>
+                  <div class="ed-canvas-hint" id="canvas-hint">
+                    <div style="font-size:24px;">📝</div>
+                    <div>Sol panelden şablon seç veya araç çubuğundan başla</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -975,30 +1134,9 @@ function renderEditor(loadSlug){
   cvs.addEventListener("mousedown",e=>{trackPos(e.clientX,e.clientY);});
   cvs.addEventListener("touchstart",e=>{const t=e.touches[0];trackPos(t.clientX,t.clientY);},{passive:true});
 
-  document.getElementById("ed-tpl-info").addEventListener("input",e=>{
-    if(e.target.tagName==="INPUT")updateTplInfoPreview();
-  });
-
   if(loadSlug){db.ref("articles/"+loadSlug).once("value",snap=>{if(!snap.exists())return;const a=snap.val();document.getElementById("ed-title").value=a.title;document.getElementById("ed-location").value=a.location||"";(a.blocks||[]).forEach(b=>loadBlock(b));});}
 
   refreshEditorTplPanel();
-}
-
-function closeEditorTplInfo(){
-  document.getElementById("ed-tpl-info").classList.remove("visible");
-  document.querySelectorAll(".ed-tpl-item").forEach(el=>el.classList.remove("active"));
-  selectedTplSlug=null;
-}
-
-function copySelectedTplTag(){
-  const tpl=editorTplCache.find(t=>t.slug===selectedTplSlug);
-  if(!tpl){alert("Önce bir şablon seç.");return;}
-  const vars=extractTemplateVars(tpl.html);
-  let tag=`{{${tpl.name}`;
-  vars.forEach(v=>{const el=document.getElementById("etv-"+slugify(v.name));const val=el?el.value:"";tag+=`|${v.name}=${val||v.def||""}`;});
-  tag+=`}}`;
-  try{navigator.clipboard.writeText(tag).then(()=>setStatus("Tag kopyalandı: "+tag));}
-  catch(e){prompt("Tag (kopyala):",tag);}
 }
 
 /* FORMAT */
@@ -1057,6 +1195,24 @@ function addBoxBlock(){
 }
 function loadBlock(b){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
+  // Şablon tipi için özel yükleme
+  if(b.type==="template"){
+    const tpl=editorTplCache.find(t=>t.slug===b.tplSlug)||null;
+    const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,{})):b.content;
+    const block=createBlock("template",parseInt(b.left)||10,parseInt(b.top)||10);
+    if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
+    block.dataset.tplSlug=b.tplSlug||"";
+    block.dataset.tplTag=b.tplTag||b.content||"";
+    const inner=block.querySelector(".e-block-inner");
+    inner.contentEditable=false;
+    inner.innerHTML=b.content||renderedHtml||"";
+    inner.style.padding="0";
+    const overlay=document.createElement("div");
+    overlay.className="tpl-edit-overlay";
+    overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
+    block.appendChild(overlay);
+    canvas.appendChild(block);updateBlockCount();return;
+  }
   const block=createBlock(b.type,parseInt(b.left)||10,parseInt(b.top)||10);
   if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
   const inner=block.querySelector(".e-block-inner");
@@ -1075,13 +1231,14 @@ function showImageModal(cb){
     <div style="display:flex;margin-bottom:10px;">
       <button id="imgtab-file" onclick="switchImgTab('file')" style="flex:1;padding:4px;background:#98e;border:1px solid #7799cc;cursor:pointer;font-weight:bold;font-size:9pt;color:#000;">📁 Dosyadan Yükle</button>
       <button id="imgtab-url" onclick="switchImgTab('url')" style="flex:1;padding:4px;background:#f0e0d6;border:1px solid #d9bfb7;border-left:none;cursor:pointer;font-size:9pt;color:#800;">🔗 URL ile</button>
+      <button id="imgtab-sb" onclick="switchImgTab('sb')" style="flex:1;padding:4px;background:#f0e0d6;border:1px solid #d9bfb7;border-left:none;cursor:pointer;font-size:9pt;color:#800;">🗃️ Kütüphane</button>
     </div>
     <div id="img-tab-file">
       <label class="img-up-wrap" id="upload-drop" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
         <input type="file" id="img-file-input" accept="image/*" onchange="handleFileSelect(event)">
         <div style="font-size:26px;">🖼️</div>
         <div>Resmi buraya <b>sürükle</b> veya <u>tıklayarak seç</u></div>
-        <div style="font-size:8pt;margin-top:4px;color:#888;">PNG, JPG, GIF, WEBP &bull; 1MB altı önerilir</div>
+        <div style="font-size:8pt;margin-top:4px;color:#888;">PNG, JPG, GIF, WEBP</div>
       </label>
       <div class="upload-prev" id="upload-preview">
         <div style="width:56px;height:56px;border:1px solid #d9bfb7;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;flex-shrink:0;">
@@ -1103,22 +1260,48 @@ function showImageModal(cb){
         <button onclick="confirmImgUrl()" style="flex:1;padding:4px;background:#98e;border:1px solid #7799cc;cursor:pointer;font-weight:bold;font-size:10pt;">✅ Ekle</button>
         <button onclick="closeModal()" style="padding:4px 12px;background:#f0e0d6;border:1px solid #d9bfb7;cursor:pointer;font-size:10pt;">İptal</button>
       </div>
+    </div>
+    <div id="img-tab-sb" style="display:none;">
+      <div id="img-sb-list" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:220px;overflow-y:auto;"></div>
+      <div style="margin-top:8px;"><button onclick="closeModal()" style="padding:4px 12px;background:#f0e0d6;border:1px solid #d9bfb7;cursor:pointer;font-size:10pt;">İptal</button></div>
     </div>`;
   const urlInput=document.getElementById("img-url");const urlPreview=document.getElementById("img-url-preview");
   urlInput.addEventListener("input",()=>{const u=urlInput.value.trim();if(!u){urlPreview.innerHTML=`<span style="color:#888;font-style:italic;font-size:9pt;">URL gir → önizleme</span>`;return;}urlPreview.innerHTML=`<img src="${escHtml(u)}" onerror="this.parentElement.innerHTML='<span style=\\'color:#d00;font-size:9pt;\\'>❌ Yüklenemedi</span>'" style="max-width:100%;max-height:140px;object-fit:contain;">`;});
   urlInput.addEventListener("keydown",e=>{if(e.key==="Enter")confirmImgUrl();});
+  // Kütüphane tabı — Firebase'den yükle
+  db.ref("images").once("value",snap=>{
+    const el=document.getElementById("img-sb-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div style="color:#a98;font-style:italic;font-size:9pt;grid-column:1/-1;">Kütüphanede görsel yok. Sidebar'dan ekle.</div>`;return;}
+    const imgs=Object.entries(data).map(([k,v])=>({key:k,...v})).sort((a,b)=>b.addedAt-a.addedAt);
+    el.innerHTML=imgs.map(img=>`<div style="cursor:pointer;border:2px solid transparent;border-radius:2px;overflow:hidden;" onclick="pickSidebarImg('${escHtml(img.key)}');" title="${escHtml(img.name)}">
+      <img src="${escHtml(img.dataUrl)}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border:1px solid #d9bfb7;">
+      <div style="font-size:7pt;color:#800;padding:2px;background:#f5ece4;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${escHtml(img.name)}</div>
+    </div>`).join("");
+  });
   window._imgCb=cb;window._imgData=null;
   document.getElementById("modal-overlay").style.display="flex";
 }
+function pickSidebarImg(key){
+  db.ref("images/"+key).once("value",snap=>{
+    if(!snap.exists())return;
+    closeModal();
+    if(window._imgCb){window._imgCb(snap.val().dataUrl);window._imgCb=null;}
+  });
+}
 function switchImgTab(tab){
-  const isFile=tab==="file";
-  document.getElementById("img-tab-file").style.display=isFile?"block":"none";
-  document.getElementById("img-tab-url").style.display=isFile?"none":"block";
-  document.getElementById("imgtab-file").style.background=isFile?"#98e":"#f0e0d6";document.getElementById("imgtab-file").style.color=isFile?"#000":"#800";document.getElementById("imgtab-file").style.borderColor=isFile?"#7799cc":"#d9bfb7";
-  document.getElementById("imgtab-url").style.background=isFile?"#f0e0d6":"#98e";document.getElementById("imgtab-url").style.color=isFile?"#800":"#000";document.getElementById("imgtab-url").style.borderColor=isFile?"#d9bfb7":"#7799cc";
+  ["file","url","sb"].forEach(t=>{
+    const div=document.getElementById("img-tab-"+t);
+    const btn=document.getElementById("imgtab-"+t);
+    if(!div||!btn)return;
+    const on=t===tab;
+    div.style.display=on?"block":"none";
+    btn.style.background=on?"#98e":"#f0e0d6";btn.style.color=on?"#000":"#800";btn.style.borderColor=on?"#7799cc":"#d9bfb7";
+  });
 }
 function handleDragOver(e){e.preventDefault();document.getElementById("upload-drop").classList.add("dragover");}
 function handleDragLeave(){document.getElementById("upload-drop").classList.remove("dragover");}
+function handleDragLeave2(){const el=document.getElementById("sb-upload-drop");if(el)el.classList.remove("dragover");}
 function handleDrop(e){e.preventDefault();document.getElementById("upload-drop").classList.remove("dragover");const file=e.dataTransfer.files[0];if(file&&file.type.startsWith("image/"))processImageFile(file);}
 function handleFileSelect(e){const file=e.target.files[0];if(file)processImageFile(file);}
 function processImageFile(file){
@@ -1130,7 +1313,7 @@ function processImageFile(file){
     document.getElementById("upload-fname").textContent=file.name;
     document.getElementById("upload-fsize").textContent=fmtSize(file.size);
     const warn=document.getElementById("upload-warn");
-    if(file.size>800*1024){warn.style.display="block";warn.textContent="⚠️ Büyük dosya ("+fmtSize(file.size)+") — Firebase'de sorun çıkabilir";}
+    if(file.size>800*1024){warn.style.display="block";warn.textContent="⚠️ Büyük dosya ("+fmtSize(file.size)+")";}
     else warn.style.display="none";
     const btn=document.getElementById("btn-upload-confirm");if(btn)btn.disabled=false;
   };reader.readAsDataURL(file);
@@ -1150,7 +1333,7 @@ function createBlock(type,left,top){
   del.addEventListener("click",e=>{e.stopPropagation();if(selectedBlock===block){selectedBlock=null;activeInner=null;}block.remove();updateBlockCount();});
   block.appendChild(del);
   block.addEventListener("mousedown",e=>{
-    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del"))return;
+    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del")||e.target.classList.contains("tpl-edit-btn")||e.target.closest(".tpl-edit-overlay"))return;
     if(type==="text"&&block.classList.contains("selected")&&inner.contains(e.target))return;
     selectBlock(block);const sx=e.clientX,sy=e.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;e.preventDefault();
     function onMove(mv){const dx=mv.clientX-sx,dy=mv.clientY-sy;if(!dragging&&(Math.abs(dx)>4||Math.abs(dy)>4)){dragging=true;block.style.opacity=".8";block.style.zIndex="99";}if(dragging){block.style.left=Math.max(0,origL+dx)+"px";block.style.top=Math.max(0,origT+dy)+"px";setStatus(`X:${Math.max(0,origL+dx).toFixed(0)} Y:${Math.max(0,origT+dy).toFixed(0)}`);updateBlockCount();}}
@@ -1159,7 +1342,7 @@ function createBlock(type,left,top){
   });
   let touchSelectTime=0;
   block.addEventListener("touchstart",e=>{
-    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del"))return;
+    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del")||e.target.classList.contains("tpl-edit-btn"))return;
     const alreadySelected=block.classList.contains("selected");selectBlock(block);
     if(!alreadySelected){touchSelectTime=Date.now();return;}
     const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;
@@ -1181,7 +1364,19 @@ function saveArticle(){
   const title=(document.getElementById("ed-title").value||"").trim(),location=(document.getElementById("ed-location").value||"").trim();
   if(!title){alert("Lütfen bir başlık girin.");document.getElementById("ed-title").focus();return;}
   const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
-  canvas.querySelectorAll(".e-block").forEach(block=>{const type=block.dataset.type,inner=block.querySelector(".e-block-inner");let content;if(type==="image"){const img=inner.querySelector("img");content=img?img.src:"";}else content=inner.innerHTML;blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content});});
+  canvas.querySelectorAll(".e-block").forEach(block=>{
+    const type=block.dataset.type,inner=block.querySelector(".e-block-inner");
+    let content;
+    if(type==="image"){const img=inner.querySelector("img");content=img?img.src:"";}
+    else if(type==="template"){
+      // Şablon blokları için hem rendered HTML hem de tag'i kaydet
+      content=inner.innerHTML;
+      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content,tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
+      return;
+    }
+    else content=inner.innerHTML;
+    blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content});
+  });
   const slug=editingSlug||slugify(title),payload={title,location,slug,blocks,createdAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
   if(isAdmin()){db.ref("articles/"+slug).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Kaydedildi ✅");navigate("article/"+slug);});}
