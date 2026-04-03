@@ -302,7 +302,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 }
 #tpl-bs-overlay.on{display:block;}
 
-/* ═══ SIDEBAR IMAGES — sadece 2 önizleme + see all ═══ */
+/* ═══ SIDEBAR IMAGES — KATALOG ═══ */
 .sb-img-thumbs{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -322,7 +322,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .sb-see-all{display:block;text-align:center;padding:3px;font-size:8pt;color:#0000ff;cursor:pointer;border-top:1px solid #e8d0c0;text-decoration:none;}
 .sb-see-all:hover{color:#d00;text-decoration:underline;}
 
-/* ═══ BOORU GALERİ SAYFASI ═══ */
+/* ═══ BOORU GALERİ / KATALOG SAYFASI ═══ */
 .booru-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
@@ -347,9 +347,31 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 }
 
 /* Şablon overlay */
-.tpl-edit-overlay{position:absolute;inset:0;background:rgba(232,114,42,.0);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5;}
+/* ── template blok drag-handle ── */
+.tpl-drag-handle{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:20px;
+    background:rgba(232,114,42,.18);
+    cursor:grab;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    color:#c45a18;
+    letter-spacing:2px;
+    user-select:none;
+    opacity:0;
+    transition:opacity .15s;
+    z-index:6;
+    border-bottom:1px dashed #e8b080;
+}
+.e-block:hover .tpl-drag-handle{opacity:1;}
+.tpl-drag-handle:active{cursor:grabbing;background:rgba(232,114,42,.35);}
+
+.tpl-edit-overlay{position:absolute;bottom:0;left:0;right:0;height:28px;background:rgba(232,114,42,.0);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5;}
 .e-block:hover .tpl-edit-overlay{opacity:1;pointer-events:auto;}
-.tpl-edit-btn{background:#e87020;color:#fff;border:1px solid #c45a18;padding:3px 10px;font-size:8pt;font-weight:bold;cursor:pointer;border-radius:2px;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;gap:4px;}
+.tpl-edit-btn{background:#e87020;color:#fff;border:1px solid #c45a18;padding:2px 8px;font-size:8pt;font-weight:bold;cursor:pointer;border-radius:2px;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;gap:4px;}
 .tpl-edit-btn:hover{background:#c45a18;}
 .code-editor-wrap{position:relative;}
 .code-editor-wrap textarea{font-family:'Courier New',monospace;font-size:9pt;resize:vertical;background:#1e1e1e;color:#d4d4d4;border:1px solid #555;padding:8px;line-height:1.5;}
@@ -358,6 +380,24 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .img-uploading{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#fff;font-size:12pt;}
 .img-uploading-spinner{width:40px;height:40px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* ═══ KATEGORİ BADGE ═══ */
+.cat-badge{display:inline-block;background:#f0e0d6;border:1px solid #d9bfb7;padding:1px 7px;font-size:8pt;color:#800;margin:2px;cursor:pointer;border-radius:2px;}
+.cat-badge:hover{background:#e8d0c0;color:#d00;}
+.cat-badge.active{background:#e87020;color:#fff;border-color:#c45a18;}
+
+/* ═══ SON DEĞİŞİKLİKLER ═══ */
+.rc-item{padding:4px 0;border-bottom:1px solid #e8d0c0;font-size:9pt;}
+.rc-item:last-child{border-bottom:none;}
+.rc-item a{color:#0000ff;}
+.rc-diff{font-size:8pt;color:#117743;margin-left:4px;}
+
+/* ═══ TOC (İçindekiler) ═══ */
+.wiki-toc{background:#f0e0d6;border:1px solid #d9bfb7;padding:6px 10px;display:inline-block;margin-bottom:10px;min-width:180px;}
+.wiki-toc-title{font-weight:bold;font-size:9pt;color:#800;margin-bottom:4px;text-align:center;}
+.wiki-toc ol{margin-left:16px;font-size:9pt;color:#0000ff;}
+.wiki-toc ol li{margin-bottom:2px;}
+.wiki-toc ol li a{color:#0000ff;}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:700px){
@@ -371,7 +411,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   .wiki-tb{top:28px;}
   .ed-layout{border:none;}
   .ed-canvas-wrap{border:1px solid #d9bfb7;}
-  /* MOBİL CANVAS: ekrana sığsın, yatay scroll ile */
   .ed-canvas{
     min-height:300px;
     overflow-x:auto;
@@ -383,7 +422,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
     min-height:300px;
   }
   .booru-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));}
-  /* Toolbar mobilde daha iyi scroll */
   .wiki-tb{
     gap:2px;
     padding:3px 4px;
@@ -405,7 +443,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   <button id="hamburger" onclick="toggleSidebar()">☰</button>
   <strong onclick="goHome()">🌏 Bilinmeyen Dünya</strong>
   <span class="sep">—</span>
-  <span>[</span><a onclick="goHome()">Ana Sayfa</a><span class="sep">/</span><a onclick="navigate('templates')">Şablonlar</a><span class="sep">/</span><a onclick="goRandom()">Rastgele</a><span>]</span>
+  <span>[</span><a onclick="goHome()">Ana Sayfa</a><span class="sep">/</span><a onclick="navigate('templates')">Şablonlar</a><span class="sep">/</span><a onclick="navigate('recent')">Son Değişiklikler</a><span class="sep">/</span><a onclick="goRandom()">Rastgele</a><span>]</span>
   <div id="topnav-right">
     <div id="search-wrap">
       <input type="search" id="search-input" placeholder="Ara…" onkeydown="if(event.key==='Enter')doSearch()">
@@ -439,6 +477,8 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
         <li><a onclick="goHome();closeSidebar()">🏠 Ana Sayfa</a></li>
         <li><a onclick="openEditor();closeSidebar()">✏️ Yeni Sayfa</a></li>
         <li><a onclick="goRandom();closeSidebar()">🎲 Rastgele</a></li>
+        <li><a onclick="navigate('recent');closeSidebar()">🕐 Son Değişiklikler</a></li>
+        <li><a onclick="navigate('categories');closeSidebar()">🏷️ Kategoriler</a></li>
         <li><a onclick="navigate('templates');closeSidebar()">📋 Şablonlar</a></li>
         <li id="admin-nav-li" style="display:none"><a onclick="navigate('admin');closeSidebar()">⚙️ Admin <span class="pending-badge" id="sidebar-pending-count" style="display:none">0</span></a></li>
       </ul>
@@ -447,10 +487,10 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
       <div class="sbox-head">🔍 Ara</div>
       <div style="padding:4px 6px;"><div style="display:flex;border:1px solid #a9a9a9;overflow:hidden;"><input type="search" id="sb-search-input" placeholder="Ara…" style="flex:1;border:none;outline:none;padding:3px 6px;font-size:9pt;background:#fff;color:#800;" onkeydown="if(event.key==='Enter')doSidebarSearch()"><button onclick="doSidebarSearch()" style="background:#ea8;border:none;border-left:1px solid #d9bfb7;padding:3px 7px;cursor:pointer;font-size:10px;">🔍</button></div></div>
     </div>
-    <!-- GÖRSELLER — 2 thumb + See All -->
+    <!-- KATALOG (eski: Görseller) -->
     <div class="sbox">
       <div class="sbox-head" style="display:flex;align-items:center;justify-content:space-between;">
-        <span>🗃️ Görseller</span>
+        <span>🗃️ Katalog</span>
         <button onclick="openAddImageToSidebar()" style="background:none;border:none;cursor:pointer;color:#800;font-size:13px;padding:0 2px;font-weight:bold;" title="Görsel Ekle">+</button>
       </div>
       <div id="sb-images-list"><div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div></div>
@@ -496,8 +536,8 @@ const firebaseConfig={apiKey:"AIzaSyDAR05cMYAUjkub0smCQHpUZeoGPYe5vL0",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 
-/* ══ IMAGE CACHE — [[File:ad.png]] için Firebase görsellerini önbelleğe al ══ */
-window._imageCache = {}; // key: normalize edilmiş isim → dataUrl
+/* ══ IMAGE CACHE ══ */
+window._imageCache = {};
 
 function preloadFirebaseImages(){
   return new Promise(resolve=>{
@@ -507,11 +547,9 @@ function preloadFirebaseImages(){
       if(data){
         Object.values(data).forEach(img=>{
           if(img.name && img.dataUrl){
-            // Hem orijinal adla hem küçük harfle hem de uzantısız olarak kaydet
             const norm = img.name.trim();
             window._imageCache[norm] = img.dataUrl;
             window._imageCache[norm.toLowerCase()] = img.dataUrl;
-            // uzantısız
             const noExt = norm.replace(/\.[^.]+$/, "");
             window._imageCache[noExt] = img.dataUrl;
             window._imageCache[noExt.toLowerCase()] = img.dataUrl;
@@ -523,7 +561,6 @@ function preloadFirebaseImages(){
   });
 }
 
-// Firebase images değişince cache'i güncelle
 db.ref("images").on("value", snap=>{
   window._imageCache = {};
   const data = snap.val();
@@ -541,7 +578,6 @@ db.ref("images").on("value", snap=>{
   }
 });
 
-// Cache'den görsel URL'si bul — büyük/küçük harf ve uzantı farkını tolere eder
 function getCachedImageUrl(filename){
   if(!filename) return null;
   const f = filename.trim();
@@ -584,7 +620,7 @@ function addFirebaseImage(name,dataUrl,cb){
 }
 function deleteFirebaseImage(key){db.ref("images/"+key).remove(()=>renderSidebarImages());}
 
-/* Sidebar: sadece 2 thumb göster + See All linki */
+/* Sidebar: sadece 2 thumb göster + See All linki — başlık "Katalog" */
 function renderSidebarImages(){
   const el=document.getElementById("sb-images-list");if(!el)return;
   el.innerHTML=`<div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div>`;
@@ -594,7 +630,7 @@ function renderSidebarImages(){
     const imgs=Object.entries(data).map(([k,v])=>({key:k,...v})).sort((a,b)=>b.addedAt-a.addedAt);
     const preview=imgs.slice(0,2);
     const thumbsHtml=preview.map(img=>`<div class="sb-img-thumb" onclick="insertFirebaseImageToCanvas('${escHtml(img.key)}')" title="${escHtml(img.name)}"><img src="${escHtml(img.dataUrl)}" alt="${escHtml(img.name)}"></div>`).join("");
-    el.innerHTML=`<div class="sb-img-thumbs">${thumbsHtml}</div><a class="sb-see-all" onclick="navigate('gallery')">🖼️ Tüm görseller (${imgs.length})</a>`;
+    el.innerHTML=`<div class="sb-img-thumbs">${thumbsHtml}</div><a class="sb-see-all" onclick="navigate('gallery')">🖼️ Tüm katalog (${imgs.length})</a>`;
   });
 }
 
@@ -609,13 +645,13 @@ function insertFirebaseImageToCanvas(key){
   });
 }
 
-/* ══ BOORU GALERİ ══ */
+/* ══ KATALOG (eski: Booru Galeri) ══ */
 function renderGallery(){
-  document.title="Görsel Galerisi — Bilinmeyen Dünya";setStatus("Galeri");
+  document.title="Katalog — Bilinmeyen Dünya";setStatus("Katalog");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
-        <div class="ph-tabs"><span class="ph-tab active">🖼️ Görsel Galerisi</span></div>
+        <div class="ph-tabs"><span class="ph-tab active">🖼️ Katalog</span></div>
         <div class="ph-actions">
           <a onclick="openAddImageToSidebar()">+ Görsel Ekle</a>
           <a onclick="goHome()">Ana Sayfa</a>
@@ -650,7 +686,7 @@ function openGalleryImage(key){
 }
 
 function openAddImageToSidebar(){
-  document.getElementById("modal-title").textContent="🗃️ Görsel Ekle";
+  document.getElementById("modal-title").textContent="🗃️ Katalog'a Görsel Ekle";
   document.getElementById("modal-footer").style.display="none";
   document.getElementById("modal-body").innerHTML=`
     <label>Görsel Adı (ör: saygo.png):</label>
@@ -678,7 +714,7 @@ function handleSbDrop(e){e.preventDefault();document.getElementById("sb-upload-d
 function handleSbFileSelect(e){const f=e.target.files[0];if(f)processSbFile(f);}
 function processSbFile(file){const r=new FileReader();r.onload=ev=>{window._sbImgData=ev.target.result;const prev=document.getElementById("sb-upload-prev");prev.style.display="flex";document.getElementById("sb-thumb").src=ev.target.result;document.getElementById("sb-fname").textContent=file.name;const nameInp=document.getElementById("sb-img-name");if(nameInp&&!nameInp.value)nameInp.value=file.name;};r.readAsDataURL(file);}
 function clearSbUpload(){window._sbImgData=null;document.getElementById("sb-upload-prev").style.display="none";document.getElementById("sb-img-file").value="";}
-function confirmAddSidebarImage(){const name=(document.getElementById("sb-img-name").value||"").trim();if(!name){alert("Görsel adı girin.");return;}if(!window._sbImgData){alert("Önce bir görsel seç.");return;}closeModal();addFirebaseImage(name,window._sbImgData,()=>setStatus("Görsel eklendi: "+name));}
+function confirmAddSidebarImage(){const name=(document.getElementById("sb-img-name").value||"").trim();if(!name){alert("Görsel adı girin.");return;}if(!window._sbImgData){alert("Önce bir görsel seç.");return;}closeModal();addFirebaseImage(name,window._sbImgData,()=>setStatus("Katalog'a eklendi: "+name));}
 
 function updateUserPill(){const p=document.getElementById("user-pill"),sl=document.getElementById("sidebar-login-link");if(!currentUser){p.textContent="[ Giriş Yap ]";p.className="";if(sl)sl.textContent="Giriş / Kayıt";return;}p.textContent="[ "+(isAdmin()?"⚙️ ":"")+currentUser.username+" | Çıkış ]";p.className=isAdmin()?"admin-pill":"";if(sl)sl.textContent="🚪 Çıkış ("+currentUser.username+")";}
 function updateAdminNav(){document.getElementById("admin-nav-li").style.display=isAdmin()?"block":"none";if(isAdmin())refreshPendingCount();}
@@ -726,7 +762,7 @@ function navigate(p){location.hash="#"+p;}
 function goHome(){navigate("");}
 function openEditor(){navigate("editor");}
 function goRandom(){db.ref("articles").once("value",snap=>{const data=snap.val();if(!data){setStatus("Hiç sayfa yok.");return;}const vals=Object.values(data);navigate("article/"+vals[Math.floor(Math.random()*vals.length)].slug);});}
-function router(){closeEmojiPicker();const hash=location.hash.replace(/^#\/?/,"");if(hash.startsWith("article/"))loadArticle(hash.split("/")[1]);else if(hash.startsWith("editor/"))renderEditor(hash.split("/")[1]);else if(hash==="editor")renderEditor(null);else if(hash==="admin")renderAdmin();else if(hash==="templates")renderTemplates();else if(hash==="gallery")renderGallery();else renderHome();}
+function router(){closeEmojiPicker();const hash=location.hash.replace(/^#\/?/,"");if(hash.startsWith("article/"))loadArticle(hash.split("/")[1]);else if(hash.startsWith("editor/"))renderEditor(hash.split("/")[1]);else if(hash==="editor")renderEditor(null);else if(hash==="admin")renderAdmin();else if(hash==="templates")renderTemplates();else if(hash==="gallery")renderGallery();else if(hash==="recent")renderRecentChanges();else if(hash==="categories")renderCategories();else if(hash.startsWith("category/"))renderCategory(decodeURIComponent(hash.split("/")[1]));else renderHome();}
 
 /* ══ UTILS ══ */
 function slugify(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s").replace(/ı/g,"i").replace(/ö/g,"o").replace(/ç/g,"c").replace(/\s+/g,"-").replace(/[^\w\-]+/g,"").replace(/--+/g,"-").substring(0,80);}
@@ -738,13 +774,110 @@ function fmtSize(b){if(b<1024)return b+"B";if(b<1048576)return(b/1024).toFixed(1
 function toggleSidebar(){document.getElementById("sidebar").classList.toggle("mob-open");document.getElementById("sb-overlay").classList.toggle("on");}
 function closeSidebar(){document.getElementById("sidebar").classList.remove("mob-open");document.getElementById("sb-overlay").classList.remove("on");}
 
-/* ══ TEMPLATE ENGINE ══ */
-function renderTemplate(html,args){return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{name=name.trim();if(args&&args[name]!==undefined)return args[name];return def!==undefined?def:"";});}
+/* ══ SON DEĞİŞİKLİKLER ══ */
+function renderRecentChanges(){
+  document.title="Son Değişiklikler — Bilinmeyen Dünya";setStatus("Son değişiklikler");
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab active">🕐 Son Değişiklikler</span></div>
+        <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
+      <div class="page-body">
+        <div id="rc-list"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  db.ref("articles").once("value",snap=>{
+    const el=document.getElementById("rc-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">Henüz sayfa yok.</div>`;return;}
+    const articles=Object.values(data).sort((a,b)=>(b.updatedAt||b.createdAt)-(a.updatedAt||a.createdAt)).slice(0,50);
+    // Tarihe göre grupla
+    const groups={};
+    articles.forEach(a=>{
+      const d=new Date(a.updatedAt||a.createdAt);
+      const key=d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
+      if(!groups[key])groups[key]=[];
+      groups[key].push(a);
+    });
+    let html="";
+    Object.entries(groups).forEach(([date,arts])=>{
+      html+=`<div style="margin-bottom:12px;"><div style="font-weight:bold;font-size:10pt;color:#800;border-bottom:1px solid #d9bfb7;padding-bottom:2px;margin-bottom:4px;">📅 ${escHtml(date)}</div>`;
+      arts.forEach(a=>{
+        const t=new Date(a.updatedAt||a.createdAt).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+        const cats=(a.categories||[]).map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("");
+        html+=`<div class="rc-item"><span style="color:#888;font-size:8pt;margin-right:6px;">${t}</span><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a><span class="rc-diff">✍️ ${escHtml(a.author||"Anonim")}</span>${cats?`<span style="margin-left:4px;">${cats}</span>`:""}</div>`;
+      });
+      html+="</div>";
+    });
+    el.innerHTML=html||`<div class="empty-state">Henüz sayfa yok.</div>`;
+  });
+}
 
-/* ══ WIKI MARKUP PROCESSOR ══
-   [[File:Kerem.png|180px]] → Firebase cache'den gerçek img etiketi
-   Eğer cache'de yoksa placeholder göster
-*/
+/* ══ KATEGORİLER ══ */
+function renderCategories(){
+  document.title="Kategoriler — Bilinmeyen Dünya";setStatus("Kategoriler");
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab active">🏷️ Kategoriler</span></div>
+        <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
+      <div class="page-body">
+        <div id="cat-list"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  db.ref("articles").once("value",snap=>{
+    const el=document.getElementById("cat-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">Henüz kategori yok.</div>`;return;}
+    const catMap={};
+    Object.values(data).forEach(a=>{
+      (a.categories||[]).forEach(c=>{
+        if(!catMap[c])catMap[c]=0;
+        catMap[c]++;
+      });
+    });
+    const cats=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
+    if(!cats.length){el.innerHTML=`<div class="empty-state">Henüz kategori yok. Sayfa düzenlerken kategori ekleyebilirsiniz.</div>`;return;}
+    el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:8px;">Toplam ${cats.length} kategori, tıklayarak filtreleyin:</p><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">${cats.map(([c,n])=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')" style="font-size:9pt;padding:2px 10px;">🏷️ ${escHtml(c)} <span style="color:#a98;">(${n})</span></span>`).join("")}</div>`;
+  });
+}
+
+function renderCategory(catName){
+  document.title=catName+" — Bilinmeyen Dünya";setStatus("Kategori: "+catName);
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab" onclick="navigate('categories')">🏷️ Kategoriler</span><span class="ph-tab active">📁 ${escHtml(catName)}</span></div>
+        <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
+      <div class="page-body">
+        <div id="cat-articles"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  db.ref("articles").once("value",snap=>{
+    const el=document.getElementById("cat-articles");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">Sonuç bulunamadı.</div>`;return;}
+    const arts=Object.values(data).filter(a=>(a.categories||[]).includes(catName)).sort((a,b)=>a.title.localeCompare(b.title,"tr"));
+    if(!arts.length){el.innerHTML=`<div class="empty-state">"${escHtml(catName)}" kategorisinde sayfa yok.</div>`;return;}
+    el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:8px;">${arts.length} sayfa:</p>${arts.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")} &bull; ✍️ ${escHtml(a.author||"Anonim")}</div></div>`).join("")}`;
+  });
+}
+
+/* ══ TEMPLATE ENGINE ══ */
+/* FIX: Varsayılan değerlerle önizleme doğru render edilsin */
+function renderTemplate(html,args){
+  return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{
+    name=name.trim();
+    if(args&&args[name]!==undefined&&args[name]!=="")return args[name];
+    // args'ta yoksa def (varsayılan) kullan
+    return def!==undefined?def:"";
+  });
+}
+
+/* ══ WIKI MARKUP PROCESSOR ══ */
 function convertWikiTable(text){
   return text.replace(/\{\|([^\n]*)\n([\s\S]*?)\n?\|\}/g,function(match,attrs,body){
     let tableAttr=attrs.trim();let html=`<table ${tableAttr}>`;
@@ -760,16 +893,13 @@ function processWikiMarkup(html){
   html=html.replace(/<noinclude>[\s\S]*?<\/noinclude>/gi,'');
   html=convertWikiTable(html);
 
-  // ══ [[File:...]] / [[Dosya:...]] / [[Image:...]] / [[Resim:...]] ══
-  // Cache'den gerçek görsel yükle; yoksa placeholder
+  // [[File:...]] / [[Dosya:...]] / [[Image:...]] / [[Resim:...]]
   html=html.replace(/\[\[(?:File|Dosya|Image|Resim):([^\]|]+)(?:\|([^\]]*))?\]\]/gi,function(m,filename,params){
     filename=filename.trim();
     let width='180';
     let floatStyle='';
     if(params){
-      // boyut: 180px
       const sm=params.match(/(\d+)px/);if(sm)width=sm[1];
-      // hizalama: right/left/center/thumb
       if(/\bright\b/i.test(params))floatStyle='float:right;margin:0 0 8px 12px;';
       else if(/\bleft\b/i.test(params))floatStyle='float:left;margin:0 12px 8px 0;';
       else if(/\bcenter\b/i.test(params))floatStyle='display:block;margin:0 auto;';
@@ -778,7 +908,6 @@ function processWikiMarkup(html){
     if(cachedUrl){
       return `<img src="${escHtml(cachedUrl)}" alt="${escHtml(filename)}" style="width:${width}px;max-width:100%;height:auto;border:1px solid #d9bfb7;${floatStyle}" loading="lazy">`;
     }
-    // Cache'de yok → placeholder (küçük ve net)
     return `<span style="display:inline-flex;align-items:center;gap:4px;background:#f0e0d6;border:1px dashed #d9bfb7;padding:2px 6px;font-size:8pt;color:#a98;border-radius:2px;" title="${escHtml(filename)}">📷 ${escHtml(filename)}</span>`;
   });
 
@@ -792,7 +921,7 @@ async function loadAllTemplates(){return new Promise(resolve=>{db.ref("templates
 function seedTemplates(){db.ref("templates").once("value",snap=>{BUILTIN_TEMPLATES.forEach(tpl=>{if(!snap.child(tpl.slug).exists())db.ref("templates/"+tpl.slug).set(tpl);});});}
 function extractTemplateVars(html){const vars=[];const rx=/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g;let m;while((m=rx.exec(html))!==null){const name=m[1].trim(),def=m[2]||"";if(!vars.find(v=>v.name===name))vars.push({name,def});}return vars;}
 
-/* ══ HOME — Admin tarafından düzenlenebilir sayfa ══ */
+/* ══ HOME ══ */
 function renderHome(){
   document.title="Ana Sayfa — Bilinmeyen Dünya";setStatus("Ana sayfa");
   const mc=document.getElementById("main-content");
@@ -838,7 +967,6 @@ function editHomepage(){
 async function loadArticle(slug){
   if(slug==="__homepage__"){renderHomepageEditor();return;}
   setStatus("Yükleniyor…");
-  // Önce image cache'i yükle, sonra makaleyi render et
   const [snap, templates] = await Promise.all([
     db.ref("articles/"+slug).once("value"),
     loadAllTemplates(),
@@ -854,6 +982,7 @@ async function loadArticle(slug){
     if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;
     return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
   }).join("");
+  const catHtml=(a.categories&&a.categories.length)?`<div style="margin-top:8px;border-top:1px solid #e8d0c0;padding-top:6px;font-size:9pt;"><span style="color:#800;font-weight:bold;">🏷️ Kategoriler:</span> ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join(" ")}</div>`:"";
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">📄 Sayfa</span><span class="ph-tab" onclick="navigate('editor/${slug}')">✏️ Düzenle</span></div><div class="ph-actions"><a onclick="navigate('editor/${slug}')">✏️ Düzenle</a><a class="red" onclick="deleteArticle('${slug}')">🗑️ Sil</a></div></div>
@@ -861,6 +990,7 @@ async function loadArticle(slug){
         <div class="art-title">${escHtml(a.title)}</div>
         <div class="art-meta"><span>📍 ${escHtml(a.location||"Anonim")}</span><span>📅 ${new Date(a.createdAt).toLocaleString("tr-TR")}</span>${a.author?`<span>✍️ ${escHtml(a.author)}</span>`:""}</div>
         <div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>
+        ${catHtml}
       </div>
     </div>`;
 }
@@ -951,9 +1081,10 @@ function copyTplCode(){const el=document.getElementById("tpl-html");if(!el)retur
 function previewTemplateHtml(){
   const html=document.getElementById("tpl-html").value||"";
   const box=document.getElementById("tpl-prev-box");box.style.display="block";
-  // Önizlemede de cache kullan
+  // FIX: Varsayılan değerlerle önizleme yap
   preloadFirebaseImages().then(()=>{
-    box.innerHTML=processWikiMarkup(renderTemplate(html,{}));
+    const rendered = renderTemplate(html, {});
+    box.innerHTML=processWikiMarkup(rendered);
   });
 }
 function deleteTemplate(slug){showConfirmModal("Bu şablonu sil?",()=>{db.ref("templates/"+slug).remove(()=>{setStatus("Silindi.");reloadTplList();refreshEditorTplPanel();});});}
@@ -961,8 +1092,10 @@ function previewTemplate(slug){
   loadAllTemplates().then(templates=>{
     const t=templates.find(t=>t.slug===slug);if(!t)return;
     preloadFirebaseImages().then(()=>{
+      // FIX: Varsayılan değerlerle önizle
+      const rendered = renderTemplate(t.html, {});
       document.getElementById("modal-title").textContent="👁 "+t.name;
-      document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>`;
+      document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(rendered)}</div>`;
       document.getElementById("modal-footer").style.display="none";
       document.getElementById("modal-overlay").style.display="flex";
     });
@@ -980,7 +1113,11 @@ async function refreshEditorTplPanel(){
   if(list){
     if(!editorTplCache.length){list.innerHTML=`<div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Şablon yok</div>`;}
     else{
-      list.innerHTML=editorTplCache.map(t=>{const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));return`<div class="ed-tpl-item" id="edti-${t.slug}"><div class="ed-tpl-preview-box">${prevHtml}</div><div class="ed-tpl-item-footer"><span class="ed-tpl-item-name">📋 ${escHtml(t.name)}</span><button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}')">+ Ekle</button></div></div>`;}).join("");
+      list.innerHTML=editorTplCache.map(t=>{
+        // FIX: Varsayılan değerlerle önizleme
+        const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));
+        return`<div class="ed-tpl-item" id="edti-${t.slug}"><div class="ed-tpl-preview-box">${prevHtml}</div><div class="ed-tpl-item-footer"><span class="ed-tpl-item-name">📋 ${escHtml(t.name)}</span><button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}')">+ Ekle</button></div></div>`;
+      }).join("");
       editorTplCache.forEach(t=>{const el=document.getElementById("edti-"+t.slug);if(el){el.addEventListener("click",function(e){if(e.target.tagName==="BUTTON")return;insertTemplateToCanvas(t.slug);});}});
     }
   }
@@ -989,7 +1126,10 @@ async function refreshEditorTplPanel(){
   if(bsList){
     if(!editorTplCache.length){bsList.innerHTML=`<div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;grid-column:1/-1;">Şablon yok</div>`;}
     else{
-      bsList.innerHTML=editorTplCache.map(t=>{const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));return`<div class="ed-tpl-item" id="bsti-${t.slug}"><div class="ed-tpl-preview-box" style="min-height:40px;max-height:70px;">${prevHtml}</div><div class="ed-tpl-item-footer"><span class="ed-tpl-item-name" style="font-size:7pt;">📋 ${escHtml(t.name)}</span><button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}');closeTplSheet();">+ Ekle</button></div></div>`;}).join("");
+      bsList.innerHTML=editorTplCache.map(t=>{
+        const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));
+        return`<div class="ed-tpl-item" id="bsti-${t.slug}"><div class="ed-tpl-preview-box" style="min-height:40px;max-height:70px;">${prevHtml}</div><div class="ed-tpl-item-footer"><span class="ed-tpl-item-name" style="font-size:7pt;">📋 ${escHtml(t.name)}</span><button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}');closeTplSheet();">+ Ekle</button></div></div>`;
+      }).join("");
       editorTplCache.forEach(t=>{const el=document.getElementById("bsti-"+t.slug);if(el){el.addEventListener("click",function(e){if(e.target.tagName==="BUTTON")return;insertTemplateToCanvas(t.slug);closeTplSheet();});}});
     }
   }
@@ -1041,12 +1181,52 @@ function addTemplateBlock(renderedHtml,sourceTag,tplSlug){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   const pos=getSpawnPos();const block=createBlock("template",pos.x,pos.y);
   block.style.width="auto";block.dataset.tplSlug=tplSlug;block.dataset.tplTag=sourceTag;
-  const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="0";inner.style.cursor="default";
+  const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="4px";inner.style.cursor="default";
+
+  // DRAG HANDLE — üst bar ile sürükle
+  const dragHandle=document.createElement("div");dragHandle.className="tpl-drag-handle";dragHandle.textContent="⠿⠿⠿ taşı";
+  block.appendChild(dragHandle);
+
   const overlay=document.createElement("div");overlay.className="tpl-edit-overlay";overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
-  block.appendChild(overlay);canvas.appendChild(block);
+  block.appendChild(overlay);
+  canvas.appendChild(block);
   block.scrollIntoView({behavior:"smooth",block:"nearest"});
-  updateBlockCount();selectBlock(block);setStatus("Şablon eklendi: "+tplSlug);
+  updateBlockCount();selectBlock(block);
+
+  // DRAG HANDLE mouse events
+  makeDragHandle(block, dragHandle);
 }
+
+/* Drag handle ile taşıma — template blok */
+function makeDragHandle(block, handle){
+  handle.addEventListener("mousedown",e=>{
+    e.stopPropagation();e.preventDefault();
+    selectBlock(block);
+    const sx=e.clientX,sy=e.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;
+    block.style.opacity=".85";block.style.zIndex="99";handle.style.cursor="grabbing";
+    function onMove(mv){
+      block.style.left=Math.max(0,origL+(mv.clientX-sx))+"px";
+      block.style.top=Math.max(0,origT+(mv.clientY-sy))+"px";
+      updateBlockCount();
+    }
+    function onUp(){
+      document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);
+      block.style.opacity="";block.style.zIndex="";handle.style.cursor="grab";
+    }
+    document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);
+  });
+  // Touch
+  handle.addEventListener("touchstart",e=>{
+    e.stopPropagation();e.preventDefault();
+    selectBlock(block);
+    const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;
+    block.style.opacity=".85";block.style.zIndex="99";
+    function onMove(mv){mv.preventDefault();const t=mv.touches[0];block.style.left=Math.max(0,origL+(t.clientX-sx))+"px";block.style.top=Math.max(0,origT+(t.clientY-sy))+"px";updateBlockCount();}
+    function onEnd(){block.removeEventListener("touchmove",onMove);block.removeEventListener("touchend",onEnd);block.style.opacity="";block.style.zIndex="";}
+    block.addEventListener("touchmove",onMove,{passive:false});block.addEventListener("touchend",onEnd);
+  },{passive:false});
+}
+
 function editTemplateBlock(block){
   const slug=block.dataset.tplSlug;const tpl=editorTplCache.find(t=>t.slug===slug);
   if(!tpl){openRawHtmlEdit(block);return;}
@@ -1113,7 +1293,8 @@ function renderEditor(loadSlug){
           ${isHomepageEditor?`<div style="background:#e8f4e8;border:1px solid #4a7d44;padding:6px 10px;margin-bottom:8px;font-size:9pt;color:#2a4d2a;">🏠 <b>Ana Sayfa</b> düzenleniyor — Admin yetkisi gerektirir.</div>`:""}
           ${!isHomepageEditor?`<input type="text" id="ed-title" class="ed-title" placeholder="Sayfa başlığı…">`:""}
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
-            ${!isHomepageEditor?`<input type="text" id="ed-location" class="ed-loc" placeholder="📍 Konum (opsiyonel)">`:""}
+            ${!isHomepageEditor?`<input type="text" id="ed-location" class="ed-loc" placeholder="📍 Konum (opsiyonel)">
+            <input type="text" id="ed-categories" class="ed-loc" placeholder="🏷️ Kategoriler (virgülle ayır)" style="width:260px;">`:""}
             ${isAdmin()?`<button class="tpl-new-btn" onclick="openTemplateEditor(null)" style="font-size:9pt;">+ Yeni Şablon</button>`:""}
           </div>
           ${adminMsg}
@@ -1128,7 +1309,6 @@ function renderEditor(loadSlug){
             <div class="tbg"><button class="tb" onclick="fmt('insertUnorderedList')">• Liste</button><button class="tb" onclick="fmt('insertOrderedList')">1. Liste</button></div>
             <div class="tbg"><button class="tb" onclick="fmt('insertHorizontalRule')">──</button><button class="tb" onclick="insertLink()">🔗</button><button class="tb" onclick="insertTable()">⊞</button><button class="tb" id="emoji-btn" onclick="toggleEmojiPicker(event)">😀</button></div>
             <div class="tbg"><button class="tb" onclick="addTextBlock()">📝 Metin</button><button class="tb" onclick="addImageBlock()">🖼️ Resim</button><button class="tb" onclick="addBoxBlock()">📦 Kutu</button></div>
-            <!-- ŞABLON BUTONU: desktop'ta panel toggle, mobilde bottom sheet -->
             <div class="tbg">
               <button class="tb" id="tpl-panel-toggle-btn" onclick="handleTplPanelBtn()" style="background:#f5ece4;border:1px solid #d9bfb7;font-weight:bold;">📋 Şablon</button>
             </div>
@@ -1179,7 +1359,7 @@ function renderEditor(loadSlug){
   if(isHomepageEditor){
     db.ref("homepage").once("value",snap=>{if(!snap.exists()||!snap.val().blocks)return;const hp=snap.val();(hp.blocks||[]).forEach(b=>loadBlock(b));});
   } else if(loadSlug){
-    db.ref("articles/"+loadSlug).once("value",snap=>{if(!snap.exists())return;const a=snap.val();const titleEl=document.getElementById("ed-title");const locEl=document.getElementById("ed-location");if(titleEl)titleEl.value=a.title;if(locEl)locEl.value=a.location||"";(a.blocks||[]).forEach(b=>loadBlock(b));});
+    db.ref("articles/"+loadSlug).once("value",snap=>{if(!snap.exists())return;const a=snap.val();const titleEl=document.getElementById("ed-title");const locEl=document.getElementById("ed-location");const catEl=document.getElementById("ed-categories");if(titleEl)titleEl.value=a.title;if(locEl)locEl.value=a.location||"";if(catEl)catEl.value=(a.categories||[]).join(", ");(a.blocks||[]).forEach(b=>loadBlock(b));});
   }
 
   refreshEditorTplPanel();
@@ -1234,15 +1414,23 @@ function updateBlockCount(){
 }
 function addTextBlock(initHtml){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const pos=getSpawnPos();const block=createBlock("text",pos.x,pos.y);block.style.width="300px";const inner=block.querySelector(".e-block-inner");inner.innerHTML=initHtml||"<p>Buraya yazın…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;const r=document.createRange();r.selectNodeContents(inner);r.collapse(false);const s=window.getSelection();s.removeAllRanges();s.addRange(r);},60);}
 function addBoxBlock(){const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;const pos=getSpawnPos();const block=createBlock("text",pos.x,pos.y);block.style.width="260px";block.style.border="2px solid #d9bfb7";block.style.background="#f0e0d6";const inner=block.querySelector(".e-block-inner");inner.innerHTML="<b style='color:#d00;'>Kutu Başlığı</b><p style='font-size:9pt;margin-top:4px;'>İçerik buraya…</p>";canvas.appendChild(block);updateBlockCount();setTimeout(()=>{inner.focus();activeInner=inner;},60);}
+
 function loadBlock(b){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   if(b.type==="template"){
     const tpl=editorTplCache.find(t=>t.slug===b.tplSlug)||null;
+    // FIX: Varsayılan değerlerle render
     const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,{})):b.content;
     const block=createBlock("template",parseInt(b.left)||10,parseInt(b.top)||10);
     if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
     block.dataset.tplSlug=b.tplSlug||"";block.dataset.tplTag=b.tplTag||b.content||"";
-    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="0";
+    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="4px";
+
+    // Drag handle ekle
+    const dragHandle=document.createElement("div");dragHandle.className="tpl-drag-handle";dragHandle.textContent="⠿⠿⠿ taşı";
+    block.appendChild(dragHandle);
+    makeDragHandle(block, dragHandle);
+
     const overlay=document.createElement("div");overlay.className="tpl-edit-overlay";overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
     block.appendChild(overlay);canvas.appendChild(block);updateBlockCount();return;
   }
@@ -1263,7 +1451,7 @@ function showImageModal(cb){
     <div style="display:flex;margin-bottom:10px;">
       <button id="imgtab-file" onclick="switchImgTab('file')" style="flex:1;padding:4px;background:#98e;border:1px solid #7799cc;cursor:pointer;font-weight:bold;font-size:9pt;color:#000;">📁 Dosyadan Yükle</button>
       <button id="imgtab-url" onclick="switchImgTab('url')" style="flex:1;padding:4px;background:#f0e0d6;border:1px solid #d9bfb7;border-left:none;cursor:pointer;font-size:9pt;color:#800;">🔗 URL ile</button>
-      <button id="imgtab-sb" onclick="switchImgTab('sb')" style="flex:1;padding:4px;background:#f0e0d6;border:1px solid #d9bfb7;border-left:none;cursor:pointer;font-size:9pt;color:#800;">🗃️ Kütüphane</button>
+      <button id="imgtab-sb" onclick="switchImgTab('sb')" style="flex:1;padding:4px;background:#f0e0d6;border:1px solid #d9bfb7;border-left:none;cursor:pointer;font-size:9pt;color:#800;">🗃️ Katalog</button>
     </div>
     <div id="img-tab-file">
       <label class="img-up-wrap" id="upload-drop" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
@@ -1295,7 +1483,7 @@ function showImageModal(cb){
   const urlInput=document.getElementById("img-url");const urlPreview=document.getElementById("img-url-preview");
   urlInput.addEventListener("input",()=>{const u=urlInput.value.trim();if(!u){urlPreview.innerHTML=`<span style="color:#888;font-style:italic;font-size:9pt;">URL gir → önizleme</span>`;return;}urlPreview.innerHTML=`<img src="${escHtml(u)}" onerror="this.parentElement.innerHTML='<span style=\\'color:#d00;font-size:9pt;\\'>❌ Yüklenemedi</span>'" style="max-width:100%;max-height:140px;object-fit:contain;">`;});
   urlInput.addEventListener("keydown",e=>{if(e.key==="Enter")confirmImgUrl();});
-  db.ref("images").once("value",snap=>{const el=document.getElementById("img-sb-list");if(!el)return;const data=snap.val();if(!data){el.innerHTML=`<div style="color:#a98;font-style:italic;font-size:9pt;grid-column:1/-1;">Kütüphanede görsel yok.</div>`;return;}const imgs=Object.entries(data).map(([k,v])=>({key:k,...v})).sort((a,b)=>b.addedAt-a.addedAt);el.innerHTML=imgs.map(img=>`<div style="cursor:pointer;border:2px solid transparent;border-radius:2px;overflow:hidden;" onclick="pickSidebarImg('${escHtml(img.key)}')" title="${escHtml(img.name)}"><img src="${escHtml(img.dataUrl)}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border:1px solid #d9bfb7;"><div style="font-size:7pt;color:#800;padding:2px;background:#f5ece4;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${escHtml(img.name)}</div></div>`).join("");});
+  db.ref("images").once("value",snap=>{const el=document.getElementById("img-sb-list");if(!el)return;const data=snap.val();if(!data){el.innerHTML=`<div style="color:#a98;font-style:italic;font-size:9pt;grid-column:1/-1;">Katalogda görsel yok.</div>`;return;}const imgs=Object.entries(data).map(([k,v])=>({key:k,...v})).sort((a,b)=>b.addedAt-a.addedAt);el.innerHTML=imgs.map(img=>`<div style="cursor:pointer;border:2px solid transparent;border-radius:2px;overflow:hidden;" onclick="pickSidebarImg('${escHtml(img.key)}')" title="${escHtml(img.name)}"><img src="${escHtml(img.dataUrl)}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border:1px solid #d9bfb7;"><div style="font-size:7pt;color:#800;padding:2px;background:#f5ece4;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${escHtml(img.name)}</div></div>`).join("");});
   window._imgCb=cb;window._imgData=null;
   document.getElementById("modal-overlay").style.display="flex";
 }
@@ -1322,7 +1510,7 @@ function createBlock(type,left,top){
   del.addEventListener("click",e=>{e.stopPropagation();if(selectedBlock===block){selectedBlock=null;activeInner=null;}block.remove();updateBlockCount();});
   block.appendChild(del);
   block.addEventListener("mousedown",e=>{
-    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del")||e.target.classList.contains("tpl-edit-btn")||e.target.closest(".tpl-edit-overlay"))return;
+    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del")||e.target.classList.contains("tpl-edit-btn")||e.target.classList.contains("tpl-drag-handle")||e.target.closest(".tpl-edit-overlay"))return;
     if(type==="text"&&block.classList.contains("selected")&&inner.contains(e.target))return;
     selectBlock(block);const sx=e.clientX,sy=e.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;e.preventDefault();
     function onMove(mv){const dx=mv.clientX-sx,dy=mv.clientY-sy;if(!dragging&&(Math.abs(dx)>4||Math.abs(dy)>4)){dragging=true;block.style.opacity=".8";block.style.zIndex="99";}if(dragging){block.style.left=Math.max(0,origL+dx)+"px";block.style.top=Math.max(0,origT+dy)+"px";setStatus(`X:${Math.max(0,origL+dx).toFixed(0)} Y:${Math.max(0,origT+dy).toFixed(0)}`);updateBlockCount();}}
@@ -1331,7 +1519,7 @@ function createBlock(type,left,top){
   });
   let touchSelectTime=0;
   block.addEventListener("touchstart",e=>{
-    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del")||e.target.classList.contains("tpl-edit-btn"))return;
+    if(e.target.classList.contains("rh")||e.target.classList.contains("block-del")||e.target.classList.contains("tpl-edit-btn")||e.target.classList.contains("tpl-drag-handle"))return;
     const alreadySelected=block.classList.contains("selected");selectBlock(block);
     if(!alreadySelected){touchSelectTime=Date.now();return;}
     const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;let dragging=false;
@@ -1371,7 +1559,10 @@ function saveArticle(){
     });
     return;
   }
-  const title=(document.getElementById("ed-title").value||"").trim(),location=(document.getElementById("ed-location")?document.getElementById("ed-location").value:"").trim();
+  const title=(document.getElementById("ed-title").value||"").trim();
+  const location=(document.getElementById("ed-location")?document.getElementById("ed-location").value:"").trim();
+  const catRaw=(document.getElementById("ed-categories")?document.getElementById("ed-categories").value:"").trim();
+  const categories=catRaw?catRaw.split(",").map(c=>c.trim()).filter(Boolean):[];
   if(!title){alert("Lütfen bir başlık girin.");document.getElementById("ed-title").focus();return;}
   const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
   canvas.querySelectorAll(".e-block").forEach(block=>{
@@ -1385,7 +1576,8 @@ function saveArticle(){
       blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
     }
   });
-  const slug=editingSlug||slugify(title),payload={title,location,slug,blocks,createdAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
+  const slug=editingSlug||slugify(title);
+  const payload={title,location,slug,blocks,categories,createdAt:Date.now(),updatedAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
   if(isAdmin()){db.ref("articles/"+slug).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Kaydedildi ✅");navigate("article/"+slug);});}
   else{db.ref("pending/"+slug+"_"+Date.now()).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Onaya gönderildi ✅");document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice success">✅ İçeriğiniz admin onayına gönderildi!</div><button class="btn-post" onclick="goHome()" style="margin-top:10px">🏠 Ana Sayfaya Dön</button></div></div>`;});}
@@ -1402,7 +1594,7 @@ function showInputModal(title,fields,cb){modalCb=cb;document.getElementById("mod
 /* ══ SEARCH ══ */
 function doSearch(){const q=(document.getElementById("search-input").value||"").trim().toLowerCase();if(!q)return;_runSearch(q);}
 function doSidebarSearch(){const q=(document.getElementById("sb-search-input").value||"").trim().toLowerCase();if(!q)return;closeSidebar();_runSearch(q);}
-function _runSearch(q){setStatus("Aranıyor: "+q);db.ref("articles").once("value",snap=>{const data=snap.val();const el=document.getElementById("main-content");if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q)));document.title=`"${q}" — Bilinmeyen Dünya`;el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;setStatus(res.length+" sonuç");});}
+function _runSearch(q){setStatus("Aranıyor: "+q);db.ref("articles").once("value",snap=>{const data=snap.val();const el=document.getElementById("main-content");if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q))||(a.categories||[]).some(c=>c.toLowerCase().includes(q)));document.title=`"${q}" — Bilinmeyen Dünya`;el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}${(a.categories&&a.categories.length)?` &bull; ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("")}`:""}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;setStatus(res.length+" sonuç");});}
 
 /* ══ KEYBOARD ══ */
 document.addEventListener("keydown",e=>{
@@ -1417,7 +1609,6 @@ db.ref("articles").on("value",snap=>{const n=snap.val()?Object.keys(snap.val()).
 loadSession();
 seedTemplates();
 renderSidebarImages();
-// Image cache'i önceden yükle, sonra router'ı çalıştır
 preloadFirebaseImages().then(()=>router());
 </script>
 </body>
