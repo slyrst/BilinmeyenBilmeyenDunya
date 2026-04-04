@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bilinmeyen Dünya</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:arial,helvetica,sans-serif;font-size:10pt;background:#ffe;color:#800000;padding-top:28px;padding-bottom:80px;}
@@ -17,8 +18,9 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 #topnav a{color:#fff5ee!important;text-decoration:none;}
 #topnav a:hover{color:#fff!important;text-decoration:underline;}
 #topnav .sep{color:#f5b98a;margin:0 2px;}
-#topnav strong{color:#fff;font-size:10pt;cursor:pointer;}
+#topnav strong{color:#fff;font-size:10pt;cursor:pointer;display:flex;align-items:center;gap:5px;}
 #topnav-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-shrink:0;}
+#site-logo{width:18px;height:18px;object-fit:contain;vertical-align:middle;image-rendering:auto;}
 .wiki-tb{position:-webkit-sticky;position:sticky;top:28px;z-index:999;background:#f0e0d6;border:1px solid #d9bfb7;padding:4px;display:flex;flex-wrap:nowrap;overflow-x:auto;box-shadow:0 2px 5px rgba(0,0,0,0.15);}
 .ed-bar{position:fixed;bottom:0;left:0;right:0;background:#f0e0d6;border-top:2px solid #d9bfb7;padding:10px 15px;display:flex;gap:10px;justify-content:center;z-index:1000;}
 #search-wrap{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:2px;overflow:hidden;background:rgba(255,255,255,.12);}
@@ -29,12 +31,9 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 #user-pill:hover{color:#fff!important;}
 #user-pill.admin-pill{color:#ffe278!important;font-weight:bold;}
 #hamburger{background:none;border:none;cursor:pointer;color:#fff5ee;font-size:16px;padding:0 4px;display:none;}
-
-/* ══ GENİŞLETİLMİŞ LAYOUT ══ */
 #layout{display:flex;gap:16px;max-width:98vw;width:100%;margin:0 auto;padding:10px 12px 60px;}
 #sidebar{width:200px;flex-shrink:0;}
 #main-content{flex:1;min-width:0;}
-
 .sbox{background:#f0e0d6;border:1px solid #d9bfb7;margin-bottom:8px;font-size:9pt;}
 .sbox-head{background:#ea8;border-bottom:1px solid #d9bfb7;padding:2px 6px;font-weight:bold;font-size:9pt;color:#800;}
 .sbox ul{list-style:none;padding:3px 0;}
@@ -173,202 +172,62 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 
 /* ═══ EDITOR LAYOUT ═══ */
 .ed-layout{display:flex;gap:0;border:1px solid #d9bfb7;}
-
-/* Sol şablon paneli — DESKTOP */
-.ed-tpl-panel{
-    width:200px;
-    flex-shrink:0;
-    background:#f5ece4;
-    border-right:1px solid #d9bfb7;
-    display:flex;
-    flex-direction:column;
-    max-height:600px;
-    overflow:hidden;
-    transition:width .2s, opacity .2s;
-}
-.ed-tpl-panel.collapsed{
-    width:0;
-    overflow:hidden;
-    border-right:none;
-    opacity:0;
-    pointer-events:none;
-}
-.ed-tpl-panel-head{
-    background:#ea8;
-    border-bottom:1px solid #d9bfb7;
-    padding:4px 8px;
-    font-size:9pt;
-    font-weight:bold;
-    color:#800;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-shrink:0;
-}
-.ed-tpl-panel-head button{
-    background:#98e;border:1px solid #7799cc;color:#000;
-    font-size:8pt;padding:1px 6px;cursor:pointer;font-weight:bold;
-}
+.ed-tpl-panel{width:200px;flex-shrink:0;background:#f5ece4;border-right:1px solid #d9bfb7;display:flex;flex-direction:column;max-height:600px;overflow:hidden;transition:width .2s,opacity .2s;}
+.ed-tpl-panel.collapsed{width:0;overflow:hidden;border-right:none;opacity:0;pointer-events:none;}
+.ed-tpl-panel-head{background:#ea8;border-bottom:1px solid #d9bfb7;padding:4px 8px;font-size:9pt;font-weight:bold;color:#800;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ed-tpl-panel-head button{background:#98e;border:1px solid #7799cc;color:#000;font-size:8pt;padding:1px 6px;cursor:pointer;font-weight:bold;}
 .ed-tpl-panel-head button:hover{background:#aaf;}
-.ed-tpl-list{
-    flex:1;overflow-y:auto;padding:6px;
-    display:flex;flex-direction:column;gap:5px;
-}
-.ed-tpl-item{
-    background:#fff;
-    border:1px solid #d9bfb7;
-    border-radius:3px;
-    cursor:pointer;
-    overflow:hidden;
-    transition:border-color .15s, box-shadow .15s;
-    flex-shrink:0;
-}
+.ed-tpl-list{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px;}
+.ed-tpl-item{background:#fff;border:1px solid #d9bfb7;border-radius:3px;cursor:pointer;overflow:hidden;transition:border-color .15s,box-shadow .15s;flex-shrink:0;}
 .ed-tpl-item:hover{border-color:#e87020;box-shadow:0 2px 8px rgba(232,114,42,.18);}
 .ed-tpl-item.active{border-color:#e87020;box-shadow:0 0 0 2px rgba(232,114,42,.25);border-width:2px;}
-.ed-tpl-preview-box{
-    pointer-events:none;
-    background:#fffef0;
-    border-bottom:1px solid #e8d0c0;
-    min-height:50px;
-    max-height:90px;
-    overflow:hidden;
-    padding:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-.ed-tpl-preview-box *{pointer-events:none!important;}
-.ed-tpl-item-footer{
-    padding:4px 7px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:#f5ece4;
-}
+/* ★ FIX: template preview in editor panel — edit-mode görünüm */
+.ed-tpl-preview-box{pointer-events:none;background:#fffef0;border-bottom:1px solid #e8d0c0;min-height:60px;max-height:110px;overflow:hidden;padding:6px;display:flex;align-items:flex-start;justify-content:flex-start;}
+.ed-tpl-preview-box *{pointer-events:none!important;font-size:85%!important;line-height:1.3!important;}
+.ed-tpl-preview-box table{width:100%!important;font-size:8pt!important;}
+.ed-tpl-preview-box blockquote{margin:2px!important;padding:4px 8px!important;}
+.ed-tpl-item-footer{padding:4px 7px;display:flex;align-items:center;justify-content:space-between;background:#f5ece4;}
 .ed-tpl-item-name{font-size:8pt;font-weight:bold;color:#800000;}
-.ed-tpl-item-ins{
-    background:#98e;border:1px solid #7799cc;color:#000;
-    font-size:7pt;padding:1px 5px;cursor:pointer;font-weight:bold;
-    border-radius:2px;pointer-events:auto;
-}
+.ed-tpl-item-ins{background:#98e;border:1px solid #7799cc;color:#000;font-size:7pt;padding:1px 5px;cursor:pointer;font-weight:bold;border-radius:2px;pointer-events:auto;}
 .ed-tpl-item-ins:hover{background:#aaf;}
 .ed-canvas-wrap{flex:1;min-width:0;display:flex;flex-direction:column;}
 
-/* ═══ MOBILE BOTTOM SHEET ŞABLON PANELİ ═══ */
-#tpl-bottom-sheet{
-    position:fixed;
-    bottom:-100%;
-    left:0;right:0;
-    z-index:1050;
-    background:#f5ece4;
-    border-top:2px solid #d9bfb7;
-    border-radius:14px 14px 0 0;
-    box-shadow:0 -4px 24px rgba(0,0,0,.18);
-    transition:bottom .28s cubic-bezier(.4,0,.2,1);
-    max-height:70vh;
-    display:flex;
-    flex-direction:column;
-}
+/* ★ LOADED TEMPLATE BLOCKS — edit modundaki görünüm */
+.e-block[data-type="template"] .e-block-inner{background:#fffef0;border:1px dashed #e8b080;padding:6px!important;}
+.e-block[data-type="template"] .e-block-inner table{width:100%;border-collapse:collapse;}
+.e-block[data-type="template"] .e-block-inner th,.e-block[data-type="template"] .e-block-inner td{border:1px solid #d9bfb7;padding:3px 6px;}
+
+/* Mobile bottom sheet */
+#tpl-bottom-sheet{position:fixed;bottom:-100%;left:0;right:0;z-index:1050;background:#f5ece4;border-top:2px solid #d9bfb7;border-radius:14px 14px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,.18);transition:bottom .28s cubic-bezier(.4,0,.2,1);max-height:70vh;display:flex;flex-direction:column;}
 #tpl-bottom-sheet.open{bottom:0;}
-#tpl-bs-handle{
-    text-align:center;
-    padding:8px 0 4px;
-    cursor:pointer;
-    flex-shrink:0;
-}
-#tpl-bs-handle::before{
-    content:'';display:inline-block;width:36px;height:4px;
-    background:#c8a890;border-radius:2px;
-}
-#tpl-bs-head{
-    background:#ea8;
-    border-bottom:1px solid #d9bfb7;
-    padding:5px 12px;
-    display:flex;align-items:center;justify-content:space-between;
-    font-weight:bold;font-size:10pt;color:#800;
-    flex-shrink:0;
-}
+#tpl-bs-handle{text-align:center;padding:8px 0 4px;cursor:pointer;flex-shrink:0;}
+#tpl-bs-handle::before{content:'';display:inline-block;width:36px;height:4px;background:#c8a890;border-radius:2px;}
+#tpl-bs-head{background:#ea8;border-bottom:1px solid #d9bfb7;padding:5px 12px;display:flex;align-items:center;justify-content:space-between;font-weight:bold;font-size:10pt;color:#800;flex-shrink:0;}
 #tpl-bs-close{background:none;border:none;cursor:pointer;font-size:18px;color:#800;font-weight:bold;}
 #tpl-bs-close:hover{color:#d00;}
-#tpl-bs-list{
-    flex:1;overflow-y:auto;padding:10px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-    -webkit-overflow-scrolling:touch;
-}
-#tpl-bs-overlay{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1040;
-}
+#tpl-bs-list{flex:1;overflow-y:auto;padding:10px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;-webkit-overflow-scrolling:touch;}
+#tpl-bs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1040;}
 #tpl-bs-overlay.on{display:block;}
 
-/* ═══ SIDEBAR IMAGES — KATALOG ═══ */
-.sb-img-thumbs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:4px;
-    padding:4px 6px;
-}
-.sb-img-thumb{
-    aspect-ratio:1;
-    overflow:hidden;
-    border:1px solid #d9bfb7;
-    cursor:pointer;
-    background:#fffef0;
-    display:flex;align-items:center;justify-content:center;
-}
+/* Sidebar images */
+.sb-img-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px 6px;}
+.sb-img-thumb{aspect-ratio:1;overflow:hidden;border:1px solid #d9bfb7;cursor:pointer;background:#fffef0;display:flex;align-items:center;justify-content:center;}
 .sb-img-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .sb-img-thumb:hover{border-color:#e87020;}
 .sb-see-all{display:block;text-align:center;padding:3px;font-size:8pt;color:#0000ff;cursor:pointer;border-top:1px solid #e8d0c0;text-decoration:none;}
 .sb-see-all:hover{color:#d00;text-decoration:underline;}
 
-/* ═══ BOORU GALERİ / KATALOG SAYFASI ═══ */
-.booru-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
-    gap:6px;
-    padding:8px 0;
-}
-.booru-card{
-    border:2px solid #d9bfb7;
-    background:#fffef0;
-    cursor:pointer;
-    overflow:hidden;
-    transition:border-color .15s;
-}
+/* Booru gallery */
+.booru-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;padding:8px 0;}
+.booru-card{border:2px solid #d9bfb7;background:#fffef0;cursor:pointer;overflow:hidden;transition:border-color .15s;}
 .booru-card:hover{border-color:#e87020;}
 .booru-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
-.booru-card-name{
-    font-size:7pt;color:#800;
-    padding:2px 4px;
-    background:#f5ece4;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    text-align:center;
-}
+.booru-card-name{font-size:7pt;color:#800;padding:2px 4px;background:#f5ece4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;}
 
-/* Şablon overlay */
-/* ── template blok drag-handle ── */
-.tpl-drag-handle{
-    position:absolute;
-    top:0;left:0;right:0;
-    height:20px;
-    background:rgba(232,114,42,.18);
-    cursor:grab;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:9px;
-    color:#c45a18;
-    letter-spacing:2px;
-    user-select:none;
-    opacity:0;
-    transition:opacity .15s;
-    z-index:6;
-    border-bottom:1px dashed #e8b080;
-}
+/* Drag handle */
+.tpl-drag-handle{position:absolute;top:0;left:0;right:0;height:20px;background:rgba(232,114,42,.18);cursor:grab;display:flex;align-items:center;justify-content:center;font-size:9px;color:#c45a18;letter-spacing:2px;user-select:none;opacity:0;transition:opacity .15s;z-index:6;border-bottom:1px dashed #e8b080;}
 .e-block:hover .tpl-drag-handle{opacity:1;}
 .tpl-drag-handle:active{cursor:grabbing;background:rgba(232,114,42,.35);}
-
 .tpl-edit-overlay{position:absolute;bottom:0;left:0;right:0;height:28px;background:rgba(232,114,42,.0);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5;}
 .e-block:hover .tpl-edit-overlay{opacity:1;pointer-events:auto;}
 .tpl-edit-btn{background:#e87020;color:#fff;border:1px solid #c45a18;padding:2px 8px;font-size:8pt;font-weight:bold;cursor:pointer;border-radius:2px;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;gap:4px;}
@@ -381,51 +240,97 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .img-uploading-spinner{width:40px;height:40px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ═══ KATEGORİ BADGE ═══ */
+/* Category badges */
 .cat-badge{display:inline-block;background:#f0e0d6;border:1px solid #d9bfb7;padding:1px 7px;font-size:8pt;color:#800;margin:2px;cursor:pointer;border-radius:2px;}
 .cat-badge:hover{background:#e8d0c0;color:#d00;}
 .cat-badge.active{background:#e87020;color:#fff;border-color:#c45a18;}
 
-/* ═══ SON DEĞİŞİKLİKLER ═══ */
+/* Recent changes */
 .rc-item{padding:4px 0;border-bottom:1px solid #e8d0c0;font-size:9pt;}
 .rc-item:last-child{border-bottom:none;}
 .rc-item a{color:#0000ff;}
 .rc-diff{font-size:8pt;color:#117743;margin-left:4px;}
 
-/* ═══ TOC (İçindekiler) ═══ */
+/* TOC */
 .wiki-toc{background:#f0e0d6;border:1px solid #d9bfb7;padding:6px 10px;display:inline-block;margin-bottom:10px;min-width:180px;}
 .wiki-toc-title{font-weight:bold;font-size:9pt;color:#800;margin-bottom:4px;text-align:center;}
 .wiki-toc ol{margin-left:16px;font-size:9pt;color:#0000ff;}
 .wiki-toc ol li{margin-bottom:2px;}
 .wiki-toc ol li a{color:#0000ff;}
 
-/* ═══ RESPONSIVE ═══ */
+/* ═══ DISCUSSION ═══ */
+.disc-thread{border:1px solid #d9bfb7;background:#fffef0;margin-bottom:10px;}
+.disc-thread-head{background:#f0e0d6;border-bottom:1px solid #d9bfb7;padding:4px 8px;font-weight:bold;font-size:9pt;color:#800;display:flex;align-items:center;gap:6px;}
+.disc-reply{border-top:1px solid #e8d0c0;padding:6px 10px;}
+.disc-reply:first-child{border-top:none;}
+.disc-meta{font-size:8pt;color:#117743;margin-bottom:3px;}
+.disc-content{font-size:9pt;color:#333;line-height:1.5;}
+.disc-actions{font-size:8pt;margin-top:3px;display:flex;gap:8px;}
+.disc-actions a{color:#0000ff;cursor:pointer;}
+.disc-actions a:hover{color:#d00;}
+.disc-reply-indent{margin-left:20px;border-left:2px solid #d9bfb7;padding-left:8px;}
+.disc-new-thread{background:#f0e0d6;border:1px solid #d9bfb7;padding:8px 10px;margin-bottom:10px;}
+.disc-new-thread textarea{width:100%;border:1px solid #a9a9a9;padding:5px;font-size:9pt;font-family:arial;outline:none;resize:vertical;min-height:60px;background:#fff;color:#333;}
+.disc-new-thread textarea:focus{border-color:#e87020;}
+.disc-new-thread input{width:100%;border:1px solid #a9a9a9;padding:4px 7px;font-size:9pt;outline:none;margin-bottom:5px;background:#fff;color:#333;}
+.disc-new-thread input:focus{border-color:#e87020;}
+
+/* ═══ RATINGS ═══ */
+.rating-wrap{display:flex;align-items:center;gap:6px;margin:6px 0;font-size:9pt;}
+.rating-stars{display:flex;gap:2px;}
+.rating-star{font-size:16px;cursor:pointer;color:#ccc;transition:color .1s;}
+.rating-star.filled{color:#e8a000;}
+.rating-star:hover,.rating-star.hover{color:#e8a000;}
+.rating-count{font-size:8pt;color:#888;}
+
+/* ═══ REVISION HISTORY ═══ */
+.rev-item{padding:4px 0;border-bottom:1px solid #e8d0c0;font-size:9pt;display:flex;gap:8px;align-items:center;}
+.rev-item:last-child{border-bottom:none;}
+.rev-time{color:#888;font-size:8pt;min-width:110px;}
+.rev-author{color:#117743;font-weight:bold;}
+.rev-restore{font-size:8pt;color:#0000ff;cursor:pointer;}
+.rev-restore:hover{color:#d00;text-decoration:underline;}
+
+/* ═══ WATCH / BOOKMARK ═══ */
+.watch-btn{padding:1px 8px;font-size:8pt;border:1px solid #d9bfb7;background:#f0e0d6;cursor:pointer;color:#800;}
+.watch-btn:hover{background:#e8d0c0;}
+.watch-btn.watching{background:#ffe0cc;border-color:#e87020;color:#c45a18;font-weight:bold;}
+
+/* ═══ FLAGGING ═══ */
+.flag-btn{font-size:8pt;color:#888;cursor:pointer;border:none;background:none;padding:0;}
+.flag-btn:hover{color:#d00;}
+
+/* ═══ SPECIAL PAGES ═══ */
+.sp-section{margin-bottom:16px;}
+.sp-section h3{font-size:10pt;font-weight:bold;color:#800;border-bottom:1px solid #d9bfb7;padding-bottom:3px;margin-bottom:6px;}
+
+/* Announcement bar */
+#announce-bar{background:#ffe09c;border-bottom:2px solid #e8a000;padding:3px 10px;font-size:9pt;color:#7a4a00;text-align:center;display:none;}
+#announce-bar.on{display:block;}
+#announce-bar a{color:#7a4a00;font-weight:bold;}
+
+/* User contributions */
+.contrib-item{padding:3px 0;border-bottom:1px dotted #e8d0c0;font-size:9pt;}
+
+/* Did You Know */
+.dyk-box{background:#eef4ff;border:1px solid #aac;padding:8px 12px;margin-bottom:10px;font-size:9pt;}
+.dyk-box strong{color:#000080;}
+
+/* Responsive */
 @media(max-width:700px){
   #hamburger{display:flex;}
   #sidebar{position:fixed;left:0;top:28px;bottom:0;z-index:860;background:#ffe;width:175px;overflow-y:auto;transform:translateX(-100%);box-shadow:3px 0 12px rgba(0,0,0,.2);border-right:1px solid #d9bfb7;transition:transform .22s;}
   #layout{padding:8px 5px 60px;}
   .page-body{padding:10px 8px;}
   #search-wrap input{width:100px;}
-  /* Mobilde sol panel gizle, bottom sheet kullan */
   .ed-tpl-panel{display:none!important;}
   .wiki-tb{top:28px;}
   .ed-layout{border:none;}
   .ed-canvas-wrap{border:1px solid #d9bfb7;}
-  .ed-canvas{
-    min-height:300px;
-    overflow-x:auto;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-  }
-  .ed-canvas-inner{
-    min-width:600px;
-    min-height:300px;
-  }
+  .ed-canvas{min-height:300px;overflow-x:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .ed-canvas-inner{min-width:600px;min-height:300px;}
   .booru-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));}
-  .wiki-tb{
-    gap:2px;
-    padding:3px 4px;
-  }
+  .wiki-tb{gap:2px;padding:3px 4px;}
   .tb{padding:3px 6px;font-size:9pt;}
   select.tb-sel{max-width:70px;font-size:8pt;}
   .ed-bar{padding:8px 10px;gap:6px;}
@@ -439,11 +344,27 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 </head>
 <body>
 
+<!-- ANNOUNCEMENT BAR -->
+<div id="announce-bar"></div>
+
 <nav id="topnav">
   <button id="hamburger" onclick="toggleSidebar()">☰</button>
-  <strong onclick="goHome()">🌏 Bilinmeyen Dünya</strong>
+  <strong onclick="goHome()">
+    <img id="site-logo" src="favicon.png" alt="logo" onerror="this.style.display='none'">
+    Bilinmeyen Dünya
+  </strong>
   <span class="sep">—</span>
-  <span>[</span><a onclick="goHome()">Ana Sayfa</a><span class="sep">/</span><a onclick="navigate('templates')">Şablonlar</a><span class="sep">/</span><a onclick="navigate('recent')">Son Değişiklikler</a><span class="sep">/</span><a onclick="goRandom()">Rastgele</a><span>]</span>
+  <span>[</span>
+  <a onclick="goHome()">Ana Sayfa</a>
+  <span class="sep">/</span>
+  <a onclick="navigate('templates')">Şablonlar</a>
+  <span class="sep">/</span>
+  <a onclick="navigate('recent')">Son Değişiklikler</a>
+  <span class="sep">/</span>
+  <a onclick="navigate('special')">Özel Sayfalar</a>
+  <span class="sep">/</span>
+  <a onclick="goRandom()">Rastgele</a>
+  <span>]</span>
   <div id="topnav-right">
     <div id="search-wrap">
       <input type="search" id="search-input" placeholder="Ara…" onkeydown="if(event.key==='Enter')doSearch()">
@@ -455,17 +376,10 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 </nav>
 
 <div id="sb-overlay" onclick="closeSidebar()"></div>
-
-<!-- MOBILE BOTTOM SHEET OVERLAY -->
 <div id="tpl-bs-overlay" onclick="closeTplSheet()"></div>
-
-<!-- MOBILE BOTTOM SHEET -->
 <div id="tpl-bottom-sheet">
   <div id="tpl-bs-handle" onclick="closeTplSheet()"></div>
-  <div id="tpl-bs-head">
-    <span>📋 Şablonlar</span>
-    <button id="tpl-bs-close" onclick="closeTplSheet()">✕</button>
-  </div>
+  <div id="tpl-bs-head"><span>📋 Şablonlar</span><button id="tpl-bs-close" onclick="closeTplSheet()">✕</button></div>
   <div id="tpl-bs-list"></div>
 </div>
 
@@ -480,6 +394,8 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
         <li><a onclick="navigate('recent');closeSidebar()">🕐 Son Değişiklikler</a></li>
         <li><a onclick="navigate('categories');closeSidebar()">🏷️ Kategoriler</a></li>
         <li><a onclick="navigate('templates');closeSidebar()">📋 Şablonlar</a></li>
+        <li><a onclick="navigate('special');closeSidebar()">🔧 Özel Sayfalar</a></li>
+        <li><a onclick="navigate('wanted');closeSidebar()">❓ İstenen Sayfalar</a></li>
         <li id="admin-nav-li" style="display:none"><a onclick="navigate('admin');closeSidebar()">⚙️ Admin <span class="pending-badge" id="sidebar-pending-count" style="display:none">0</span></a></li>
       </ul>
     </div>
@@ -487,7 +403,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
       <div class="sbox-head">🔍 Ara</div>
       <div style="padding:4px 6px;"><div style="display:flex;border:1px solid #a9a9a9;overflow:hidden;"><input type="search" id="sb-search-input" placeholder="Ara…" style="flex:1;border:none;outline:none;padding:3px 6px;font-size:9pt;background:#fff;color:#800;" onkeydown="if(event.key==='Enter')doSidebarSearch()"><button onclick="doSidebarSearch()" style="background:#ea8;border:none;border-left:1px solid #d9bfb7;padding:3px 7px;cursor:pointer;font-size:10px;">🔍</button></div></div>
     </div>
-    <!-- KATALOG (eski: Görseller) -->
     <div class="sbox">
       <div class="sbox-head" style="display:flex;align-items:center;justify-content:space-between;">
         <span>🗃️ Katalog</span>
@@ -496,8 +411,13 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
       <div id="sb-images-list"><div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div></div>
     </div>
     <div class="sbox">
-      <div class="sbox-head">İstatistik</div>
+      <div class="sbox-head">📊 İstatistik</div>
       <div class="sc" id="article-count">Yükleniyor…</div>
+      <div class="sc" id="user-count" style="border-top:1px solid #e8d0c0;margin-top:2px;"></div>
+    </div>
+    <div class="sbox">
+      <div class="sbox-head">🔖 Takip Listem</div>
+      <div id="watchlist-sb" class="sc">—</div>
     </div>
     <div class="sbox">
       <div class="sbox-head">Hesap</div>
@@ -538,55 +458,18 @@ const db=firebase.database();
 
 /* ══ IMAGE CACHE ══ */
 window._imageCache = {};
-
 function preloadFirebaseImages(){
   return new Promise(resolve=>{
     db.ref("images").once("value",snap=>{
       window._imageCache = {};
       const data = snap.val();
-      if(data){
-        Object.values(data).forEach(img=>{
-          if(img.name && img.dataUrl){
-            const norm = img.name.trim();
-            window._imageCache[norm] = img.dataUrl;
-            window._imageCache[norm.toLowerCase()] = img.dataUrl;
-            const noExt = norm.replace(/\.[^.]+$/, "");
-            window._imageCache[noExt] = img.dataUrl;
-            window._imageCache[noExt.toLowerCase()] = img.dataUrl;
-          }
-        });
-      }
+      if(data){Object.values(data).forEach(img=>{if(img.name&&img.dataUrl){const norm=img.name.trim();window._imageCache[norm]=img.dataUrl;window._imageCache[norm.toLowerCase()]=img.dataUrl;const noExt=norm.replace(/\.[^.]+$/,"");window._imageCache[noExt]=img.dataUrl;window._imageCache[noExt.toLowerCase()]=img.dataUrl;}});}
       resolve();
     });
   });
 }
-
-db.ref("images").on("value", snap=>{
-  window._imageCache = {};
-  const data = snap.val();
-  if(data){
-    Object.values(data).forEach(img=>{
-      if(img.name && img.dataUrl){
-        const norm = img.name.trim();
-        window._imageCache[norm] = img.dataUrl;
-        window._imageCache[norm.toLowerCase()] = img.dataUrl;
-        const noExt = norm.replace(/\.[^.]+$/, "");
-        window._imageCache[noExt] = img.dataUrl;
-        window._imageCache[noExt.toLowerCase()] = img.dataUrl;
-      }
-    });
-  }
-});
-
-function getCachedImageUrl(filename){
-  if(!filename) return null;
-  const f = filename.trim();
-  return window._imageCache[f]
-      || window._imageCache[f.toLowerCase()]
-      || window._imageCache[f.replace(/\.[^.]+$/, "")]
-      || window._imageCache[f.replace(/\.[^.]+$/, "").toLowerCase()]
-      || null;
-}
+db.ref("images").on("value",snap=>{window._imageCache={};const data=snap.val();if(data){Object.values(data).forEach(img=>{if(img.name&&img.dataUrl){const norm=img.name.trim();window._imageCache[norm]=img.dataUrl;window._imageCache[norm.toLowerCase()]=img.dataUrl;const noExt=norm.replace(/\.[^.]+$/,"");window._imageCache[noExt]=img.dataUrl;window._imageCache[noExt.toLowerCase()]=img.dataUrl;}});}});
+function getCachedImageUrl(filename){if(!filename)return null;const f=filename.trim();return window._imageCache[f]||window._imageCache[f.toLowerCase()]||window._imageCache[f.replace(/\.[^.]+$/,"")]||window._imageCache[f.replace(/\.[^.]+$/,"").toLowerCase()]||null;}
 
 /* ══ BUILT-IN TEMPLATES ══ */
 const BUILTIN_TEMPLATES=[
@@ -595,7 +478,10 @@ const BUILTIN_TEMPLATES=[
   {name:"Uyarı",slug:"uyari",desc:"Turuncu uyarı banner",html:`<div style="border-left:4px solid #e8a000;background:#fff8e0;padding:7px 12px;margin:6px 0;"><span>⚠️</span> <strong style="color:#7a4a00;">{{{başlık|Dikkat!}}}</strong><br><span style="font-size:9pt;color:#555;">{{{içerik|Bu sayfada eksik bilgi bulunabilir.}}}</span></div>`},
   {name:"Alıntı",slug:"alinti",desc:"Dekoratif alıntı bloğu",html:`<blockquote style="border-left:3px solid #800000;background:#fff9f0;margin:10px 0;padding:10px 14px;font-style:italic;color:#800000;"><span style="font-size:2em;color:#d9bfb7;line-height:1;float:left;margin-right:6px;">"</span><span>{{{metin|Bir alıntı buraya gelecek.}}}</span><cite style="display:block;margin-top:6px;font-size:9pt;color:#800;font-style:normal;">— {{{kaynak|Kaynak}}}</cite></blockquote>`},
   {name:"Taslak",slug:"taslak",desc:"Sayfa taslak bildirimi",html:`<table style="width:100%;background:#f0e0d6;border:1px solid #d9bfb7;padding:6px 10px;margin:8px 0;border-collapse:collapse;"><tr><td style="width:30px;font-size:20px;">📝</td><td style="font-size:9pt;color:#800000;">Bu makale bir <b>taslak</b> niteliğindedir. İçeriği genişletebilirsiniz.</td></tr></table>`},
-  {name:"Spoiler",slug:"spoiler",desc:"Üzerine gelince gizleme",html:`<span style="background:#800000;color:#800000;padding:0 3px;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#800000'" title="Spoiler">{{{metin|Spoiler içerik}}}</span>`}
+  {name:"Spoiler",slug:"spoiler",desc:"Üzerine gelince gizleme",html:`<span style="background:#800000;color:#800000;padding:0 3px;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#800000'" title="Spoiler">{{{metin|Spoiler içerik}}}</span>`},
+  {name:"Silme Adayı",slug:"silme-adayi",desc:"Silinecek sayfa etiketi",html:`<div style="border:2px solid #d00;background:#fff0f0;padding:6px 10px;margin:6px 0;font-size:9pt;"><span style="color:#d00;font-weight:bold;">🗑️ SİLME ADAYI</span> — Bu sayfa silinmek üzere işaretlenmiştir. <span style="color:#555;">{{{sebep|Sebep belirtilmemiş.}}}</span></div>`},
+  {name:"Çeviri Gerekli",slug:"ceviri",desc:"Çeviri gereken içerik",html:`<div style="border-left:3px solid #0000ff;background:#eef4ff;padding:6px 10px;margin:6px 0;font-size:9pt;color:#000080;">🌐 Bu sayfanın tamamı veya bir kısmı <b>çeviri</b> gerektirmektedir.</div>`},
+  {name:"İçerik Uyarısı",slug:"icerik-uyarisi",desc:"Hassas içerik uyarısı",html:`<div style="border:2px solid #800000;background:#fff9f0;padding:8px 12px;margin:8px 0;text-align:center;"><span style="font-size:16px;">⚠️</span><br><strong style="color:#800000;font-size:10pt;">İÇERİK UYARISI</strong><br><span style="font-size:9pt;color:#555;">{{{içerik|Bu sayfa hassas içerik barındırabilir.}}}</span></div>`}
 ];
 
 /* ══ AUTH ══ */
@@ -606,6 +492,18 @@ function saveSession(u){currentUser=u;localStorage.setItem("bbd_u",JSON.stringif
 function clearSession(){currentUser=null;localStorage.removeItem("bbd_u");}
 function isAdmin(){return currentUser&&currentUser.role==="admin";}
 function isLoggedIn(){return!!currentUser;}
+
+/* ══ WATCHLIST ══ */
+function getWatchlist(){try{return JSON.parse(localStorage.getItem("bbd_watch")||"[]");}catch(e){return[];}}
+function saveWatchlist(wl){localStorage.setItem("bbd_watch",JSON.stringify(wl));}
+function isWatching(slug){return getWatchlist().includes(slug);}
+function toggleWatch(slug){let wl=getWatchlist();if(wl.includes(slug)){wl=wl.filter(s=>s!==slug);setStatus("Takipten çıkarıldı.");}else{wl.push(slug);setStatus("Takibe alındı!");}saveWatchlist(wl);updateWatchlistSidebar();return wl.includes(slug);}
+function updateWatchlistSidebar(){
+  const el=document.getElementById("watchlist-sb");if(!el)return;
+  const wl=getWatchlist();
+  if(!wl.length){el.textContent="—";return;}
+  el.innerHTML=wl.slice(0,5).map(slug=>`<div style="padding:2px 8px;font-size:9pt;"><a onclick="navigate('article/${slug}')" style="color:#0000ff;">${slug}</a></div>`).join("")+(wl.length>5?`<div style="padding:2px 8px;font-size:8pt;color:#888;">+${wl.length-5} daha</div>`:"");
+}
 
 /* ══ IMAGES STORE ══ */
 function showUploadingOverlay(msg){let el=document.getElementById("img-uploading-ov");if(!el){el=document.createElement("div");el.id="img-uploading-ov";el.className="img-uploading";document.body.appendChild(el);}el.innerHTML=`<div class="img-uploading-spinner"></div><div>${msg||"Yükleniyor…"}</div>`;el.style.display="flex";}
@@ -619,8 +517,6 @@ function addFirebaseImage(name,dataUrl,cb){
   });
 }
 function deleteFirebaseImage(key){db.ref("images/"+key).remove(()=>renderSidebarImages());}
-
-/* Sidebar: sadece 2 thumb göster + See All linki — başlık "Katalog" */
 function renderSidebarImages(){
   const el=document.getElementById("sb-images-list");if(!el)return;
   el.innerHTML=`<div style="padding:4px 8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div>`;
@@ -633,7 +529,6 @@ function renderSidebarImages(){
     el.innerHTML=`<div class="sb-img-thumbs">${thumbsHtml}</div><a class="sb-see-all" onclick="navigate('gallery')">🖼️ Tüm katalog (${imgs.length})</a>`;
   });
 }
-
 function insertFirebaseImageToCanvas(key){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas){alert("Editörde açık değil.");return;}
   db.ref("images/"+key).once("value",snap=>{
@@ -645,17 +540,14 @@ function insertFirebaseImageToCanvas(key){
   });
 }
 
-/* ══ KATALOG (eski: Booru Galeri) ══ */
+/* ══ KATALOG ══ */
 function renderGallery(){
   document.title="Katalog — Bilinmeyen Dünya";setStatus("Katalog");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
         <div class="ph-tabs"><span class="ph-tab active">🖼️ Katalog</span></div>
-        <div class="ph-actions">
-          <a onclick="openAddImageToSidebar()">+ Görsel Ekle</a>
-          <a onclick="goHome()">Ana Sayfa</a>
-        </div>
+        <div class="ph-actions"><a onclick="openAddImageToSidebar()">+ Görsel Ekle</a><a onclick="goHome()">Ana Sayfa</a></div>
       </div>
       <div class="page-body">
         <div id="booru-grid-wrap"><div class="empty-state">Yükleniyor…</div></div>
@@ -674,7 +566,6 @@ function renderGallery(){
       </div>`).join("")}</div>`;
   });
 }
-
 function openGalleryImage(key){
   db.ref("images/"+key).once("value",snap=>{
     if(!snap.exists())return;const img=snap.val();
@@ -684,7 +575,6 @@ function openGalleryImage(key){
     document.getElementById("modal-overlay").style.display="flex";
   });
 }
-
 function openAddImageToSidebar(){
   document.getElementById("modal-title").textContent="🗃️ Katalog'a Görsel Ekle";
   document.getElementById("modal-footer").style.display="none";
@@ -716,6 +606,7 @@ function processSbFile(file){const r=new FileReader();r.onload=ev=>{window._sbIm
 function clearSbUpload(){window._sbImgData=null;document.getElementById("sb-upload-prev").style.display="none";document.getElementById("sb-img-file").value="";}
 function confirmAddSidebarImage(){const name=(document.getElementById("sb-img-name").value||"").trim();if(!name){alert("Görsel adı girin.");return;}if(!window._sbImgData){alert("Önce bir görsel seç.");return;}closeModal();addFirebaseImage(name,window._sbImgData,()=>setStatus("Katalog'a eklendi: "+name));}
 
+/* ══ USER UI ══ */
 function updateUserPill(){const p=document.getElementById("user-pill"),sl=document.getElementById("sidebar-login-link");if(!currentUser){p.textContent="[ Giriş Yap ]";p.className="";if(sl)sl.textContent="Giriş / Kayıt";return;}p.textContent="[ "+(isAdmin()?"⚙️ ":"")+currentUser.username+" | Çıkış ]";p.className=isAdmin()?"admin-pill":"";if(sl)sl.textContent="🚪 Çıkış ("+currentUser.username+")";}
 function updateAdminNav(){document.getElementById("admin-nav-li").style.display=isAdmin()?"block":"none";if(isAdmin())refreshPendingCount();}
 function refreshPendingCount(){db.ref("pending").once("value",snap=>{const n=snap.val()?Object.keys(snap.val()).length:0;const b=document.getElementById("sidebar-pending-count");if(b){b.textContent=n;b.style.display=n>0?"inline":"none";}});}
@@ -762,7 +653,25 @@ function navigate(p){location.hash="#"+p;}
 function goHome(){navigate("");}
 function openEditor(){navigate("editor");}
 function goRandom(){db.ref("articles").once("value",snap=>{const data=snap.val();if(!data){setStatus("Hiç sayfa yok.");return;}const vals=Object.values(data);navigate("article/"+vals[Math.floor(Math.random()*vals.length)].slug);});}
-function router(){closeEmojiPicker();const hash=location.hash.replace(/^#\/?/,"");if(hash.startsWith("article/"))loadArticle(hash.split("/")[1]);else if(hash.startsWith("editor/"))renderEditor(hash.split("/")[1]);else if(hash==="editor")renderEditor(null);else if(hash==="admin")renderAdmin();else if(hash==="templates")renderTemplates();else if(hash==="gallery")renderGallery();else if(hash==="recent")renderRecentChanges();else if(hash==="categories")renderCategories();else if(hash.startsWith("category/"))renderCategory(decodeURIComponent(hash.split("/")[1]));else renderHome();}
+function router(){
+  closeEmojiPicker();
+  const hash=location.hash.replace(/^#\/?/,"");
+  if(hash.startsWith("article/"))loadArticle(hash.split("/")[1]);
+  else if(hash.startsWith("editor/"))renderEditor(hash.split("/")[1]);
+  else if(hash==="editor")renderEditor(null);
+  else if(hash==="admin")renderAdmin();
+  else if(hash==="templates")renderTemplates();
+  else if(hash==="gallery")renderGallery();
+  else if(hash==="recent")renderRecentChanges();
+  else if(hash==="categories")renderCategories();
+  else if(hash.startsWith("category/"))renderCategory(decodeURIComponent(hash.split("/")[1]));
+  else if(hash==="special")renderSpecialPages();
+  else if(hash==="wanted")renderWantedPages();
+  else if(hash.startsWith("discussion/"))renderDiscussion(hash.split("/")[1]);
+  else if(hash.startsWith("history/"))renderHistory(hash.split("/")[1]);
+  else if(hash.startsWith("contributions/"))renderContributions(hash.split("/")[1]);
+  else renderHome();
+}
 
 /* ══ UTILS ══ */
 function slugify(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s").replace(/ı/g,"i").replace(/ö/g,"o").replace(/ç/g,"c").replace(/\s+/g,"-").replace(/[^\w\-]+/g,"").replace(/--+/g,"-").substring(0,80);}
@@ -773,6 +682,7 @@ function stripTags(s){return(s||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").
 function fmtSize(b){if(b<1024)return b+"B";if(b<1048576)return(b/1024).toFixed(1)+"KB";return(b/1048576).toFixed(1)+"MB";}
 function toggleSidebar(){document.getElementById("sidebar").classList.toggle("mob-open");document.getElementById("sb-overlay").classList.toggle("on");}
 function closeSidebar(){document.getElementById("sidebar").classList.remove("mob-open");document.getElementById("sb-overlay").classList.remove("on");}
+function timeAgo(ts){const diff=Date.now()-ts;if(diff<60000)return"az önce";if(diff<3600000)return Math.floor(diff/60000)+" dk önce";if(diff<86400000)return Math.floor(diff/3600000)+" saat önce";return new Date(ts).toLocaleDateString("tr-TR");}
 
 /* ══ SON DEĞİŞİKLİKLER ══ */
 function renderRecentChanges(){
@@ -792,7 +702,6 @@ function renderRecentChanges(){
     const data=snap.val();
     if(!data){el.innerHTML=`<div class="empty-state">Henüz sayfa yok.</div>`;return;}
     const articles=Object.values(data).sort((a,b)=>(b.updatedAt||b.createdAt)-(a.updatedAt||a.createdAt)).slice(0,50);
-    // Tarihe göre grupla
     const groups={};
     articles.forEach(a=>{
       const d=new Date(a.updatedAt||a.createdAt);
@@ -806,7 +715,7 @@ function renderRecentChanges(){
       arts.forEach(a=>{
         const t=new Date(a.updatedAt||a.createdAt).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
         const cats=(a.categories||[]).map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("");
-        html+=`<div class="rc-item"><span style="color:#888;font-size:8pt;margin-right:6px;">${t}</span><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a><span class="rc-diff">✍️ ${escHtml(a.author||"Anonim")}</span>${cats?`<span style="margin-left:4px;">${cats}</span>`:""}</div>`;
+        html+=`<div class="rc-item"><span style="color:#888;font-size:8pt;margin-right:6px;">${t}</span><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a><span class="rc-diff">✍️ ${escHtml(a.author||"Anonim")}</span> <a onclick="navigate('history/${a.slug}')" style="font-size:8pt;color:#888;">[geçmiş]</a>${cats?`<span style="margin-left:4px;">${cats}</span>`:""}</div>`;
       });
       html+="</div>";
     });
@@ -832,15 +741,10 @@ function renderCategories(){
     const data=snap.val();
     if(!data){el.innerHTML=`<div class="empty-state">Henüz kategori yok.</div>`;return;}
     const catMap={};
-    Object.values(data).forEach(a=>{
-      (a.categories||[]).forEach(c=>{
-        if(!catMap[c])catMap[c]=0;
-        catMap[c]++;
-      });
-    });
+    Object.values(data).forEach(a=>{(a.categories||[]).forEach(c=>{if(!catMap[c])catMap[c]=0;catMap[c]++;});});
     const cats=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
-    if(!cats.length){el.innerHTML=`<div class="empty-state">Henüz kategori yok. Sayfa düzenlerken kategori ekleyebilirsiniz.</div>`;return;}
-    el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:8px;">Toplam ${cats.length} kategori, tıklayarak filtreleyin:</p><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">${cats.map(([c,n])=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')" style="font-size:9pt;padding:2px 10px;">🏷️ ${escHtml(c)} <span style="color:#a98;">(${n})</span></span>`).join("")}</div>`;
+    if(!cats.length){el.innerHTML=`<div class="empty-state">Henüz kategori yok.</div>`;return;}
+    el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:8px;">Toplam ${cats.length} kategori:</p><div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">${cats.map(([c,n])=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')" style="font-size:9pt;padding:2px 10px;">🏷️ ${escHtml(c)} <span style="color:#a98;">(${n})</span></span>`).join("")}</div>`;
   });
 }
 
@@ -866,13 +770,326 @@ function renderCategory(catName){
   });
 }
 
+/* ══ ÖZEL SAYFALAR ══ */
+function renderSpecialPages(){
+  document.title="Özel Sayfalar — Bilinmeyen Dünya";setStatus("Özel Sayfalar");
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab active">🔧 Özel Sayfalar</span></div>
+        <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
+      <div class="page-body">
+        <div class="sp-section">
+          <h3>📋 İçerik Sayfaları</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <a class="cat-badge" onclick="navigate('recent')">🕐 Son Değişiklikler</a>
+            <a class="cat-badge" onclick="navigate('categories')">🏷️ Kategoriler</a>
+            <a class="cat-badge" onclick="navigate('wanted')">❓ İstenen Sayfalar</a>
+            <a class="cat-badge" onclick="navigate('gallery')">🖼️ Katalog</a>
+          </div>
+        </div>
+        <div class="sp-section">
+          <h3>📊 İstatistikler</h3>
+          <div id="sp-stats"><div class="empty-state">Yükleniyor…</div></div>
+        </div>
+        <div class="sp-section">
+          <h3>👤 Kullanıcı</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            ${isLoggedIn()?`<a class="cat-badge" onclick="navigate('contributions/${currentUser.username}')">📝 Katkılarım</a>`:""}
+            <a class="cat-badge" onclick="toggleUserMenu()">${isLoggedIn()?"🚪 Çıkış":"🔑 Giriş Yap"}</a>
+          </div>
+        </div>
+        ${isAdmin()?`<div class="sp-section"><h3>⚙️ Yönetim</h3><div style="display:flex;flex-wrap:wrap;gap:4px;"><a class="cat-badge" onclick="navigate('admin')">⚙️ Admin Paneli</a><a class="cat-badge" onclick="navigate('templates')">📋 Şablonlar</a><a class="cat-badge" onclick="editHomepage()">🏠 Ana Sayfayı Düzenle</a><a class="cat-badge" onclick="openAnnouncementEditor()">📢 Duyuru Düzenle</a></div></div>`:""}
+      </div>
+    </div>`;
+  Promise.all([db.ref("articles").once("value"),db.ref("users").once("value"),db.ref("images").once("value"),db.ref("discussion").once("value")]).then(([artSnap,userSnap,imgSnap,discSnap])=>{
+    const el=document.getElementById("sp-stats");if(!el)return;
+    const artN=artSnap.val()?Object.keys(artSnap.val()).length:0;
+    const userN=userSnap.val()?Object.keys(userSnap.val()).length:0;
+    const imgN=imgSnap.val()?Object.keys(imgSnap.val()).length:0;
+    const discN=discSnap.val()?Object.keys(discSnap.val()).length:0;
+    el.innerHTML=`<table class="wiki-table" style="width:auto;"><tr><td>📄 Toplam Sayfa</td><td><b>${artN}</b></td></tr><tr><td>👤 Kayıtlı Kullanıcı</td><td><b>${userN}</b></td></tr><tr><td>🖼️ Görsel</td><td><b>${imgN}</b></td></tr><tr><td>💬 Tartışma</td><td><b>${discN}</b></td></tr></table>`;
+  });
+}
+
+/* ══ İSTENEN SAYFALAR ══ */
+function renderWantedPages(){
+  document.title="İstenen Sayfalar — Bilinmeyen Dünya";setStatus("İstenen Sayfalar");
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab active">❓ İstenen Sayfalar</span></div>
+        <div class="ph-actions">${isAdmin()?`<a onclick="openWantedEditor()">+ Ekle</a>`:""}<a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
+      <div class="page-body">
+        <div class="notice">Henüz oluşturulmamış ama ihtiyaç duyulan sayfalar. <a style="cursor:pointer;" onclick="openEditor()">Oluşturmak için tıkla.</a></div>
+        <div id="wanted-list"><div class="empty-state">Yükleniyor…</div></div>
+        ${isAdmin()?`<div style="margin-top:10px;"><button class="btn-post" onclick="openWantedEditor()">+ İstenen Sayfa Ekle</button></div>`:""}
+      </div>
+    </div>`;
+  db.ref("wanted").once("value",snap=>{
+    const el=document.getElementById("wanted-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">İstenen sayfa listesi boş.</div>`;return;}
+    const items=Object.entries(data).sort((a,b)=>(b[1].votes||0)-(a[1].votes||0));
+    el.innerHTML=items.map(([key,item])=>`
+      <div class="acard" style="display:flex;align-items:center;gap:8px;">
+        <div style="text-align:center;min-width:32px;background:#f0e0d6;border:1px solid #d9bfb7;padding:2px 4px;font-size:9pt;">
+          <div style="font-weight:bold;color:#d00;">${item.votes||0}</div>
+          <div style="font-size:7pt;color:#888;">oy</div>
+        </div>
+        <div style="flex:1;">
+          <div class="acard-title"><a onclick="navigate('editor');setTimeout(()=>{const t=document.getElementById('ed-title');if(t)t.value='${escHtml(item.title)}'}, 300)">${escHtml(item.title)}</a></div>
+          ${item.desc?`<div class="acard-meta">${escHtml(item.desc)}</div>`:""}
+        </div>
+        <div style="display:flex;gap:4px;">
+          <button onclick="voteWanted('${key}')" class="btn-cancel" style="font-size:8pt;padding:2px 6px;">👍 Oy</button>
+          ${isAdmin()?`<button onclick="removeWanted('${key}')" class="btn-reject" style="font-size:8pt;padding:2px 6px;">🗑️</button>`:""}
+        </div>
+      </div>`).join("");
+  });
+}
+function openWantedEditor(){
+  document.getElementById("modal-title").textContent="❓ İstenen Sayfa Ekle";
+  document.getElementById("modal-footer").style.display="flex";
+  document.getElementById("modal-ok").textContent="Ekle";
+  document.getElementById("modal-body").innerHTML=`
+    <label>Sayfa Başlığı:</label>
+    <input type="text" id="wanted-title" placeholder="Örn: Soyjaklar Tarihi">
+    <label>Açıklama (opsiyonel):</label>
+    <input type="text" id="wanted-desc" placeholder="Neden bu sayfaya ihtiyaç var?">`;
+  window._tplModalCb=()=>{
+    const title=(document.getElementById("wanted-title").value||"").trim();
+    if(!title){alert("Başlık gerekli.");return false;}
+    const key="wanted_"+Date.now();
+    db.ref("wanted/"+key).set({title,desc:document.getElementById("wanted-desc").value||"",votes:0,addedBy:currentUser?currentUser.username:"Anonim",addedAt:Date.now()},()=>{setStatus("Eklendi!");renderWantedPages();});
+    return true;
+  };
+  document.getElementById("modal-overlay").style.display="flex";
+  setTimeout(()=>{const t=document.getElementById("wanted-title");if(t)t.focus();},50);
+}
+function voteWanted(key){db.ref("wanted/"+key+"/votes").transaction(v=>(v||0)+1,()=>renderWantedPages());}
+function removeWanted(key){showConfirmModal("Kaldır?",()=>{db.ref("wanted/"+key).remove(()=>renderWantedPages());});}
+
+/* ══ KULLANICI KATKILARI ══ */
+function renderContributions(username){
+  document.title=username+" Katkıları — Bilinmeyen Dünya";setStatus("Katkılar: "+username);
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab active">📝 ${escHtml(username)} Katkıları</span></div>
+        <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
+      <div class="page-body">
+        <div id="contrib-list"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  db.ref("articles").once("value",snap=>{
+    const el=document.getElementById("contrib-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">Katkı bulunamadı.</div>`;return;}
+    const arts=Object.values(data).filter(a=>a.author===username).sort((a,b)=>(b.updatedAt||b.createdAt)-(a.updatedAt||a.createdAt));
+    if(!arts.length){el.innerHTML=`<div class="empty-state">${escHtml(username)} henüz katkıda bulunmamış.</div>`;return;}
+    el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:8px;">Toplam ${arts.length} sayfa:</p>${arts.map(a=>`<div class="contrib-item"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a> <span style="color:#888;font-size:8pt;">${timeAgo(a.updatedAt||a.createdAt)}</span></div>`).join("")}`;
+  });
+}
+
+/* ══ REVİZYON GEÇMİŞİ ══ */
+function renderHistory(slug){
+  document.title="Geçmiş — Bilinmeyen Dünya";setStatus("Geçmiş: "+slug);
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs">
+          <span class="ph-tab" onclick="navigate('article/${slug}')">📄 Sayfa</span>
+          <span class="ph-tab active">📜 Geçmiş</span>
+        </div>
+        <div class="ph-actions"><a onclick="navigate('article/${slug}')">Sayfaya Dön</a></div>
+      </div>
+      <div class="page-body">
+        <div id="history-list"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  db.ref("revisions/"+slug).once("value",snap=>{
+    const el=document.getElementById("history-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">Bu sayfa için revizyon geçmişi yok. (Bundan sonraki düzenlemeler kaydedilecek.)</div>`;return;}
+    const revs=Object.entries(data).sort((a,b)=>b[1].savedAt-a[1].savedAt);
+    el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:6px;">${revs.length} revizyon:</p>`+revs.map(([key,rev])=>`
+      <div class="rev-item">
+        <span class="rev-time">${new Date(rev.savedAt).toLocaleString("tr-TR")}</span>
+        <span class="rev-author">✍️ ${escHtml(rev.author||"Anonim")}</span>
+        ${isAdmin()?`<a class="rev-restore" onclick="restoreRevision('${slug}','${key}')">↩ Geri Al</a>`:""}
+      </div>`).join("");
+  });
+}
+function saveRevision(slug,data){
+  const revKey="rev_"+Date.now();
+  db.ref("revisions/"+slug+"/"+revKey).set({...data,savedAt:Date.now()});
+}
+function restoreRevision(slug,revKey){
+  showConfirmModal("Bu revizyona geri dön?",()=>{
+    db.ref("revisions/"+slug+"/"+revKey).once("value",snap=>{
+      if(!snap.exists())return;
+      db.ref("articles/"+slug).set(snap.val(),()=>{setStatus("Geri alındı!");navigate("article/"+slug);});
+    });
+  });
+}
+
+/* ══ DUYURU ══ */
+function loadAnnouncement(){
+  db.ref("announcement").once("value",snap=>{
+    const bar=document.getElementById("announce-bar");
+    if(!bar)return;
+    if(snap.exists()&&snap.val().text){
+      bar.innerHTML=snap.val().text+(isAdmin()?` <a onclick="openAnnouncementEditor()" style="margin-left:8px;">[düzenle]</a>`:"");
+      bar.classList.add("on");
+    } else {
+      bar.classList.remove("on");
+    }
+  });
+}
+function openAnnouncementEditor(){
+  db.ref("announcement").once("value",snap=>{
+    const cur=snap.val()?snap.val().text:"";
+    document.getElementById("modal-title").textContent="📢 Duyuru Düzenle";
+    document.getElementById("modal-footer").style.display="flex";
+    document.getElementById("modal-ok").textContent="Kaydet";
+    document.getElementById("modal-body").innerHTML=`
+      <label>Duyuru metni (boş bırakırsan kaldırılır):</label>
+      <input type="text" id="announce-text" value="${escHtml(cur)}" placeholder="Duyuru metni…">
+      <p style="font-size:8pt;color:#888;">HTML kullanabilirsiniz. Sarı bar üstte görünür.</p>`;
+    window._tplModalCb=()=>{
+      const text=(document.getElementById("announce-text").value||"").trim();
+      db.ref("announcement").set({text,updatedAt:Date.now()},()=>{setStatus("Duyuru güncellendi.");loadAnnouncement();});
+      return true;
+    };
+    document.getElementById("modal-overlay").style.display="flex";
+    setTimeout(()=>{const t=document.getElementById("announce-text");if(t){t.focus();t.select();}},50);
+  });
+}
+
+/* ══ TARTIŞMA (Discussion) ══ */
+function renderDiscussion(slug){
+  document.title="Tartışma — Bilinmeyen Dünya";setStatus("Tartışma: "+slug);
+  document.getElementById("main-content").innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs">
+          <span class="ph-tab" onclick="navigate('article/${slug}')">📄 Sayfa</span>
+          <span class="ph-tab active">💬 Tartışma</span>
+          <span class="ph-tab" onclick="navigate('history/${slug}')">📜 Geçmiş</span>
+        </div>
+        <div class="ph-actions"><a onclick="navigate('article/${slug}')">Sayfaya Dön</a></div>
+      </div>
+      <div class="page-body">
+        <!-- Yeni konu başlat -->
+        <div class="disc-new-thread">
+          <div style="font-weight:bold;font-size:9pt;color:#800;margin-bottom:6px;">💬 Yeni Konu Başlat</div>
+          <input type="text" id="disc-new-topic" placeholder="Konu başlığı…">
+          <textarea id="disc-new-text" placeholder="Mesajınızı yazın…"></textarea>
+          <button class="btn-post" onclick="postNewThread('${slug}')" style="font-size:9pt;padding:3px 12px;">Gönder</button>
+          <span style="font-size:8pt;color:#888;margin-left:8px;">${isLoggedIn()?escHtml(currentUser.username):"Anonim olarak"}</span>
+        </div>
+        <div id="disc-list"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+  loadDiscussion(slug);
+}
+
+function loadDiscussion(slug){
+  db.ref("discussion/"+slug).once("value",snap=>{
+    const el=document.getElementById("disc-list");if(!el)return;
+    const data=snap.val();
+    if(!data){el.innerHTML=`<div class="empty-state">Henüz tartışma yok. İlk konuyu başlat!</div>`;return;}
+    const threads=Object.entries(data).sort((a,b)=>b[1].createdAt-a[1].createdAt);
+    el.innerHTML=threads.map(([threadKey,thread])=>{
+      const replies=thread.replies?Object.entries(thread.replies).sort((a,b)=>a[1].createdAt-b[1].createdAt):[];
+      return`<div class="disc-thread">
+        <div class="disc-thread-head">
+          <span>💬</span>
+          <span style="flex:1;">${escHtml(thread.topic||"Konu")}</span>
+          <span style="font-size:8pt;font-weight:normal;color:#a98;">${timeAgo(thread.createdAt)} — ${escHtml(thread.author||"Anonim")}</span>
+        </div>
+        ${replies.map(([rKey,reply])=>`
+          <div class="disc-reply">
+            <div class="disc-meta">✍️ <b>${escHtml(reply.author||"Anonim")}</b> &bull; ${timeAgo(reply.createdAt)}</div>
+            <div class="disc-content">${escHtml(reply.text||"")}</div>
+            <div class="disc-actions">
+              <a onclick="openReplyForm('${slug}','${threadKey}')">↩ Yanıtla</a>
+              ${isAdmin()?`<a onclick="deleteDiscReply('${slug}','${threadKey}','${rKey}')" style="color:#d00;">🗑️</a>`:""}
+            </div>
+          </div>`).join("")}
+        <div id="reply-form-${threadKey}" style="display:none;padding:6px 10px;border-top:1px solid #e8d0c0;background:#f9f0e8;">
+          <textarea id="reply-text-${threadKey}" placeholder="Yanıtınızı yazın…" style="width:100%;border:1px solid #a9a9a9;padding:5px;font-size:9pt;font-family:arial;resize:vertical;min-height:50px;outline:none;background:#fff;color:#333;margin-bottom:5px;"></textarea>
+          <button class="btn-post" onclick="postReply('${slug}','${threadKey}')" style="font-size:9pt;padding:2px 10px;">Gönder</button>
+          <button class="btn-cancel" onclick="closeReplyForm('${threadKey}')" style="font-size:9pt;padding:2px 8px;">İptal</button>
+        </div>
+      </div>`;
+    }).join("");
+  });
+}
+
+function postNewThread(slug){
+  const topic=(document.getElementById("disc-new-topic").value||"").trim();
+  const text=(document.getElementById("disc-new-text").value||"").trim();
+  if(!text){alert("Mesaj yazın.");return;}
+  const threadKey="thread_"+Date.now();
+  const author=isLoggedIn()?currentUser.username:"Anonim";
+  db.ref("discussion/"+slug+"/"+threadKey).set({topic:topic||"Konu",author,createdAt:Date.now(),replies:{["r_"+Date.now()]:{author,text,createdAt:Date.now()}}},()=>{
+    document.getElementById("disc-new-topic").value="";
+    document.getElementById("disc-new-text").value="";
+    setStatus("Konu açıldı!");
+    loadDiscussion(slug);
+  });
+}
+function openReplyForm(slug,threadKey){
+  document.querySelectorAll("[id^='reply-form-']").forEach(el=>el.style.display="none");
+  const form=document.getElementById("reply-form-"+threadKey);if(form){form.style.display="block";const ta=document.getElementById("reply-text-"+threadKey);if(ta)ta.focus();}
+}
+function closeReplyForm(threadKey){const form=document.getElementById("reply-form-"+threadKey);if(form)form.style.display="none";}
+function postReply(slug,threadKey){
+  const text=(document.getElementById("reply-text-"+threadKey).value||"").trim();
+  if(!text){alert("Yanıt yazın.");return;}
+  const author=isLoggedIn()?currentUser.username:"Anonim";
+  db.ref("discussion/"+slug+"/"+threadKey+"/replies/r_"+Date.now()).set({author,text,createdAt:Date.now()},()=>{closeReplyForm(threadKey);setStatus("Yanıt gönderildi!");loadDiscussion(slug);});
+}
+function deleteDiscReply(slug,threadKey,rKey){showConfirmModal("Yanıtı sil?",()=>{db.ref("discussion/"+slug+"/"+threadKey+"/replies/"+rKey).remove(()=>loadDiscussion(slug));});}
+
+/* ══ PUANLAMA (Rating) ══ */
+function renderRating(slug,container){
+  db.ref("ratings/"+slug).once("value",snap=>{
+    const data=snap.val()||{};
+    const votes=Object.values(data);
+    const avg=votes.length?votes.reduce((a,b)=>a+b,0)/votes.length:0;
+    const myVote=data[currentUser?currentUser.username:"anon"]||0;
+    container.innerHTML=`
+      <div class="rating-wrap">
+        <span style="font-size:9pt;color:#800;">Puanla:</span>
+        <div class="rating-stars" id="stars-${slug}">
+          ${[1,2,3,4,5].map(i=>`<span class="rating-star ${myVote>=i?'filled':''}" data-v="${i}" onclick="rateArticle('${slug}',${i})" onmouseover="hoverStars('${slug}',${i})" onmouseout="unhoverStars('${slug}',${myVote})">★</span>`).join("")}
+        </div>
+        <span class="rating-count">${avg?avg.toFixed(1)+" ("+votes.length+" oy)":"Henüz oy yok"}</span>
+      </div>`;
+  });
+}
+function hoverStars(slug,v){document.querySelectorAll(`#stars-${slug} .rating-star`).forEach(s=>{s.classList.toggle("hover",parseInt(s.dataset.v)<=v);});}
+function unhoverStars(slug,myVote){document.querySelectorAll(`#stars-${slug} .rating-star`).forEach(s=>{s.classList.remove("hover");});}
+function rateArticle(slug,v){
+  const key=isLoggedIn()?currentUser.username:"anon";
+  db.ref("ratings/"+slug+"/"+key).set(v,()=>{
+    const container=document.getElementById("rating-container-"+slug);
+    if(container)renderRating(slug,container);
+    setStatus("Puan verildi: "+v+"/5");
+  });
+}
+
 /* ══ TEMPLATE ENGINE ══ */
-/* FIX: Varsayılan değerlerle önizleme doğru render edilsin */
 function renderTemplate(html,args){
   return html.replace(/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g,(m,name,def)=>{
     name=name.trim();
     if(args&&args[name]!==undefined&&args[name]!=="")return args[name];
-    // args'ta yoksa def (varsayılan) kullan
     return def!==undefined?def:"";
   });
 }
@@ -886,37 +1103,23 @@ function convertWikiTable(text){
     return html+'</table>';
   });
 }
-
 function processWikiMarkup(html){
   if(!html)return html;
   html=html.replace(/<includeonly>([\s\S]*?)<\/includeonly>/gi,'$1');
   html=html.replace(/<noinclude>[\s\S]*?<\/noinclude>/gi,'');
   html=convertWikiTable(html);
-
-  // [[File:...]] / [[Dosya:...]] / [[Image:...]] / [[Resim:...]]
   html=html.replace(/\[\[(?:File|Dosya|Image|Resim):([^\]|]+)(?:\|([^\]]*))?\]\]/gi,function(m,filename,params){
-    filename=filename.trim();
-    let width='180';
-    let floatStyle='';
-    if(params){
-      const sm=params.match(/(\d+)px/);if(sm)width=sm[1];
-      if(/\bright\b/i.test(params))floatStyle='float:right;margin:0 0 8px 12px;';
-      else if(/\bleft\b/i.test(params))floatStyle='float:left;margin:0 12px 8px 0;';
-      else if(/\bcenter\b/i.test(params))floatStyle='display:block;margin:0 auto;';
-    }
-    const cachedUrl = getCachedImageUrl(filename);
-    if(cachedUrl){
-      return `<img src="${escHtml(cachedUrl)}" alt="${escHtml(filename)}" style="width:${width}px;max-width:100%;height:auto;border:1px solid #d9bfb7;${floatStyle}" loading="lazy">`;
-    }
-    return `<span style="display:inline-flex;align-items:center;gap:4px;background:#f0e0d6;border:1px dashed #d9bfb7;padding:2px 6px;font-size:8pt;color:#a98;border-radius:2px;" title="${escHtml(filename)}">📷 ${escHtml(filename)}</span>`;
+    filename=filename.trim();let width='180';let floatStyle='';
+    if(params){const sm=params.match(/(\d+)px/);if(sm)width=sm[1];if(/\bright\b/i.test(params))floatStyle='float:right;margin:0 0 8px 12px;';else if(/\bleft\b/i.test(params))floatStyle='float:left;margin:0 12px 8px 0;';else if(/\bcenter\b/i.test(params))floatStyle='display:block;margin:0 auto;';}
+    const cachedUrl=getCachedImageUrl(filename);
+    if(cachedUrl)return`<img src="${escHtml(cachedUrl)}" alt="${escHtml(filename)}" style="width:${width}px;max-width:100%;height:auto;border:1px solid #d9bfb7;${floatStyle}" loading="lazy">`;
+    return`<span style="display:inline-flex;align-items:center;gap:4px;background:#f0e0d6;border:1px dashed #d9bfb7;padding:2px 6px;font-size:8pt;color:#a98;border-radius:2px;" title="${escHtml(filename)}">📷 ${escHtml(filename)}</span>`;
   });
-
   html=html.replace(/\[\[([^\]|#\n]+)(?:\|([^\]\n]*))?\]\]/g,function(m,target,text){const sl=slugify(target.trim());const label=text?text.trim():target.trim();return`<a href="#article/${sl}" onclick="event.preventDefault();navigate('article/${sl}')">${escHtml(label)}</a>`;});
   html=html.replace(/'''([\s\S]*?)'''/g,'<b>$1</b>');
   html=html.replace(/''([\s\S]*?)''/g,'<i>$1</i>');
   return html;
 }
-
 async function loadAllTemplates(){return new Promise(resolve=>{db.ref("templates").once("value",snap=>{const stored=snap.val()?Object.values(snap.val()):[];const map={};BUILTIN_TEMPLATES.forEach(t=>map[t.slug]=t);stored.forEach(t=>map[t.slug]=t);resolve(Object.values(map));});});}
 function seedTemplates(){db.ref("templates").once("value",snap=>{BUILTIN_TEMPLATES.forEach(tpl=>{if(!snap.child(tpl.slug).exists())db.ref("templates/"+tpl.slug).set(tpl);});});}
 function extractTemplateVars(html){const vars=[];const rx=/\{\{\{([^}|]+)(?:\|([^}]*))?\}\}\}/g;let m;while((m=rx.exec(html))!==null){const name=m[1].trim(),def=m[2]||"";if(!vars.find(v=>v.name===name))vars.push({name,def});}return vars;}
@@ -926,9 +1129,15 @@ function renderHome(){
   document.title="Ana Sayfa — Bilinmeyen Dünya";setStatus("Ana sayfa");
   const mc=document.getElementById("main-content");
   mc.innerHTML=`<div class="empty-state">Yükleniyor…</div>`;
-  Promise.all([db.ref("homepage").once("value"), loadAllTemplates(), preloadFirebaseImages()]).then(([snap, templates])=>{
+  Promise.all([db.ref("homepage").once("value"),loadAllTemplates(),preloadFirebaseImages(),db.ref("articles").once("value")]).then(([snap,templates,_,artSnap])=>{
     const hp=snap.val();
-    const adminActions=isAdmin()?`<a onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</a>`:""
+    const adminActions=isAdmin()?`<a onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</a>`:"";
+
+    // DYK (Did You Know)
+    const arts=artSnap.val()?Object.values(artSnap.val()):[];
+    const recentArts=arts.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
+    const dykHtml=recentArts.length?`<div class="dyk-box"><strong>💡 Biliyor muydunuz?</strong><br>${recentArts.map(a=>`• <a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a> sayfası eklendi.`).join("<br>")}</div>`:"";
+
     if(!hp||!(hp.blocks&&hp.blocks.length)){
       mc.innerHTML=`
         <div class="page-wrap">
@@ -937,6 +1146,7 @@ function renderHome(){
             <div class="ph-actions">${adminActions}</div>
           </div>
           <div class="page-body">
+            ${dykHtml}
             <div class="notice">🌏 <b>Bilinmeyen Dünya</b>'ya hoş geldiniz — anonim açık Türkçe arşiv.</div>
             ${isAdmin()?`<div style="text-align:center;padding:30px;"><button class="btn-post" onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</button></div>`:`<div class="empty-state">Ana sayfa henüz düzenlenmemiş.</div>`}
           </div>
@@ -952,6 +1162,7 @@ function renderHome(){
           <div class="ph-actions">${adminActions}</div>
         </div>
         <div class="page-body">
+          ${dykHtml}
           <div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>
         </div>
       </div>`;
@@ -967,12 +1178,24 @@ function editHomepage(){
 async function loadArticle(slug){
   if(slug==="__homepage__"){renderHomepageEditor();return;}
   setStatus("Yükleniyor…");
-  const [snap, templates] = await Promise.all([
+  const [snap,templates]=await Promise.all([
     db.ref("articles/"+slug).once("value"),
     loadAllTemplates(),
     preloadFirebaseImages()
   ]);
-  if(!snap.exists()){document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">⚠️ Bu sayfa mevcut değil.</div><button class="btn-post" onclick="openEditor()">Sayfa Oluştur</button></div></div>`;setStatus("404");return;}
+  if(!snap.exists()){
+    // İstenen sayfa önerisini kontrol et
+    document.getElementById("main-content").innerHTML=`
+      <div class="page-wrap">
+        <div class="page-body">
+          <div class="notice warn">⚠️ Bu sayfa mevcut değil.</div>
+          <button class="btn-post" onclick="navigate('editor');setTimeout(()=>{const t=document.getElementById('ed-title');if(t)t.value=decodeURIComponent('${slug}'.replace(/-/g,' '))},300)">✏️ Bu Sayfayı Oluştur</button>
+          &nbsp;<button class="btn-cancel" onclick="goHome()">Ana Sayfa</button>
+        </div>
+      </div>`;
+    setStatus("404");
+    return;
+  }
   const a=snap.val();
   document.title=a.title+" — Bilinmeyen Dünya";setStatus("Yüklendi: "+a.title);
   const ch=computeCanvasH(a.blocks||[]);
@@ -983,45 +1206,83 @@ async function loadArticle(slug){
     return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;
   }).join("");
   const catHtml=(a.categories&&a.categories.length)?`<div style="margin-top:8px;border-top:1px solid #e8d0c0;padding-top:6px;font-size:9pt;"><span style="color:#800;font-weight:bold;">🏷️ Kategoriler:</span> ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join(" ")}</div>`:"";
+  const watchingNow=isWatching(slug);
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
-      <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">📄 Sayfa</span><span class="ph-tab" onclick="navigate('editor/${slug}')">✏️ Düzenle</span></div><div class="ph-actions"><a onclick="navigate('editor/${slug}')">✏️ Düzenle</a><a class="red" onclick="deleteArticle('${slug}')">🗑️ Sil</a></div></div>
+      <div class="page-head">
+        <div class="ph-tabs">
+          <span class="ph-tab active">📄 Sayfa</span>
+          <span class="ph-tab" onclick="navigate('discussion/${slug}')">💬 Tartışma</span>
+          <span class="ph-tab" onclick="navigate('history/${slug}')">📜 Geçmiş</span>
+          <span class="ph-tab" onclick="navigate('editor/${slug}')">✏️ Düzenle</span>
+        </div>
+        <div class="ph-actions">
+          <button class="watch-btn ${watchingNow?"watching":""}" id="watch-btn-${slug}" onclick="handleWatch('${slug}')">${watchingNow?"★ Takipte":"☆ Takip Et"}</button>
+          <a onclick="navigate('editor/${slug}')">✏️ Düzenle</a>
+          <a class="red" onclick="deleteArticle('${slug}')">🗑️ Sil</a>
+        </div>
+      </div>
       <div class="page-body">
         <div class="art-title">${escHtml(a.title)}</div>
-        <div class="art-meta"><span>📍 ${escHtml(a.location||"Anonim")}</span><span>📅 ${new Date(a.createdAt).toLocaleString("tr-TR")}</span>${a.author?`<span>✍️ ${escHtml(a.author)}</span>`:""}</div>
+        <div class="art-meta">
+          <span>📍 ${escHtml(a.location||"Anonim")}</span>
+          <span>📅 ${new Date(a.createdAt).toLocaleString("tr-TR")}</span>
+          ${a.author?`<span>✍️ <a onclick="navigate('contributions/${a.author}')" style="color:#117743;">${escHtml(a.author)}</a></span>`:""}
+          <span style="color:#888;font-size:8pt;">${timeAgo(a.updatedAt||a.createdAt)}</span>
+        </div>
         <div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>
         ${catHtml}
+        <div id="rating-container-${slug}" style="margin-top:8px;border-top:1px solid #e8d0c0;padding-top:6px;"></div>
+        <div style="margin-top:6px;border-top:1px solid #e8d0c0;padding-top:6px;font-size:9pt;">
+          <a onclick="navigate('discussion/${slug}')">💬 Tartışmaya Katıl</a>
+          &nbsp;&nbsp;
+          <a onclick="navigate('history/${slug}')">📜 Düzenleme Geçmişi</a>
+          &nbsp;&nbsp;
+          <button class="flag-btn" onclick="flagArticle('${slug}')">🚩 Şikayet Et</button>
+        </div>
       </div>
     </div>`;
+  renderRating(slug,document.getElementById("rating-container-"+slug));
 }
+
+function handleWatch(slug){
+  const watching=toggleWatch(slug);
+  const btn=document.getElementById("watch-btn-"+slug);
+  if(btn){btn.textContent=watching?"★ Takipte":"☆ Takip Et";btn.className="watch-btn"+(watching?" watching":"");}
+}
+
+function flagArticle(slug){
+  showConfirmModal("Bu sayfayı şikayet et? Admin inceleyecek.",()=>{
+    db.ref("flags/"+slug+"_"+Date.now()).set({slug,by:isLoggedIn()?currentUser.username:"Anonim",at:Date.now()});
+    setStatus("Şikayet gönderildi.");
+  });
+}
+
 function computeCanvasH(blocks){let max=300;blocks.forEach(b=>{max=Math.max(max,(parseInt(b.top)||0)+(parseInt(b.height)||150)+50);});return max;}
-function deleteArticle(slug){showConfirmModal("Bu sayfayı sil?",()=>{db.ref("articles/"+slug).remove(()=>goHome());});}
+function deleteArticle(slug){
+  if(!isAdmin()&&!(isLoggedIn()&&currentUser.username===slug)){
+    showConfirmModal("Bu sayfayı silmek istiyor musunuz? Admin onayına gidecek.",()=>{
+      db.ref("delete_requests/"+slug).set({by:currentUser?currentUser.username:"Anonim",at:Date.now()});
+      setStatus("Silme isteği gönderildi.");
+    });
+    return;
+  }
+  showConfirmModal("Bu sayfayı sil?",()=>{db.ref("articles/"+slug).remove(()=>goHome());});
+}
 
 /* ══ RENDER TEMPLATE TAGS ══ */
-function renderTemplateTags(html, templates){
-  if(!html) return "";
-  html = processWikiMarkup(html);
-  return html.replace(/\{\{(\{)?([^}|#]+?)(\|[^}]*)?\}\}\}?/g, (match, triple, name, argsStr) => {
-    name = (triple ? name : (name || "")).trim();
-    const isRaw = !!triple;
-    const tpl = templates.find(t => t.name === name || t.slug === slugify(name));
-    if(!tpl) return match;
-    const args = {};
-    if(argsStr){
-      const parts = argsStr.slice(1).split("|");
-      parts.forEach((p,i) => {
-        const eq = p.indexOf("=");
-        if(eq > 0) {
-          args[p.slice(0,eq).trim()] = p.slice(eq+1);
-        } else {
-          args[i+1] = p;
-          args[i] = p;
-        }
-      });
-    }
-    let rendered = renderTemplate(tpl.html, args);
-    if(!isRaw) rendered = processWikiMarkup(rendered);
-    return `<span class="tpl-render">${rendered}</span>`;
+function renderTemplateTags(html,templates){
+  if(!html)return"";
+  html=processWikiMarkup(html);
+  return html.replace(/\{\{(\{)?([^}|#]+?)(\|[^}]*)?\}\}\}?/g,(match,triple,name,argsStr)=>{
+    name=(triple?name:(name||"")).trim();
+    const tpl=templates.find(t=>t.name===name||t.slug===slugify(name));
+    if(!tpl)return match;
+    const args={};
+    if(argsStr){const parts=argsStr.slice(1).split("|");parts.forEach((p,i)=>{const eq=p.indexOf("=");if(eq>0){args[p.slice(0,eq).trim()]=p.slice(eq+1);}else{args[i+1]=p;args[i]=p;}});}
+    let rendered=renderTemplate(tpl.html,args);
+    if(!triple)rendered=processWikiMarkup(rendered);
+    return`<span class="tpl-render">${rendered}</span>`;
   });
 }
 
@@ -1031,7 +1292,10 @@ async function renderTemplates(){
   const templates=await loadAllTemplates();const isAdm=isAdmin();
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
-      <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">📋 Şablonlar</span></div><div class="ph-actions">${isAdm?`<a onclick="openTemplateEditor(null)" class="tpl-new-btn" style="background:#4a7d44;border:1px solid #3a6234;padding:1px 9px;color:#fff;font-weight:bold;text-decoration:none;">+ Yeni Şablon</a>`:""}<a onclick="goHome()">Ana Sayfa</a></div></div>
+      <div class="page-head">
+        <div class="ph-tabs"><span class="ph-tab active">📋 Şablonlar</span></div>
+        <div class="ph-actions">${isAdm?`<a onclick="openTemplateEditor(null)" class="tpl-new-btn" style="background:#4a7d44;border:1px solid #3a6234;padding:1px 9px;color:#fff;font-weight:bold;text-decoration:none;">+ Yeni Şablon</a>`:""}<a onclick="goHome()">Ana Sayfa</a></div>
+      </div>
       <div class="page-body">
         <div class="notice">Şablonlar: <code style="background:#f0e0d6;padding:1px 4px;border:1px solid #d9bfb7;">{{ŞablonAdı|parametre=değer}}</code> şeklinde kullanılır.</div>
         <p class="art-title" style="font-size:12pt;margin:10px 0 8px;">Mevcut Şablonlar</p>
@@ -1039,7 +1303,22 @@ async function renderTemplates(){
       </div>
     </div>`;
 }
-function renderTplCards(templates,isAdm){if(!templates.length)return`<div class="empty-state">Henüz şablon yok.</div>`;return templates.map(t=>`<div class="tpl-card"><div style="flex:1;"><h4>📋 ${escHtml(t.name)} <span style="font-size:8pt;font-weight:normal;font-family:monospace;">{{${escHtml(t.name)}}}</span></h4><div class="tpl-desc">${escHtml(t.desc||"")}</div></div><div class="tpl-acts"><button class="btn-tpl ins" onclick="previewTemplate('${t.slug}')">👁 Önizle</button>${isAdm?`<button class="btn-tpl" onclick="openTemplateEditor('${t.slug}')">✏️ Düzenle</button><button class="btn-tpl del" onclick="deleteTemplate('${t.slug}')">🗑️ Sil</button>`:""}</div></div>`).join("");}
+function renderTplCards(templates,isAdm){
+  if(!templates.length)return`<div class="empty-state">Henüz şablon yok.</div>`;
+  return templates.map(t=>`
+    <div class="tpl-card">
+      <div style="flex:1;">
+        <h4>📋 ${escHtml(t.name)} <span style="font-size:8pt;font-weight:normal;font-family:monospace;">{{${escHtml(t.name)}}}</span></h4>
+        <div class="tpl-desc">${escHtml(t.desc||"")}</div>
+        <!-- ★ FIX: Şablon önizlemesi — varsayılan değerlerle -->
+        <div style="margin-top:6px;background:#fffef0;border:1px solid #e8d0c0;padding:6px;overflow:auto;max-height:80px;font-size:85%;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>
+      </div>
+      <div class="tpl-acts">
+        <button class="btn-tpl ins" onclick="previewTemplate('${t.slug}')">👁 Önizle</button>
+        ${isAdm?`<button class="btn-tpl" onclick="openTemplateEditor('${t.slug}')">✏️ Düzenle</button><button class="btn-tpl del" onclick="deleteTemplate('${t.slug}')">🗑️ Sil</button>`:""}
+      </div>
+    </div>`).join("");
+}
 async function reloadTplList(){const t=await loadAllTemplates();const el=document.getElementById("tpl-list");if(el)el.innerHTML=renderTplCards(t,isAdmin());}
 
 /* ══ TEMPLATE CODE EDITOR MODAL ══ */
@@ -1081,19 +1360,14 @@ function copyTplCode(){const el=document.getElementById("tpl-html");if(!el)retur
 function previewTemplateHtml(){
   const html=document.getElementById("tpl-html").value||"";
   const box=document.getElementById("tpl-prev-box");box.style.display="block";
-  // FIX: Varsayılan değerlerle önizleme yap
-  preloadFirebaseImages().then(()=>{
-    const rendered = renderTemplate(html, {});
-    box.innerHTML=processWikiMarkup(rendered);
-  });
+  preloadFirebaseImages().then(()=>{box.innerHTML=processWikiMarkup(renderTemplate(html,{}));});
 }
 function deleteTemplate(slug){showConfirmModal("Bu şablonu sil?",()=>{db.ref("templates/"+slug).remove(()=>{setStatus("Silindi.");reloadTplList();refreshEditorTplPanel();});});}
 function previewTemplate(slug){
   loadAllTemplates().then(templates=>{
     const t=templates.find(t=>t.slug===slug);if(!t)return;
     preloadFirebaseImages().then(()=>{
-      // FIX: Varsayılan değerlerle önizle
-      const rendered = renderTemplate(t.html, {});
+      const rendered=renderTemplate(t.html,{});
       document.getElementById("modal-title").textContent="👁 "+t.name;
       document.getElementById("modal-body").innerHTML=`<div style="padding:6px;overflow:auto;">${processWikiMarkup(rendered)}</div>`;
       document.getElementById("modal-footer").style.display="none";
@@ -1104,54 +1378,49 @@ function previewTemplate(slug){
 
 /* ══ EDITOR TEMPLATE PANEL ══ */
 let editorTplCache=[];
-
 async function refreshEditorTplPanel(){
   editorTplCache=await loadAllTemplates();
   await preloadFirebaseImages();
-  // Desktop sol panel
   const list=document.getElementById("ed-tpl-list");
   if(list){
     if(!editorTplCache.length){list.innerHTML=`<div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Şablon yok</div>`;}
     else{
       list.innerHTML=editorTplCache.map(t=>{
-        // FIX: Varsayılan değerlerle önizleme
+        /* ★ FIX: Editor panelinde şablonlar varsayılan değerlerle preview göstermeli */
         const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));
-        return`<div class="ed-tpl-item" id="edti-${t.slug}"><div class="ed-tpl-preview-box">${prevHtml}</div><div class="ed-tpl-item-footer"><span class="ed-tpl-item-name">📋 ${escHtml(t.name)}</span><button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}')">+ Ekle</button></div></div>`;
+        return`<div class="ed-tpl-item" id="edti-${t.slug}">
+          <div class="ed-tpl-preview-box">${prevHtml}</div>
+          <div class="ed-tpl-item-footer">
+            <span class="ed-tpl-item-name">📋 ${escHtml(t.name)}</span>
+            <button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}')">+ Ekle</button>
+          </div>
+        </div>`;
       }).join("");
       editorTplCache.forEach(t=>{const el=document.getElementById("edti-"+t.slug);if(el){el.addEventListener("click",function(e){if(e.target.tagName==="BUTTON")return;insertTemplateToCanvas(t.slug);});}});
     }
   }
-  // Mobile bottom sheet
   const bsList=document.getElementById("tpl-bs-list");
   if(bsList){
     if(!editorTplCache.length){bsList.innerHTML=`<div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;grid-column:1/-1;">Şablon yok</div>`;}
     else{
       bsList.innerHTML=editorTplCache.map(t=>{
         const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));
-        return`<div class="ed-tpl-item" id="bsti-${t.slug}"><div class="ed-tpl-preview-box" style="min-height:40px;max-height:70px;">${prevHtml}</div><div class="ed-tpl-item-footer"><span class="ed-tpl-item-name" style="font-size:7pt;">📋 ${escHtml(t.name)}</span><button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}');closeTplSheet();">+ Ekle</button></div></div>`;
+        return`<div class="ed-tpl-item" id="bsti-${t.slug}">
+          <div class="ed-tpl-preview-box" style="min-height:40px;max-height:70px;">${prevHtml}</div>
+          <div class="ed-tpl-item-footer">
+            <span class="ed-tpl-item-name" style="font-size:7pt;">📋 ${escHtml(t.name)}</span>
+            <button class="ed-tpl-item-ins" onclick="event.stopPropagation();insertTemplateToCanvas('${t.slug}');closeTplSheet();">+ Ekle</button>
+          </div>
+        </div>`;
       }).join("");
       editorTplCache.forEach(t=>{const el=document.getElementById("bsti-"+t.slug);if(el){el.addEventListener("click",function(e){if(e.target.tagName==="BUTTON")return;insertTemplateToCanvas(t.slug);closeTplSheet();});}});
     }
   }
 }
+function openTplSheet(){document.getElementById("tpl-bottom-sheet").classList.add("open");document.getElementById("tpl-bs-overlay").classList.add("on");}
+function closeTplSheet(){document.getElementById("tpl-bottom-sheet").classList.remove("open");document.getElementById("tpl-bs-overlay").classList.remove("on");}
+function toggleDesktopTplPanel(){const panel=document.getElementById("ed-tpl-panel-desktop");if(panel)panel.classList.toggle("collapsed");}
 
-/* Mobile bottom sheet aç/kapat */
-function openTplSheet(){
-  document.getElementById("tpl-bottom-sheet").classList.add("open");
-  document.getElementById("tpl-bs-overlay").classList.add("on");
-}
-function closeTplSheet(){
-  document.getElementById("tpl-bottom-sheet").classList.remove("open");
-  document.getElementById("tpl-bs-overlay").classList.remove("on");
-}
-
-/* Desktop panel toggle */
-function toggleDesktopTplPanel(){
-  const panel=document.getElementById("ed-tpl-panel-desktop");
-  if(panel)panel.classList.toggle("collapsed");
-}
-
-/* Şablonu canvas'a ekle */
 function insertTemplateToCanvas(slug){
   const tpl=editorTplCache.find(t=>t.slug===slug);if(!tpl){setStatus("Şablon bulunamadı.");return;}
   const vars=extractTemplateVars(tpl.html);
@@ -1159,7 +1428,6 @@ function insertTemplateToCanvas(slug){
   else{const renderedHtml=processWikiMarkup(renderTemplate(tpl.html,{}));const tag=`{{${tpl.name}}}`;addTemplateBlock(renderedHtml,tag,tpl.slug);}
 }
 function buildTplTag(tpl,args,vars){let tag=`{{${tpl.name}`;vars.forEach(v=>{const val=args[v.name]||"";if(val&&val!==v.def)tag+=`|${v.name}=${val}`;});tag+=`}}`;return tag;}
-
 function openTplVarsModal(tpl,cb){
   document.getElementById("modal-title").textContent="📋 "+tpl.name+" — Değerler";
   document.getElementById("modal-footer").style.display="flex";
@@ -1181,44 +1449,31 @@ function addTemplateBlock(renderedHtml,sourceTag,tplSlug){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   const pos=getSpawnPos();const block=createBlock("template",pos.x,pos.y);
   block.style.width="auto";block.dataset.tplSlug=tplSlug;block.dataset.tplTag=sourceTag;
-  const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="4px";inner.style.cursor="default";
-
-  // DRAG HANDLE — üst bar ile sürükle
+  const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
+  /* ★ FIX: Template blok canvas'ta da edit modundaki gibi gözükmeli */
+  inner.innerHTML=renderedHtml;inner.style.padding="6px";inner.style.cursor="default";
+  inner.style.background="#fffef0";inner.style.border="1px dashed #e8b080";
   const dragHandle=document.createElement("div");dragHandle.className="tpl-drag-handle";dragHandle.textContent="⠿⠿⠿ taşı";
   block.appendChild(dragHandle);
-
   const overlay=document.createElement("div");overlay.className="tpl-edit-overlay";overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
   block.appendChild(overlay);
   canvas.appendChild(block);
   block.scrollIntoView({behavior:"smooth",block:"nearest"});
   updateBlockCount();selectBlock(block);
-
-  // DRAG HANDLE mouse events
-  makeDragHandle(block, dragHandle);
+  makeDragHandle(block,dragHandle);
 }
 
-/* Drag handle ile taşıma — template blok */
-function makeDragHandle(block, handle){
+function makeDragHandle(block,handle){
   handle.addEventListener("mousedown",e=>{
-    e.stopPropagation();e.preventDefault();
-    selectBlock(block);
+    e.stopPropagation();e.preventDefault();selectBlock(block);
     const sx=e.clientX,sy=e.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;
     block.style.opacity=".85";block.style.zIndex="99";handle.style.cursor="grabbing";
-    function onMove(mv){
-      block.style.left=Math.max(0,origL+(mv.clientX-sx))+"px";
-      block.style.top=Math.max(0,origT+(mv.clientY-sy))+"px";
-      updateBlockCount();
-    }
-    function onUp(){
-      document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);
-      block.style.opacity="";block.style.zIndex="";handle.style.cursor="grab";
-    }
+    function onMove(mv){block.style.left=Math.max(0,origL+(mv.clientX-sx))+"px";block.style.top=Math.max(0,origT+(mv.clientY-sy))+"px";updateBlockCount();}
+    function onUp(){document.removeEventListener("mousemove",onMove);document.removeEventListener("mouseup",onUp);block.style.opacity="";block.style.zIndex="";handle.style.cursor="grab";}
     document.addEventListener("mousemove",onMove);document.addEventListener("mouseup",onUp);
   });
-  // Touch
   handle.addEventListener("touchstart",e=>{
-    e.stopPropagation();e.preventDefault();
-    selectBlock(block);
+    e.stopPropagation();e.preventDefault();selectBlock(block);
     const t0=e.touches[0],sx=t0.clientX,sy=t0.clientY,origL=parseInt(block.style.left)||0,origT=parseInt(block.style.top)||0;
     block.style.opacity=".85";block.style.zIndex="99";
     function onMove(mv){mv.preventDefault();const t=mv.touches[0];block.style.left=Math.max(0,origL+(t.clientX-sx))+"px";block.style.top=Math.max(0,origT+(t.clientY-sy))+"px";updateBlockCount();}
@@ -1245,27 +1500,38 @@ function renderAdmin(){
   document.title="Admin — Bilinmeyen Dünya";setStatus("Admin");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
-      <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">⚙️ Admin</span><span class="ph-tab" onclick="navigate('templates')">📋 Şablonlar</span></div><div class="ph-actions"><a onclick="editHomepage()">✏️ Ana Sayfa Düzenle</a><a onclick="goHome()">Ana Sayfa</a></div></div>
+      <div class="page-head">
+        <div class="ph-tabs">
+          <span class="ph-tab active">⚙️ Admin</span>
+          <span class="ph-tab" onclick="navigate('templates')">📋 Şablonlar</span>
+        </div>
+        <div class="ph-actions">
+          <a onclick="editHomepage()">✏️ Ana Sayfa Düzenle</a>
+          <a onclick="openAnnouncementEditor()">📢 Duyuru</a>
+          <a onclick="goHome()">Ana Sayfa</a>
+        </div>
+      </div>
       <div class="page-body">
         <div class="notice">⚙️ Admin: <b>${escHtml(currentUser.username)}</b></div>
         <p class="art-title" style="font-size:12pt;margin-bottom:8px;">Bekleyen Düzenlemeler</p>
         <div id="pending-list"><div class="empty-state">Yükleniyor…</div></div>
+        <p class="art-title" style="font-size:12pt;margin:14px 0 8px;">Şikayet Edilen Sayfalar</p>
+        <div id="flags-list"><div class="empty-state">Yükleniyor…</div></div>
         <p class="art-title" style="font-size:12pt;margin:14px 0 8px;">Kayıtlı Kullanıcılar</p>
         <div id="user-list"><div class="empty-state">Yükleniyor…</div></div>
       </div>
     </div>`;
   db.ref("pending").once("value",snap=>{const data=snap.val();const el=document.getElementById("pending-list");if(!data){el.innerHTML=`<div class="empty-state">✅ Bekleyen yok.</div>`;return;}el.innerHTML=Object.entries(data).map(([key,p])=>`<div class="pend-card"><h4>${escHtml(p.title)}</h4><div class="pm">✍️ ${escHtml(p.author||"Anonim")} &bull; ${new Date(p.createdAt).toLocaleString("tr-TR")}</div><div class="pend-actions"><button class="btn-approve" onclick="approvePending('${key}')">✅ Onayla</button><button class="btn-reject" onclick="rejectPending('${key}')">❌ Reddet</button><button class="btn-cancel" onclick="previewPending('${key}')">👁 Önizle</button></div></div>`).join("");});
-  db.ref("users").once("value",snap=>{const data=snap.val();const el=document.getElementById("user-list");if(!data){el.innerHTML=`<div class="empty-state">Kullanıcı yok.</div>`;return;}el.innerHTML=`<table class="wiki-table"><tr><th>Kullanıcı</th><th>Rol</th><th>Kayıt</th></tr>${Object.entries(data).map(([u,d])=>`<tr><td>${escHtml(u)}</td><td>${d.role||"user"}</td><td>${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td></tr>`).join("")}</table>`;});
+  db.ref("flags").once("value",snap=>{const data=snap.val();const el=document.getElementById("flags-list");if(!data){el.innerHTML=`<div class="empty-state">Şikayet yok.</div>`;return;}el.innerHTML=Object.entries(data).map(([key,f])=>`<div class="pend-card"><h4>${escHtml(f.slug)}</h4><div class="pm">🚩 ${escHtml(f.by)} &bull; ${new Date(f.at).toLocaleString("tr-TR")}</div><div class="pend-actions"><a onclick="navigate('article/${f.slug}')" class="btn-cancel" style="padding:2px 10px;">Görüntüle</a><button class="btn-reject" onclick="db.ref('flags/${key}').remove();renderAdmin();">Kapat</button></div></div>`).join("");});
+  db.ref("users").once("value",snap=>{const data=snap.val();const el=document.getElementById("user-list");if(!data){el.innerHTML=`<div class="empty-state">Kullanıcı yok.</div>`;return;}el.innerHTML=`<table class="wiki-table"><tr><th>Kullanıcı</th><th>Rol</th><th>Kayıt</th><th>İşlem</th></tr>${Object.entries(data).map(([u,d])=>`<tr><td><a onclick="navigate('contributions/${u}')">${escHtml(u)}</a></td><td>${d.role||"user"}</td><td>${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td><td><button onclick="banUser('${u}')" style="font-size:8pt;padding:1px 6px;background:#fff0f0;border:1px solid #ffa0a0;color:#d00;cursor:pointer;">Ban</button></td></tr>`).join("")}</table>`;});
 }
-function approvePending(key){db.ref("pending/"+key).once("value",snap=>{if(!snap.exists())return;const p=snap.val();db.ref("articles/"+p.slug).set(p,err=>{if(err){alert("Hata: "+err.message);return;}db.ref("pending/"+key).remove();setStatus("Onaylandı: "+p.title);renderAdmin();});});}
+function banUser(username){showConfirmModal(`"${username}" kullanıcısını yasakla?`,()=>{db.ref("users/"+username+"/banned").set(true,()=>{setStatus(username+" yasaklandı.");renderAdmin();});});}
+function approvePending(key){db.ref("pending/"+key).once("value",snap=>{if(!snap.exists())return;const p=snap.val();saveRevision(p.slug,p);db.ref("articles/"+p.slug).set(p,err=>{if(err){alert("Hata: "+err.message);return;}db.ref("pending/"+key).remove();setStatus("Onaylandı: "+p.title);renderAdmin();});});}
 function rejectPending(key){showConfirmModal("Reddet?",()=>{db.ref("pending/"+key).remove(()=>{renderAdmin();setStatus("Reddedildi.");});});}
 async function previewPending(key){
-  const [snap, templates] = await Promise.all([
-    db.ref("pending/"+key).once("value"),
-    loadAllTemplates(),
-    preloadFirebaseImages()
-  ]);
-  if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";}
+  const [snap,templates]=await Promise.all([db.ref("pending/"+key).once("value"),loadAllTemplates(),preloadFirebaseImages()]);
+  if(!snap.exists())return;const a=snap.val();const ch=computeCanvasH(a.blocks||[]);const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");document.getElementById("modal-title").textContent="👁 "+a.title;document.getElementById("modal-body").innerHTML=`<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>`;document.getElementById("modal-footer").style.display="none";document.getElementById("modal-overlay").style.display="flex";
+}
 
 /* ══ EDITOR ══ */
 let selectedBlock=null,editingSlug=null,blockIdCounter=0,activeInner=null,lastSpawnX=30,lastSpawnY=30;
@@ -1314,9 +1580,7 @@ function renderEditor(loadSlug){
             </div>
             <div class="tbg"><button class="tb" onclick="changeCanvasSize()">⤢</button><button class="tb" onclick="clearCanvas()" style="color:#d00">🗑️</button></div>
           </div>
-          <!-- EDITOR LAYOUT -->
           <div class="ed-layout">
-            <!-- Sol şablon paneli (sadece desktop) -->
             <div class="ed-tpl-panel" id="ed-tpl-panel-desktop">
               <div class="ed-tpl-panel-head">
                 <span>📋 Şablonlar</span>
@@ -1326,7 +1590,6 @@ function renderEditor(loadSlug){
                 <div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Yükleniyor…</div>
               </div>
             </div>
-            <!-- Canvas -->
             <div class="ed-canvas-wrap">
               <div class="ed-canvas" id="editor-canvas">
                 <div class="ed-canvas-inner" id="editor-canvas-inner">
@@ -1359,17 +1622,27 @@ function renderEditor(loadSlug){
   if(isHomepageEditor){
     db.ref("homepage").once("value",snap=>{if(!snap.exists()||!snap.val().blocks)return;const hp=snap.val();(hp.blocks||[]).forEach(b=>loadBlock(b));});
   } else if(loadSlug){
-    db.ref("articles/"+loadSlug).once("value",snap=>{if(!snap.exists())return;const a=snap.val();const titleEl=document.getElementById("ed-title");const locEl=document.getElementById("ed-location");const catEl=document.getElementById("ed-categories");if(titleEl)titleEl.value=a.title;if(locEl)locEl.value=a.location||"";if(catEl)catEl.value=(a.categories||[]).join(", ");(a.blocks||[]).forEach(b=>loadBlock(b));});
+    db.ref("articles/"+loadSlug).once("value",snap=>{
+      if(!snap.exists())return;const a=snap.val();
+      const titleEl=document.getElementById("ed-title");
+      const locEl=document.getElementById("ed-location");
+      const catEl=document.getElementById("ed-categories");
+      if(titleEl)titleEl.value=a.title;
+      if(locEl)locEl.value=a.location||"";
+      if(catEl)catEl.value=(a.categories||[]).join(", ");
+      /* ★ FIX: Sayfayı edit için açınca template bloklar doğru görünmeli */
+      refreshEditorTplPanel().then(()=>{(a.blocks||[]).forEach(b=>loadBlock(b));});
+      return;
+    });
+    return; // loadBlock çağrısı refreshEditorTplPanel sonrasına alındı
   }
 
   refreshEditorTplPanel();
 }
 
-/* Şablon buton: mobilde sheet, desktopda toggle */
 function handleTplPanelBtn(){
   const isMobile=window.innerWidth<=700;
-  if(isMobile){openTplSheet();}
-  else{toggleDesktopTplPanel();}
+  if(isMobile){openTplSheet();}else{toggleDesktopTplPanel();}
 }
 
 /* FORMAT */
@@ -1419,18 +1692,18 @@ function loadBlock(b){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   if(b.type==="template"){
     const tpl=editorTplCache.find(t=>t.slug===b.tplSlug)||null;
-    // FIX: Varsayılan değerlerle render
-    const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,{})):b.content;
+    /* ★ FIX: loadBlock sırasında template bloklar tıpkı yeni eklenmişler gibi görünmeli */
+    const currentArgs=b.tplTag?parseTplTagBySlug(b.tplTag,tpl):{}; 
+    const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,currentArgs)):(b.content||"");
     const block=createBlock("template",parseInt(b.left)||10,parseInt(b.top)||10);
     if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
     block.dataset.tplSlug=b.tplSlug||"";block.dataset.tplTag=b.tplTag||b.content||"";
-    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;inner.innerHTML=renderedHtml;inner.style.padding="4px";
-
-    // Drag handle ekle
+    const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
+    /* ★ edit mode style */
+    inner.innerHTML=renderedHtml;inner.style.padding="6px";
+    inner.style.background="#fffef0";inner.style.border="1px dashed #e8b080";
     const dragHandle=document.createElement("div");dragHandle.className="tpl-drag-handle";dragHandle.textContent="⠿⠿⠿ taşı";
-    block.appendChild(dragHandle);
-    makeDragHandle(block, dragHandle);
-
+    block.appendChild(dragHandle);makeDragHandle(block,dragHandle);
     const overlay=document.createElement("div");overlay.className="tpl-edit-overlay";overlay.innerHTML=`<button class="tpl-edit-btn" onclick="editTemplateBlock(this.closest('.e-block'))">✏️ Düzenle</button>`;
     block.appendChild(overlay);canvas.appendChild(block);updateBlockCount();return;
   }
@@ -1440,6 +1713,18 @@ function loadBlock(b){
   if(b.type==="image"){inner.contentEditable=false;const img=document.createElement("img");img.src=b.content;img.draggable=false;inner.appendChild(img);}
   else inner.innerHTML=b.content||"";
   canvas.appendChild(block);updateBlockCount();
+}
+
+/* Tpl tag'den args parse — slug ile */
+function parseTplTagBySlug(tag,tpl){
+  const args={};
+  if(!tag||!tpl)return args;
+  const vars=extractTemplateVars(tpl.html);
+  // parse "{{{key|default}}}" from tag
+  const inner=tag.replace(/^\{\{[^|]+/,"").replace(/\}\}$/,"");
+  if(!inner)return args;
+  inner.split("|").forEach(part=>{const eq=part.indexOf("=");if(eq>0){args[part.slice(0,eq).trim()]=part.slice(eq+1);}});
+  return args;
 }
 
 /* IMAGE BLOCK */
@@ -1541,22 +1826,9 @@ function saveArticle(){
   if(isHomepageEditor){
     if(!isAdmin()){alert("Sadece admin kaydedebilir.");return;}
     const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
-    canvas.querySelectorAll(".e-block").forEach(block=>{
-      const type=block.dataset.type,inner=block.querySelector(".e-block-inner");
-      if(type==="image"){
-        const img=inner.querySelector("img");
-        blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});
-      } else if(type==="template"){
-        blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
-      } else {
-        blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
-      }
-    });
+    canvas.querySelectorAll(".e-block").forEach(block=>{const type=block.dataset.type,inner=block.querySelector(".e-block-inner");if(type==="image"){const img=inner.querySelector("img");blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});}else if(type==="template"){blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});}else{blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});}});
     setStatus("Kaydediliyor…");
-    db.ref("homepage").set({blocks,updatedAt:Date.now()},err=>{
-      if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}
-      setStatus("Ana sayfa kaydedildi ✅");goHome();
-    });
+    db.ref("homepage").set({blocks,updatedAt:Date.now()},err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Ana sayfa kaydedildi ✅");goHome();});
     return;
   }
   const title=(document.getElementById("ed-title").value||"").trim();
@@ -1565,22 +1837,17 @@ function saveArticle(){
   const categories=catRaw?catRaw.split(",").map(c=>c.trim()).filter(Boolean):[];
   if(!title){alert("Lütfen bir başlık girin.");document.getElementById("ed-title").focus();return;}
   const canvas=document.getElementById("editor-canvas-inner"),blocks=[];
-  canvas.querySelectorAll(".e-block").forEach(block=>{
-    const type=block.dataset.type,inner=block.querySelector(".e-block-inner");
-    if(type==="image"){
-      const img=inner.querySelector("img");
-      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});
-    } else if(type==="template"){
-      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});
-    } else {
-      blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});
-    }
-  });
+  canvas.querySelectorAll(".e-block").forEach(block=>{const type=block.dataset.type,inner=block.querySelector(".e-block-inner");if(type==="image"){const img=inner.querySelector("img");blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:img?img.src:""});}else if(type==="template"){blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:block.dataset.tplTag||"",tplSlug:block.dataset.tplSlug||"",tplTag:block.dataset.tplTag||""});}else{blocks.push({type,left:block.style.left,top:block.style.top,width:block.style.width||null,height:block.style.height||null,content:inner.innerHTML});}});
   const slug=editingSlug||slugify(title);
   const payload={title,location,slug,blocks,categories,createdAt:Date.now(),updatedAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
-  if(isAdmin()){db.ref("articles/"+slug).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Kaydedildi ✅");navigate("article/"+slug);});}
-  else{db.ref("pending/"+slug+"_"+Date.now()).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Onaya gönderildi ✅");document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice success">✅ İçeriğiniz admin onayına gönderildi!</div><button class="btn-post" onclick="goHome()" style="margin-top:10px">🏠 Ana Sayfaya Dön</button></div></div>`;});}
+  if(isAdmin()){
+    // Save revision before overwriting
+    db.ref("articles/"+slug).once("value",prev=>{if(prev.exists())saveRevision(slug,prev.val());});
+    db.ref("articles/"+slug).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Kaydedildi ✅");navigate("article/"+slug);});
+  } else {
+    db.ref("pending/"+slug+"_"+Date.now()).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Onaya gönderildi ✅");document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice success">✅ İçeriğiniz admin onayına gönderildi!</div><button class="btn-post" onclick="goHome()" style="margin-top:10px">🏠 Ana Sayfaya Dön</button></div></div>`;});
+  }
 }
 
 /* ══ MODAL ══ */
@@ -1594,7 +1861,17 @@ function showInputModal(title,fields,cb){modalCb=cb;document.getElementById("mod
 /* ══ SEARCH ══ */
 function doSearch(){const q=(document.getElementById("search-input").value||"").trim().toLowerCase();if(!q)return;_runSearch(q);}
 function doSidebarSearch(){const q=(document.getElementById("sb-search-input").value||"").trim().toLowerCase();if(!q)return;closeSidebar();_runSearch(q);}
-function _runSearch(q){setStatus("Aranıyor: "+q);db.ref("articles").once("value",snap=>{const data=snap.val();const el=document.getElementById("main-content");if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q))||(a.categories||[]).some(c=>c.toLowerCase().includes(q)));document.title=`"${q}" — Bilinmeyen Dünya`;el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}${(a.categories&&a.categories.length)?` &bull; ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("")}`:""}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;setStatus(res.length+" sonuç");});}
+function _runSearch(q){
+  setStatus("Aranıyor: "+q);
+  db.ref("articles").once("value",snap=>{
+    const data=snap.val();const el=document.getElementById("main-content");
+    if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}
+    const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q))||(a.categories||[]).some(c=>c.toLowerCase().includes(q)));
+    document.title=`"${q}" — Bilinmeyen Dünya`;
+    el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"Anonim")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}${(a.categories&&a.categories.length)?` &bull; ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("")}`:""}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;
+    setStatus(res.length+" sonuç");
+  });
+}
 
 /* ══ KEYBOARD ══ */
 document.addEventListener("keydown",e=>{
@@ -1602,13 +1879,16 @@ document.addEventListener("keydown",e=>{
   if((e.ctrlKey||e.metaKey)&&e.key==="s"){e.preventDefault();if(document.getElementById("ed-title")||isHomepageEditor)saveArticle();}
 });
 
-/* ══ LIVE COUNT ══ */
+/* ══ LIVE STATS ══ */
 db.ref("articles").on("value",snap=>{const n=snap.val()?Object.keys(snap.val()).length:0;const el=document.getElementById("article-count");if(el)el.textContent=n+" sayfa";});
+db.ref("users").on("value",snap=>{const n=snap.val()?Object.keys(snap.val()).length:0;const el=document.getElementById("user-count");if(el)el.textContent=n+" kullanıcı";});
 
 /* ══ INIT ══ */
 loadSession();
 seedTemplates();
 renderSidebarImages();
+updateWatchlistSidebar();
+loadAnnouncement();
 preloadFirebaseImages().then(()=>router());
 </script>
 </body>
