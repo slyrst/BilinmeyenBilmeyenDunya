@@ -23,13 +23,20 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 #site-logo{width:18px;height:18px;object-fit:contain;vertical-align:middle;image-rendering:auto;}
 .wiki-tb{position:-webkit-sticky;position:sticky;top:28px;z-index:999;background:#f0e0d6;border:1px solid #d9bfb7;padding:4px;display:flex;flex-wrap:nowrap;overflow-x:auto;box-shadow:0 2px 5px rgba(0,0,0,0.15);}
 .ed-bar{position:fixed;bottom:0;left:0;right:0;background:#f0e0d6;border-top:2px solid #d9bfb7;padding:10px 15px;display:flex;gap:10px;justify-content:center;z-index:1000;}
-#search-wrap{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:2px;overflow:hidden;background:rgba(255,255,255,.12);}
+#search-wrap{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:2px;overflow:hidden;background:rgba(255,255,255,.12);position:relative;}
 #search-wrap input{background:transparent;border:none;outline:none;padding:2px 7px;color:#fff;font-size:9pt;width:140px;}
 #search-wrap input::placeholder{color:rgba(255,255,255,.6);}
 #search-wrap button{background:transparent;border:none;border-left:1px solid rgba(255,255,255,.2);padding:2px 7px;cursor:pointer;color:#fff5ee;font-size:11px;}
+/* ★ AUTOCOMPLETE DROPDOWN */
+#search-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d9bfb7;border-top:none;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,.18);max-height:220px;overflow-y:auto;display:none;}
+#search-dropdown .sd-item{padding:4px 10px;font-size:9pt;color:#800000;cursor:pointer;border-bottom:1px solid #f0e0d6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#search-dropdown .sd-item:last-child{border-bottom:none;}
+#search-dropdown .sd-item:hover,#search-dropdown .sd-item.active{background:#f0e0d6;color:#d00;}
+#search-dropdown .sd-item b{color:#d00;}
 #user-pill{font-size:9pt;cursor:pointer;color:#fff5ee!important;text-decoration:none;}
 #user-pill:hover{color:#fff!important;}
 #user-pill.admin-pill{color:#ffe278!important;font-weight:bold;}
+#user-pill.proko-pill{color:#90ee90!important;font-weight:bold;}
 #hamburger{background:none;border:none;cursor:pointer;color:#fff5ee;font-size:16px;padding:0 4px;display:none;}
 #layout{display:flex;gap:16px;max-width:98vw;width:100%;margin:0 auto;padding:10px 12px 60px;}
 #sidebar{width:200px;flex-shrink:0;}
@@ -41,6 +48,7 @@ hr{border:none;border-top:1px solid #d9bfb7;height:0;clear:left;}
 .sbox ul li a:hover{text-decoration:underline;color:#d00;}
 .sbox .sc{padding:4px 8px;color:#800;font-size:9pt;font-style:italic;}
 .pending-badge{background:#d00;color:#fff;border-radius:8px;padding:0 5px;font-size:9px;margin-left:3px;}
+.proko-badge{background:#117743;color:#fff;border-radius:8px;padding:0 5px;font-size:9px;margin-left:3px;}
 #sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:850;}
 #sb-overlay.on{display:block;}
 #sidebar.mob-open{transform:translateX(0)!important;}
@@ -169,8 +177,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .wiki-table{border-collapse:collapse;width:100%;font-size:9pt;margin:6px 0;}
 .wiki-table th,.wiki-table td{border:1px solid #aaa;padding:4px 8px;}
 .wiki-table th{background:#f0e0d6;font-weight:bold;color:#800;}
-
-/* ═══ EDITOR LAYOUT ═══ */
 .ed-layout{display:flex;gap:0;border:1px solid #d9bfb7;}
 .ed-tpl-panel{width:200px;flex-shrink:0;background:#f5ece4;border-right:1px solid #d9bfb7;display:flex;flex-direction:column;max-height:600px;overflow:hidden;transition:width .2s,opacity .2s;}
 .ed-tpl-panel.collapsed{width:0;overflow:hidden;border-right:none;opacity:0;pointer-events:none;}
@@ -181,7 +187,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .ed-tpl-item{background:#fff;border:1px solid #d9bfb7;border-radius:3px;cursor:pointer;overflow:hidden;transition:border-color .15s,box-shadow .15s;flex-shrink:0;}
 .ed-tpl-item:hover{border-color:#e87020;box-shadow:0 2px 8px rgba(232,114,42,.18);}
 .ed-tpl-item.active{border-color:#e87020;box-shadow:0 0 0 2px rgba(232,114,42,.25);border-width:2px;}
-/* ★ FIX: template preview in editor panel — edit-mode görünüm */
 .ed-tpl-preview-box{pointer-events:none;background:#fffef0;border-bottom:1px solid #e8d0c0;min-height:60px;max-height:110px;overflow:hidden;padding:6px;display:flex;align-items:flex-start;justify-content:flex-start;}
 .ed-tpl-preview-box *{pointer-events:none!important;font-size:85%!important;line-height:1.3!important;}
 .ed-tpl-preview-box table{width:100%!important;font-size:8pt!important;}
@@ -191,13 +196,9 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .ed-tpl-item-ins{background:#98e;border:1px solid #7799cc;color:#000;font-size:7pt;padding:1px 5px;cursor:pointer;font-weight:bold;border-radius:2px;pointer-events:auto;}
 .ed-tpl-item-ins:hover{background:#aaf;}
 .ed-canvas-wrap{flex:1;min-width:0;display:flex;flex-direction:column;}
-
-/* ★ LOADED TEMPLATE BLOCKS — edit modundaki görünüm */
 .e-block[data-type="template"] .e-block-inner{background:#fffef0;border:1px dashed #e8b080;padding:6px!important;}
 .e-block[data-type="template"] .e-block-inner table{width:100%;border-collapse:collapse;}
 .e-block[data-type="template"] .e-block-inner th,.e-block[data-type="template"] .e-block-inner td{border:1px solid #d9bfb7;padding:3px 6px;}
-
-/* Mobile bottom sheet */
 #tpl-bottom-sheet{position:fixed;bottom:-100%;left:0;right:0;z-index:1050;background:#f5ece4;border-top:2px solid #d9bfb7;border-radius:14px 14px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,.18);transition:bottom .28s cubic-bezier(.4,0,.2,1);max-height:70vh;display:flex;flex-direction:column;}
 #tpl-bottom-sheet.open{bottom:0;}
 #tpl-bs-handle{text-align:center;padding:8px 0 4px;cursor:pointer;flex-shrink:0;}
@@ -208,23 +209,17 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 #tpl-bs-list{flex:1;overflow-y:auto;padding:10px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;-webkit-overflow-scrolling:touch;}
 #tpl-bs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1040;}
 #tpl-bs-overlay.on{display:block;}
-
-/* Sidebar images */
 .sb-img-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px 6px;}
 .sb-img-thumb{aspect-ratio:1;overflow:hidden;border:1px solid #d9bfb7;cursor:pointer;background:#fffef0;display:flex;align-items:center;justify-content:center;}
 .sb-img-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .sb-img-thumb:hover{border-color:#e87020;}
 .sb-see-all{display:block;text-align:center;padding:3px;font-size:8pt;color:#0000ff;cursor:pointer;border-top:1px solid #e8d0c0;text-decoration:none;}
 .sb-see-all:hover{color:#d00;text-decoration:underline;}
-
-/* Booru gallery */
 .booru-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;padding:8px 0;}
 .booru-card{border:2px solid #d9bfb7;background:#fffef0;cursor:pointer;overflow:hidden;transition:border-color .15s;}
 .booru-card:hover{border-color:#e87020;}
 .booru-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
 .booru-card-name{font-size:7pt;color:#800;padding:2px 4px;background:#f5ece4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;}
-
-/* Drag handle */
 .tpl-drag-handle{position:absolute;top:0;left:0;right:0;height:20px;background:rgba(232,114,42,.18);cursor:grab;display:flex;align-items:center;justify-content:center;font-size:9px;color:#c45a18;letter-spacing:2px;user-select:none;opacity:0;transition:opacity .15s;z-index:6;border-bottom:1px dashed #e8b080;}
 .e-block:hover .tpl-drag-handle{opacity:1;}
 .tpl-drag-handle:active{cursor:grabbing;background:rgba(232,114,42,.35);}
@@ -239,26 +234,18 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .img-uploading{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#fff;font-size:12pt;}
 .img-uploading-spinner{width:40px;height:40px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* Category badges */
 .cat-badge{display:inline-block;background:#f0e0d6;border:1px solid #d9bfb7;padding:1px 7px;font-size:8pt;color:#800;margin:2px;cursor:pointer;border-radius:2px;}
 .cat-badge:hover{background:#e8d0c0;color:#d00;}
 .cat-badge.active{background:#e87020;color:#fff;border-color:#c45a18;}
-
-/* Recent changes */
 .rc-item{padding:4px 0;border-bottom:1px solid #e8d0c0;font-size:9pt;}
 .rc-item:last-child{border-bottom:none;}
 .rc-item a{color:#0000ff;}
 .rc-diff{font-size:8pt;color:#117743;margin-left:4px;}
-
-/* TOC */
 .wiki-toc{background:#f0e0d6;border:1px solid #d9bfb7;padding:6px 10px;display:inline-block;margin-bottom:10px;min-width:180px;}
 .wiki-toc-title{font-weight:bold;font-size:9pt;color:#800;margin-bottom:4px;text-align:center;}
 .wiki-toc ol{margin-left:16px;font-size:9pt;color:#0000ff;}
 .wiki-toc ol li{margin-bottom:2px;}
 .wiki-toc ol li a{color:#0000ff;}
-
-/* ═══ DISCUSSION ═══ */
 .disc-thread{border:1px solid #d9bfb7;background:#fffef0;margin-bottom:10px;}
 .disc-thread-head{background:#f0e0d6;border-bottom:1px solid #d9bfb7;padding:4px 8px;font-weight:bold;font-size:9pt;color:#800;display:flex;align-items:center;gap:6px;}
 .disc-reply{border-top:1px solid #e8d0c0;padding:6px 10px;}
@@ -274,49 +261,40 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 .disc-new-thread textarea:focus{border-color:#e87020;}
 .disc-new-thread input{width:100%;border:1px solid #a9a9a9;padding:4px 7px;font-size:9pt;outline:none;margin-bottom:5px;background:#fff;color:#333;}
 .disc-new-thread input:focus{border-color:#e87020;}
-
-/* ═══ RATINGS ═══ */
 .rating-wrap{display:flex;align-items:center;gap:6px;margin:6px 0;font-size:9pt;}
 .rating-stars{display:flex;gap:2px;}
 .rating-star{font-size:16px;cursor:pointer;color:#ccc;transition:color .1s;}
 .rating-star.filled{color:#e8a000;}
 .rating-star:hover,.rating-star.hover{color:#e8a000;}
 .rating-count{font-size:8pt;color:#888;}
-
-/* ═══ REVISION HISTORY ═══ */
 .rev-item{padding:4px 0;border-bottom:1px solid #e8d0c0;font-size:9pt;display:flex;gap:8px;align-items:center;}
 .rev-item:last-child{border-bottom:none;}
 .rev-time{color:#888;font-size:8pt;min-width:110px;}
 .rev-author{color:#117743;font-weight:bold;}
 .rev-restore{font-size:8pt;color:#0000ff;cursor:pointer;}
 .rev-restore:hover{color:#d00;text-decoration:underline;}
-
-/* ═══ WATCH / BOOKMARK ═══ */
 .watch-btn{padding:1px 8px;font-size:8pt;border:1px solid #d9bfb7;background:#f0e0d6;cursor:pointer;color:#800;}
 .watch-btn:hover{background:#e8d0c0;}
 .watch-btn.watching{background:#ffe0cc;border-color:#e87020;color:#c45a18;font-weight:bold;}
-
-/* ═══ FLAGGING ═══ */
 .flag-btn{font-size:8pt;color:#888;cursor:pointer;border:none;background:none;padding:0;}
 .flag-btn:hover{color:#d00;}
-
-/* ═══ SPECIAL PAGES ═══ */
 .sp-section{margin-bottom:16px;}
 .sp-section h3{font-size:10pt;font-weight:bold;color:#800;border-bottom:1px solid #d9bfb7;padding-bottom:3px;margin-bottom:6px;}
-
-/* Announcement bar */
 #announce-bar{background:#ffe09c;border-bottom:2px solid #e8a000;padding:3px 10px;font-size:9pt;color:#7a4a00;text-align:center;display:none;}
 #announce-bar.on{display:block;}
 #announce-bar a{color:#7a4a00;font-weight:bold;}
-
-/* User contributions */
 .contrib-item{padding:3px 0;border-bottom:1px dotted #e8d0c0;font-size:9pt;}
-
-/* Did You Know */
 .dyk-box{background:#eef4ff;border:1px solid #aac;padding:8px 12px;margin-bottom:10px;font-size:9pt;}
 .dyk-box strong{color:#000080;}
-
-/* Responsive */
+/* ★ USER PAGE STYLES */
+.user-page-box{background:#f5ece4;border:2px solid #d9bfb7;padding:10px 14px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;}
+.user-avatar{width:56px;height:56px;background:#ea8;border:2px solid #d9bfb7;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.user-info-block{flex:1;}
+.user-info-block h2{font-size:13pt;color:#d00;margin-bottom:3px;}
+.user-role-badge{display:inline-block;padding:1px 8px;border-radius:2px;font-size:8pt;font-weight:bold;margin-left:6px;}
+.role-admin{background:#ffe278;border:1px solid #c8a800;color:#5a4000;}
+.role-proko{background:#90ee90;border:1px solid #3a8a3a;color:#0a3a0a;}
+.role-user{background:#f0e0d6;border:1px solid #d9bfb7;color:#800;}
 @media(max-width:700px){
   #hamburger{display:flex;}
   #sidebar{position:fixed;left:0;top:28px;bottom:0;z-index:860;background:#ffe;width:175px;overflow-y:auto;transform:translateX(-100%);box-shadow:3px 0 12px rgba(0,0,0,.2);border-right:1px solid #d9bfb7;transition:transform .22s;}
@@ -344,7 +322,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 </head>
 <body>
 
-<!-- ANNOUNCEMENT BAR -->
 <div id="announce-bar"></div>
 
 <nav id="topnav">
@@ -367,8 +344,9 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   <span>]</span>
   <div id="topnav-right">
     <div id="search-wrap">
-      <input type="search" id="search-input" placeholder="Ara…" onkeydown="if(event.key==='Enter')doSearch()">
+      <input type="search" id="search-input" placeholder="Ara…" onkeydown="handleSearchKey(event)" oninput="handleSearchInput(this.value)" autocomplete="off">
       <button onclick="doSearch()">🔍</button>
+      <div id="search-dropdown"></div>
     </div>
     <a onclick="openEditor()" style="background:#98e;border:1px solid #7799cc;padding:1px 8px;font-weight:bold;color:#000!important;text-decoration:none;">+ Yeni</a>
     <span id="user-pill" onclick="toggleUserMenu()">[ Giriş ]</span>
@@ -397,6 +375,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
         <li><a onclick="navigate('special');closeSidebar()">🔧 Özel Sayfalar</a></li>
         <li><a onclick="navigate('wanted');closeSidebar()">❓ İstenen Sayfalar</a></li>
         <li id="admin-nav-li" style="display:none"><a onclick="navigate('admin');closeSidebar()">⚙️ Admin <span class="pending-badge" id="sidebar-pending-count" style="display:none">0</span></a></li>
+        <li id="proko-nav-li" style="display:none"><a onclick="navigate('admin');closeSidebar()">🛡️ Proko <span class="proko-badge" id="sidebar-proko-pending-count" style="display:none">0</span></a></li>
       </ul>
     </div>
     <div class="sbox">
@@ -433,7 +412,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   <span style="margin-left:auto;font-size:8pt;">© 2026 Bilinmeyen Dünya</span>
 </div>
 
-<!-- MODAL -->
 <div id="modal-overlay" class="modal-ov" style="display:none;" onclick="closeModalOutside(event)">
   <div class="modal-box">
     <div class="modal-head"><span id="modal-title">İşlem</span><button class="modal-close" onclick="closeModal()">✕</button></div>
@@ -442,7 +420,6 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   </div>
 </div>
 
-<!-- EMOJI PICKER -->
 <div id="emoji-picker">
   <input type="text" id="emoji-search" placeholder="Emoji ara…" oninput="filterEmojis(this.value)">
   <div id="emoji-grid"></div>
@@ -486,12 +463,16 @@ const BUILTIN_TEMPLATES=[
 
 /* ══ AUTH ══ */
 const ADMIN_USER="sly",ADMIN_PASS="sevil177";
+// ★ PROKO ACCOUNTS — moderatörler
+const PROKO_ACCOUNTS=[]; // Firebase'den dinamik yüklenir
 let currentUser=null;
 function loadSession(){try{const s=localStorage.getItem("bbd_u");if(s)currentUser=JSON.parse(s);}catch(e){}updateUserPill();updateAdminNav();}
 function saveSession(u){currentUser=u;localStorage.setItem("bbd_u",JSON.stringify(u));}
 function clearSession(){currentUser=null;localStorage.removeItem("bbd_u");}
 function isAdmin(){return currentUser&&currentUser.role==="admin";}
+function isProko(){return currentUser&&(currentUser.role==="proko"||currentUser.role==="admin");}
 function isLoggedIn(){return!!currentUser;}
+function canModerate(){return isAdmin()||isProko();}
 
 /* ══ WATCHLIST ══ */
 function getWatchlist(){try{return JSON.parse(localStorage.getItem("bbd_watch")||"[]");}catch(e){return[];}}
@@ -540,6 +521,40 @@ function insertFirebaseImageToCanvas(key){
   });
 }
 
+/* ★ AUTO-SAVE IMAGES FROM ARTICLE PAGES TO KATALOG */
+function autoSavePageImagesToKatalog(blocks){
+  if(!blocks||!blocks.length)return;
+  blocks.forEach(b=>{
+    if(b.type==="image"&&b.content&&b.content.startsWith("data:")){
+      // generate a key from content hash
+      const key="pageimg_"+Math.abs(simpleHash(b.content.substring(0,50)))+"_"+Date.now();
+      const name="sayfa-gorseli-"+Date.now()+".png";
+      // check if already exists by scanning cache
+      const alreadyExists=Object.values(window._imageCache).some(v=>v===b.content);
+      if(!alreadyExists){
+        db.ref("images/"+key.replace(/[.#$\[\]]/g,"_")).set({name,dataUrl:b.content,addedAt:Date.now(),autoAdded:true});
+      }
+    }
+    // also scan text blocks for embedded img src data URIs
+    if(b.type==="text"&&b.content){
+      const parser=new DOMParser();
+      const doc=parser.parseFromString(b.content,"text/html");
+      doc.querySelectorAll("img[src]").forEach(img=>{
+        const src=img.getAttribute("src");
+        if(src&&src.startsWith("data:")){
+          const alreadyExists=Object.values(window._imageCache).some(v=>v===src);
+          if(!alreadyExists){
+            const key="pageimg_"+Math.abs(simpleHash(src.substring(0,50)))+"_"+Date.now();
+            const name="sayfa-gorseli-"+Date.now()+".png";
+            db.ref("images/"+key.replace(/[.#$\[\]]/g,"_")).set({name,dataUrl:src,addedAt:Date.now(),autoAdded:true});
+          }
+        }
+      });
+    }
+  });
+}
+function simpleHash(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;}return h;}
+
 /* ══ KATALOG ══ */
 function renderGallery(){
   document.title="Katalog — Bilinmeyen Dünya";setStatus("Katalog");
@@ -561,7 +576,7 @@ function renderGallery(){
     el.innerHTML=`<div class="booru-grid">${imgs.map(img=>`
       <div class="booru-card">
         <img src="${escHtml(img.dataUrl)}" alt="${escHtml(img.name)}" onclick="openGalleryImage('${escHtml(img.key)}')" loading="lazy">
-        <div class="booru-card-name">${escHtml(img.name)}</div>
+        <div class="booru-card-name">${escHtml(img.name)}${img.autoAdded?` <span style="color:#117743;font-size:6pt;">[oto]</span>`:""}</div>
         ${isAdmin()?`<div style="text-align:center;padding:2px;background:#f5ece4;"><button onclick="deleteFirebaseImage('${escHtml(img.key)}');navigate('gallery');" style="background:none;border:none;color:#d00;cursor:pointer;font-size:9pt;">🗑️ Sil</button></div>`:""}
       </div>`).join("")}</div>`;
   });
@@ -607,9 +622,27 @@ function clearSbUpload(){window._sbImgData=null;document.getElementById("sb-uplo
 function confirmAddSidebarImage(){const name=(document.getElementById("sb-img-name").value||"").trim();if(!name){alert("Görsel adı girin.");return;}if(!window._sbImgData){alert("Önce bir görsel seç.");return;}closeModal();addFirebaseImage(name,window._sbImgData,()=>setStatus("Katalog'a eklendi: "+name));}
 
 /* ══ USER UI ══ */
-function updateUserPill(){const p=document.getElementById("user-pill"),sl=document.getElementById("sidebar-login-link");if(!currentUser){p.textContent="[ Giriş Yap ]";p.className="";if(sl)sl.textContent="Giriş / Kayıt";return;}p.textContent="[ "+(isAdmin()?"⚙️ ":"")+currentUser.username+" | Çıkış ]";p.className=isAdmin()?"admin-pill":"";if(sl)sl.textContent="🚪 Çıkış ("+currentUser.username+")";}
-function updateAdminNav(){document.getElementById("admin-nav-li").style.display=isAdmin()?"block":"none";if(isAdmin())refreshPendingCount();}
-function refreshPendingCount(){db.ref("pending").once("value",snap=>{const n=snap.val()?Object.keys(snap.val()).length:0;const b=document.getElementById("sidebar-pending-count");if(b){b.textContent=n;b.style.display=n>0?"inline":"none";}});}
+function updateUserPill(){
+  const p=document.getElementById("user-pill"),sl=document.getElementById("sidebar-login-link");
+  if(!currentUser){p.textContent="[ Giriş Yap ]";p.className="";if(sl)sl.textContent="Giriş / Kayıt";return;}
+  p.textContent="[ "+(isAdmin()?"⚙️ ":isProko()?"🛡️ ":"")+currentUser.username+" | Çıkış ]";
+  p.className=isAdmin()?"admin-pill":isProko()?"proko-pill":"";
+  if(sl)sl.textContent="🚪 Çıkış ("+currentUser.username+")";
+}
+function updateAdminNav(){
+  document.getElementById("admin-nav-li").style.display=isAdmin()?"block":"none";
+  document.getElementById("proko-nav-li").style.display=(isProko()&&!isAdmin())?"block":"none";
+  if(canModerate())refreshPendingCount();
+}
+function refreshPendingCount(){
+  db.ref("pending").once("value",snap=>{
+    const n=snap.val()?Object.keys(snap.val()).length:0;
+    const b=document.getElementById("sidebar-pending-count");
+    const pb=document.getElementById("sidebar-proko-pending-count");
+    if(b){b.textContent=n;b.style.display=n>0?"inline":"none";}
+    if(pb){pb.textContent=n;pb.style.display=n>0?"inline":"none";}
+  });
+}
 function toggleUserMenu(){if(!currentUser){showLoginModal();return;}showConfirmModal('"'+currentUser.username+'" olarak çıkış yap?',()=>{clearSession();updateUserPill();updateAdminNav();setStatus("Çıkış yapıldı.");});}
 
 function showLoginModal(){
@@ -637,7 +670,13 @@ function doLogin(){
   const u=(document.getElementById("l-user").value||"").trim(),p=(document.getElementById("l-pass").value||"").trim();
   if(!u||!p){authErr("Kullanıcı adı ve şifre gerekli.");return;}
   if(u===ADMIN_USER&&p===ADMIN_PASS){saveSession({username:u,role:"admin"});closeModal();updateUserPill();updateAdminNav();setStatus("Admin: "+u);return;}
-  db.ref("users/"+u).once("value",snap=>{if(!snap.exists()){authErr("Kullanıcı bulunamadı.");return;}const d=snap.val();if(d.password!==p){authErr("Şifre yanlış.");return;}saveSession({username:u,role:d.role||"user"});closeModal();updateUserPill();updateAdminNav();setStatus("Giriş: "+u);});
+  db.ref("users/"+u).once("value",snap=>{
+    if(!snap.exists()){authErr("Kullanıcı bulunamadı.");return;}
+    const d=snap.val();
+    if(d.banned){authErr("Bu hesap yasaklanmış.");return;}
+    if(d.password!==p){authErr("Şifre yanlış.");return;}
+    saveSession({username:u,role:d.role||"user"});closeModal();updateUserPill();updateAdminNav();setStatus("Giriş: "+u);
+  });
 }
 function doRegister(){
   const u=(document.getElementById("r-user").value||"").trim(),p=(document.getElementById("r-pass").value||"").trim();
@@ -654,7 +693,7 @@ function goHome(){navigate("");}
 function openEditor(){navigate("editor");}
 function goRandom(){db.ref("articles").once("value",snap=>{const data=snap.val();if(!data){setStatus("Hiç sayfa yok.");return;}const vals=Object.values(data);navigate("article/"+vals[Math.floor(Math.random()*vals.length)].slug);});}
 function router(){
-  closeEmojiPicker();
+  closeEmojiPicker();closeSearchDropdown();
   const hash=location.hash.replace(/^#\/?/,"");
   if(hash.startsWith("article/"))loadArticle(hash.split("/")[1]);
   else if(hash.startsWith("editor/"))renderEditor(hash.split("/")[1]);
@@ -670,6 +709,7 @@ function router(){
   else if(hash.startsWith("discussion/"))renderDiscussion(hash.split("/")[1]);
   else if(hash.startsWith("history/"))renderHistory(hash.split("/")[1]);
   else if(hash.startsWith("contributions/"))renderContributions(hash.split("/")[1]);
+  else if(hash.startsWith("user/"))renderUserPage(decodeURIComponent(hash.split("/")[1])); // ★ USER PAGES
   else renderHome();
 }
 
@@ -683,6 +723,74 @@ function fmtSize(b){if(b<1024)return b+"B";if(b<1048576)return(b/1024).toFixed(1
 function toggleSidebar(){document.getElementById("sidebar").classList.toggle("mob-open");document.getElementById("sb-overlay").classList.toggle("on");}
 function closeSidebar(){document.getElementById("sidebar").classList.remove("mob-open");document.getElementById("sb-overlay").classList.remove("on");}
 function timeAgo(ts){const diff=Date.now()-ts;if(diff<60000)return"az önce";if(diff<3600000)return Math.floor(diff/60000)+" dk önce";if(diff<86400000)return Math.floor(diff/3600000)+" saat önce";return new Date(ts).toLocaleDateString("tr-TR");}
+
+/* ══ ★ SEARCH AUTOCOMPLETE ══ */
+let _allArticleTitles=[];
+let _searchDropdownIndex=-1;
+// preload article titles for autocomplete
+db.ref("articles").on("value",snap=>{
+  _allArticleTitles=[];
+  const data=snap.val();
+  if(data){_allArticleTitles=Object.values(data).map(a=>({title:a.title,slug:a.slug}));}
+});
+
+function handleSearchInput(val){
+  const q=val.trim().toLowerCase();
+  if(!q){closeSearchDropdown();return;}
+  const matches=_allArticleTitles.filter(a=>a.title.toLowerCase().includes(q)).slice(0,8);
+  showSearchDropdown(matches,q);
+}
+
+function showSearchDropdown(matches,q){
+  const dd=document.getElementById("search-dropdown");
+  if(!matches.length){closeSearchDropdown();return;}
+  _searchDropdownIndex=-1;
+  dd.innerHTML=matches.map(m=>{
+    const hi=escHtml(m.title).replace(new RegExp('('+escHtml(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<b>$1</b>');
+    return`<div class="sd-item" onclick="goToSearchResult('${escHtml(m.slug)}','${escHtml(m.title)}')">${hi}</div>`;
+  }).join("");
+  dd.style.display="block";
+}
+
+function closeSearchDropdown(){
+  const dd=document.getElementById("search-dropdown");
+  if(dd){dd.style.display="none";}
+  _searchDropdownIndex=-1;
+}
+
+function goToSearchResult(slug,title){
+  closeSearchDropdown();
+  document.getElementById("search-input").value=title;
+  navigate("article/"+slug);
+}
+
+function handleSearchKey(e){
+  const dd=document.getElementById("search-dropdown");
+  const items=dd?dd.querySelectorAll(".sd-item"):[];
+  if(e.key==="ArrowDown"){
+    e.preventDefault();
+    _searchDropdownIndex=Math.min(_searchDropdownIndex+1,items.length-1);
+    items.forEach((it,i)=>it.classList.toggle("active",i===_searchDropdownIndex));
+  } else if(e.key==="ArrowUp"){
+    e.preventDefault();
+    _searchDropdownIndex=Math.max(_searchDropdownIndex-1,0);
+    items.forEach((it,i)=>it.classList.toggle("active",i===_searchDropdownIndex));
+  } else if(e.key==="Enter"){
+    if(_searchDropdownIndex>=0&&items[_searchDropdownIndex]){
+      items[_searchDropdownIndex].click();
+    } else {
+      doSearch();
+    }
+  } else if(e.key==="Escape"){
+    closeSearchDropdown();
+  }
+}
+
+document.addEventListener("mousedown",e=>{
+  const dd=document.getElementById("search-dropdown");
+  const wrap=document.getElementById("search-wrap");
+  if(dd&&wrap&&!wrap.contains(e.target))closeSearchDropdown();
+});
 
 /* ══ SON DEĞİŞİKLİKLER ══ */
 function renderRecentChanges(){
@@ -715,7 +823,7 @@ function renderRecentChanges(){
       arts.forEach(a=>{
         const t=new Date(a.updatedAt||a.createdAt).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
         const cats=(a.categories||[]).map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("");
-        html+=`<div class="rc-item"><span style="color:#888;font-size:8pt;margin-right:6px;">${t}</span><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a><span class="rc-diff">✍️ ${escHtml(a.author||"Anonim")}</span> <a onclick="navigate('history/${a.slug}')" style="font-size:8pt;color:#888;">[geçmiş]</a>${cats?`<span style="margin-left:4px;">${cats}</span>`:""}</div>`;
+        html+=`<div class="rc-item"><span style="color:#888;font-size:8pt;margin-right:6px;">${t}</span><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a><span class="rc-diff">✍️ <a onclick="navigate('user/${encodeURIComponent(a.author||'Anonim')}')" style="color:#117743;">${escHtml(a.author||"Anonim")}</a></span> <a onclick="navigate('history/${a.slug}')" style="font-size:8pt;color:#888;">[geçmiş]</a>${cats?`<span style="margin-left:4px;">${cats}</span>`:""}</div>`;
       });
       html+="</div>";
     });
@@ -796,11 +904,11 @@ function renderSpecialPages(){
         <div class="sp-section">
           <h3>👤 Kullanıcı</h3>
           <div style="display:flex;flex-wrap:wrap;gap:4px;">
-            ${isLoggedIn()?`<a class="cat-badge" onclick="navigate('contributions/${currentUser.username}')">📝 Katkılarım</a>`:""}
+            ${isLoggedIn()?`<a class="cat-badge" onclick="navigate('user/${encodeURIComponent(currentUser.username)}')">👤 Kullanıcı Sayfam</a><a class="cat-badge" onclick="navigate('contributions/${currentUser.username}')">📝 Katkılarım</a>`:""}
             <a class="cat-badge" onclick="toggleUserMenu()">${isLoggedIn()?"🚪 Çıkış":"🔑 Giriş Yap"}</a>
           </div>
         </div>
-        ${isAdmin()?`<div class="sp-section"><h3>⚙️ Yönetim</h3><div style="display:flex;flex-wrap:wrap;gap:4px;"><a class="cat-badge" onclick="navigate('admin')">⚙️ Admin Paneli</a><a class="cat-badge" onclick="navigate('templates')">📋 Şablonlar</a><a class="cat-badge" onclick="editHomepage()">🏠 Ana Sayfayı Düzenle</a><a class="cat-badge" onclick="openAnnouncementEditor()">📢 Duyuru Düzenle</a></div></div>`:""}
+        ${canModerate()?`<div class="sp-section"><h3>${isAdmin()?"⚙️ Yönetim":"🛡️ Moderasyon"}</h3><div style="display:flex;flex-wrap:wrap;gap:4px;"><a class="cat-badge" onclick="navigate('admin')">${isAdmin()?"⚙️ Admin Paneli":"🛡️ Bekleyen İncelemeler"}</a>${isAdmin()?`<a class="cat-badge" onclick="navigate('templates')">📋 Şablonlar</a><a class="cat-badge" onclick="editHomepage()">🏠 Ana Sayfayı Düzenle</a><a class="cat-badge" onclick="openAnnouncementEditor()">📢 Duyuru Düzenle</a><a class="cat-badge" onclick="navigate('proko-manage')">🛡️ Proko Yönetimi</a>`:""}</div></div>`:""}
       </div>
     </div>`;
   Promise.all([db.ref("articles").once("value"),db.ref("users").once("value"),db.ref("images").once("value"),db.ref("discussion").once("value")]).then(([artSnap,userSnap,imgSnap,discSnap])=>{
@@ -810,6 +918,123 @@ function renderSpecialPages(){
     const imgN=imgSnap.val()?Object.keys(imgSnap.val()).length:0;
     const discN=discSnap.val()?Object.keys(discSnap.val()).length:0;
     el.innerHTML=`<table class="wiki-table" style="width:auto;"><tr><td>📄 Toplam Sayfa</td><td><b>${artN}</b></td></tr><tr><td>👤 Kayıtlı Kullanıcı</td><td><b>${userN}</b></td></tr><tr><td>🖼️ Görsel</td><td><b>${imgN}</b></td></tr><tr><td>💬 Tartışma</td><td><b>${discN}</b></td></tr></table>`;
+  });
+}
+
+/* ══ ★ USER PAGE ══ */
+function renderUserPage(username){
+  document.title="Kullanıcı:"+username+" — Bilinmeyen Dünya";setStatus("Kullanıcı: "+username);
+  const mc=document.getElementById("main-content");
+  mc.innerHTML=`
+    <div class="page-wrap">
+      <div class="page-head">
+        <div class="ph-tabs">
+          <span class="ph-tab active">👤 Kullanıcı:${escHtml(username)}</span>
+          <span class="ph-tab" onclick="navigate('contributions/${encodeURIComponent(username)}')">📝 Katkılar</span>
+          <span class="ph-tab" onclick="navigate('discussion/user_${encodeURIComponent(username)}')">💬 Tartışma</span>
+        </div>
+        <div class="ph-actions">
+          ${isAdmin()&&username!==ADMIN_USER?`<a onclick="promoteToProko('${escHtml(username)}')">🛡️ Proko Yap</a><a onclick="demoteFromProko('${escHtml(username)}')">⬇️ Üye Yap</a><a class="red" onclick="banUserFromPage('${escHtml(username)}')">🚫 Yasakla</a>`:""}
+          <a onclick="goHome()">Ana Sayfa</a>
+        </div>
+      </div>
+      <div class="page-body">
+        <div id="user-page-content"><div class="empty-state">Yükleniyor…</div></div>
+      </div>
+    </div>`;
+
+  // Load user info + user page content + contributions
+  Promise.all([
+    username===ADMIN_USER ? Promise.resolve(null) : db.ref("users/"+username).once("value"),
+    db.ref("userpages/"+username).once("value"),
+    db.ref("articles").once("value")
+  ]).then(([userSnap, pageSnap, artSnap])=>{
+    const el=document.getElementById("user-page-content");if(!el)return;
+    const userData=userSnap?userSnap.val():null;
+    const pageData=pageSnap?pageSnap.val():null;
+    const arts=artSnap.val()?Object.values(artSnap.val()).filter(a=>a.author===username):[];
+    const role=username===ADMIN_USER?"admin":(userData?userData.role||"user":"user");
+    const roleName=role==="admin"?"Admin":role==="proko"?"Proko (Moderatör)":"Üye";
+    const roleCls=role==="admin"?"role-admin":role==="proko"?"role-proko":"role-user";
+    const joinDate=userData&&userData.createdAt?new Date(userData.createdAt).toLocaleDateString("tr-TR"):"—";
+    const canEdit=isLoggedIn()&&(currentUser.username===username||isAdmin());
+
+    let html=`
+      <div class="user-page-box">
+        <div class="user-avatar">${username.charAt(0).toUpperCase()}</div>
+        <div class="user-info-block">
+          <h2>👤 ${escHtml(username)} <span class="user-role-badge ${roleCls}">${escHtml(roleName)}</span></h2>
+          <div style="font-size:9pt;color:#888;margin-bottom:4px;">📅 Katılım: ${escHtml(joinDate)} &bull; 📝 ${arts.length} katkı</div>
+          ${userData&&userData.banned?`<div style="color:#d00;font-size:9pt;font-weight:bold;">🚫 Bu kullanıcı yasaklanmış.</div>`:""}
+        </div>
+      </div>`;
+
+    // User page content (editable)
+    html+=`<div style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+      <b style="font-size:10pt;color:#800;">📄 Kullanıcı Sayfası</b>
+      ${canEdit?`<button class="btn-cancel" style="font-size:8pt;padding:2px 8px;" onclick="editUserPage('${escHtml(username)}')">✏️ Düzenle</button>`:""}
+    </div>`;
+
+    if(pageData&&pageData.content){
+      html+=`<div style="background:#fffef0;border:1px solid #e8d0c0;padding:10px 14px;margin-bottom:12px;min-height:60px;">${pageData.content}</div>`;
+    } else {
+      html+=`<div style="background:#fffef0;border:1px solid #e8d0c0;padding:10px 14px;margin-bottom:12px;color:#a98;font-style:italic;">${canEdit?`Henüz bir şey yazılmamış. <a onclick="editUserPage('${escHtml(username)}')" style="cursor:pointer;">Düzenle</a>`:"Bu kullanıcı henüz bir şey yazmamış."}</div>`;
+    }
+
+    // Recent contributions
+    const recent=arts.sort((a,b)=>(b.updatedAt||b.createdAt)-(a.updatedAt||a.createdAt)).slice(0,5);
+    if(recent.length){
+      html+=`<b style="font-size:10pt;color:#800;">🕐 Son Katkılar</b><div style="margin-top:6px;">`;
+      recent.forEach(a=>{html+=`<div class="contrib-item"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a> <span style="color:#888;font-size:8pt;">${timeAgo(a.updatedAt||a.createdAt)}</span></div>`;});
+      html+=`</div>${arts.length>5?`<div style="margin-top:4px;"><a onclick="navigate('contributions/${encodeURIComponent(username)}')" style="font-size:9pt;">Tüm katkılar (${arts.length}) →</a></div>`:""}`;
+    }
+
+    el.innerHTML=html;
+  });
+}
+
+function editUserPage(username){
+  if(!isLoggedIn()||(currentUser.username!==username&&!isAdmin())){alert("Bu sayfayı düzenleme yetkiniz yok.");return;}
+  db.ref("userpages/"+username).once("value",snap=>{
+    const cur=snap.val()?snap.val().content:"";
+    document.getElementById("modal-title").textContent="✏️ Kullanıcı Sayfası: "+username;
+    document.getElementById("modal-footer").style.display="flex";
+    document.getElementById("modal-ok").textContent="Kaydet";
+    document.getElementById("modal-body").innerHTML=`
+      <label>Hakkında (HTML destekler):</label>
+      <textarea id="userpage-content" rows="10" style="font-family:arial;font-size:9pt;resize:vertical;width:100%;border:1px solid #a9a9a9;padding:6px;outline:none;">${escHtml(cur)}</textarea>
+      <p style="font-size:8pt;color:#888;">Kendiniz hakkında bir şeyler yazın. HTML kullanabilirsiniz.</p>`;
+    document.getElementById("modal-overlay").style.display="flex";
+    window._tplModalCb=()=>{
+      const content=document.getElementById("userpage-content").value||"";
+      db.ref("userpages/"+username).set({content,updatedAt:Date.now()},()=>{setStatus("Kullanıcı sayfası güncellendi!");renderUserPage(username);});
+      return true;
+    };
+    setTimeout(()=>{const t=document.getElementById("userpage-content");if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length);}},50);
+  });
+}
+
+/* ★ PROKO MANAGEMENT */
+function promoteToProko(username){
+  if(!isAdmin()){alert("Sadece admin yapabilir.");return;}
+  showConfirmModal(`"${username}" kullanıcısını Proko (Moderatör) yap?`,()=>{
+    db.ref("users/"+username+"/role").set("proko",()=>{
+      setStatus(username+" Proko yapıldı!");renderUserPage(username);
+    });
+  });
+}
+function demoteFromProko(username){
+  if(!isAdmin()){alert("Sadece admin yapabilir.");return;}
+  showConfirmModal(`"${username}" kullanıcısını normal üye yap?`,()=>{
+    db.ref("users/"+username+"/role").set("user",()=>{
+      setStatus(username+" normal üye yapıldı.");renderUserPage(username);
+    });
+  });
+}
+function banUserFromPage(username){
+  if(!isAdmin()){alert("Sadece admin yapabilir.");return;}
+  showConfirmModal(`"${username}" kullanıcısını yasakla?`,()=>{
+    db.ref("users/"+username+"/banned").set(true,()=>{setStatus(username+" yasaklandı.");renderUserPage(username);});
   });
 }
 
@@ -878,7 +1103,10 @@ function renderContributions(username){
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
-        <div class="ph-tabs"><span class="ph-tab active">📝 ${escHtml(username)} Katkıları</span></div>
+        <div class="ph-tabs">
+          <span class="ph-tab" onclick="navigate('user/${encodeURIComponent(username)}')">👤 Kullanıcı Sayfası</span>
+          <span class="ph-tab active">📝 ${escHtml(username)} Katkıları</span>
+        </div>
         <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
       </div>
       <div class="page-body">
@@ -919,8 +1147,8 @@ function renderHistory(slug){
     el.innerHTML=`<p style="font-size:9pt;color:#800;margin-bottom:6px;">${revs.length} revizyon:</p>`+revs.map(([key,rev])=>`
       <div class="rev-item">
         <span class="rev-time">${new Date(rev.savedAt).toLocaleString("tr-TR")}</span>
-        <span class="rev-author">✍️ ${escHtml(rev.author||"Anonim")}</span>
-        ${isAdmin()?`<a class="rev-restore" onclick="restoreRevision('${slug}','${key}')">↩ Geri Al</a>`:""}
+        <span class="rev-author">✍️ <a onclick="navigate('user/${encodeURIComponent(rev.author||'Anonim')}')" style="color:#117743;">${escHtml(rev.author||"Anonim")}</a></span>
+        ${canModerate()?`<a class="rev-restore" onclick="restoreRevision('${slug}','${key}')">↩ Geri Al</a>`:""}
       </div>`).join("");
   });
 }
@@ -977,14 +1205,13 @@ function renderDiscussion(slug){
     <div class="page-wrap">
       <div class="page-head">
         <div class="ph-tabs">
-          <span class="ph-tab" onclick="navigate('article/${slug}')">📄 Sayfa</span>
+          ${slug.startsWith("user_")?`<span class="ph-tab" onclick="navigate('user/${encodeURIComponent(slug.replace('user_',''))}')">👤 Kullanıcı Sayfası</span>`:`<span class="ph-tab" onclick="navigate('article/${slug}')">📄 Sayfa</span>`}
           <span class="ph-tab active">💬 Tartışma</span>
-          <span class="ph-tab" onclick="navigate('history/${slug}')">📜 Geçmiş</span>
+          ${!slug.startsWith("user_")?`<span class="ph-tab" onclick="navigate('history/${slug}')">📜 Geçmiş</span>`:""}
         </div>
-        <div class="ph-actions"><a onclick="navigate('article/${slug}')">Sayfaya Dön</a></div>
+        <div class="ph-actions"><a onclick="${slug.startsWith("user_")?`navigate('user/${encodeURIComponent(slug.replace('user_',''))}')`:`navigate('article/${slug}')`}">Geri Dön</a></div>
       </div>
       <div class="page-body">
-        <!-- Yeni konu başlat -->
         <div class="disc-new-thread">
           <div style="font-weight:bold;font-size:9pt;color:#800;margin-bottom:6px;">💬 Yeni Konu Başlat</div>
           <input type="text" id="disc-new-topic" placeholder="Konu başlığı…">
@@ -1010,15 +1237,15 @@ function loadDiscussion(slug){
         <div class="disc-thread-head">
           <span>💬</span>
           <span style="flex:1;">${escHtml(thread.topic||"Konu")}</span>
-          <span style="font-size:8pt;font-weight:normal;color:#a98;">${timeAgo(thread.createdAt)} — ${escHtml(thread.author||"Anonim")}</span>
+          <span style="font-size:8pt;font-weight:normal;color:#a98;">${timeAgo(thread.createdAt)} — <a onclick="navigate('user/${encodeURIComponent(thread.author||'Anonim')}')" style="color:#117743;">${escHtml(thread.author||"Anonim")}</a></span>
         </div>
         ${replies.map(([rKey,reply])=>`
           <div class="disc-reply">
-            <div class="disc-meta">✍️ <b>${escHtml(reply.author||"Anonim")}</b> &bull; ${timeAgo(reply.createdAt)}</div>
+            <div class="disc-meta">✍️ <b><a onclick="navigate('user/${encodeURIComponent(reply.author||'Anonim')}')" style="color:#117743;">${escHtml(reply.author||"Anonim")}</a></b> &bull; ${timeAgo(reply.createdAt)}</div>
             <div class="disc-content">${escHtml(reply.text||"")}</div>
             <div class="disc-actions">
               <a onclick="openReplyForm('${slug}','${threadKey}')">↩ Yanıtla</a>
-              ${isAdmin()?`<a onclick="deleteDiscReply('${slug}','${threadKey}','${rKey}')" style="color:#d00;">🗑️</a>`:""}
+              ${canModerate()?`<a onclick="deleteDiscReply('${slug}','${threadKey}','${rKey}')" style="color:#d00;">🗑️</a>`:""}
             </div>
           </div>`).join("")}
         <div id="reply-form-${threadKey}" style="display:none;padding:6px 10px;border-top:1px solid #e8d0c0;background:#f9f0e8;">
@@ -1115,6 +1342,8 @@ function processWikiMarkup(html){
     if(cachedUrl)return`<img src="${escHtml(cachedUrl)}" alt="${escHtml(filename)}" style="width:${width}px;max-width:100%;height:auto;border:1px solid #d9bfb7;${floatStyle}" loading="lazy">`;
     return`<span style="display:inline-flex;align-items:center;gap:4px;background:#f0e0d6;border:1px dashed #d9bfb7;padding:2px 6px;font-size:8pt;color:#a98;border-radius:2px;" title="${escHtml(filename)}">📷 ${escHtml(filename)}</span>`;
   });
+  // ★ User links: [[User:username]] or [[Kullanıcı:username]]
+  html=html.replace(/\[\[(?:User|Kullanıcı):([^\]|]+)(?:\|([^\]\n]*))?\]\]/gi,function(m,uname,text){const label=text?text.trim():uname.trim();return`<a href="#user/${encodeURIComponent(uname.trim())}" onclick="event.preventDefault();navigate('user/${encodeURIComponent(uname.trim())}')">${escHtml(label)}</a>`;});
   html=html.replace(/\[\[([^\]|#\n]+)(?:\|([^\]\n]*))?\]\]/g,function(m,target,text){const sl=slugify(target.trim());const label=text?text.trim():target.trim();return`<a href="#article/${sl}" onclick="event.preventDefault();navigate('article/${sl}')">${escHtml(label)}</a>`;});
   html=html.replace(/'''([\s\S]*?)'''/g,'<b>$1</b>');
   html=html.replace(/''([\s\S]*?)''/g,'<i>$1</i>');
@@ -1132,12 +1361,9 @@ function renderHome(){
   Promise.all([db.ref("homepage").once("value"),loadAllTemplates(),preloadFirebaseImages(),db.ref("articles").once("value")]).then(([snap,templates,_,artSnap])=>{
     const hp=snap.val();
     const adminActions=isAdmin()?`<a onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</a>`:"";
-
-    // DYK (Did You Know)
     const arts=artSnap.val()?Object.values(artSnap.val()):[];
     const recentArts=arts.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
     const dykHtml=recentArts.length?`<div class="dyk-box"><strong>💡 Biliyor muydunuz?</strong><br>${recentArts.map(a=>`• <a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a> sayfası eklendi.`).join("<br>")}</div>`:"";
-
     if(!hp||!(hp.blocks&&hp.blocks.length)){
       mc.innerHTML=`
         <div class="page-wrap">
@@ -1184,7 +1410,6 @@ async function loadArticle(slug){
     preloadFirebaseImages()
   ]);
   if(!snap.exists()){
-    // İstenen sayfa önerisini kontrol et
     document.getElementById("main-content").innerHTML=`
       <div class="page-wrap">
         <div class="page-body">
@@ -1227,7 +1452,7 @@ async function loadArticle(slug){
         <div class="art-meta">
           <span>📍 ${escHtml(a.location||"Anonim")}</span>
           <span>📅 ${new Date(a.createdAt).toLocaleString("tr-TR")}</span>
-          ${a.author?`<span>✍️ <a onclick="navigate('contributions/${a.author}')" style="color:#117743;">${escHtml(a.author)}</a></span>`:""}
+          ${a.author?`<span>✍️ <a onclick="navigate('user/${encodeURIComponent(a.author)}')" style="color:#117743;">${escHtml(a.author)}</a></span>`:""}
           <span style="color:#888;font-size:8pt;">${timeAgo(a.updatedAt||a.createdAt)}</span>
         </div>
         <div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div>
@@ -1243,6 +1468,8 @@ async function loadArticle(slug){
       </div>
     </div>`;
   renderRating(slug,document.getElementById("rating-container-"+slug));
+  // ★ Auto-save images from this article to katalog
+  autoSavePageImagesToKatalog(a.blocks||[]);
 }
 
 function handleWatch(slug){
@@ -1260,7 +1487,7 @@ function flagArticle(slug){
 
 function computeCanvasH(blocks){let max=300;blocks.forEach(b=>{max=Math.max(max,(parseInt(b.top)||0)+(parseInt(b.height)||150)+50);});return max;}
 function deleteArticle(slug){
-  if(!isAdmin()&&!(isLoggedIn()&&currentUser.username===slug)){
+  if(!canModerate()&&!(isLoggedIn()&&currentUser.username===slug)){
     showConfirmModal("Bu sayfayı silmek istiyor musunuz? Admin onayına gidecek.",()=>{
       db.ref("delete_requests/"+slug).set({by:currentUser?currentUser.username:"Anonim",at:Date.now()});
       setStatus("Silme isteği gönderildi.");
@@ -1310,7 +1537,6 @@ function renderTplCards(templates,isAdm){
       <div style="flex:1;">
         <h4>📋 ${escHtml(t.name)} <span style="font-size:8pt;font-weight:normal;font-family:monospace;">{{${escHtml(t.name)}}}</span></h4>
         <div class="tpl-desc">${escHtml(t.desc||"")}</div>
-        <!-- ★ FIX: Şablon önizlemesi — varsayılan değerlerle -->
         <div style="margin-top:6px;background:#fffef0;border:1px solid #e8d0c0;padding:6px;overflow:auto;max-height:80px;font-size:85%;">${processWikiMarkup(renderTemplate(t.html,{}))}</div>
       </div>
       <div class="tpl-acts">
@@ -1386,7 +1612,6 @@ async function refreshEditorTplPanel(){
     if(!editorTplCache.length){list.innerHTML=`<div style="padding:8px;font-size:9pt;color:#a98;font-style:italic;">Şablon yok</div>`;}
     else{
       list.innerHTML=editorTplCache.map(t=>{
-        /* ★ FIX: Editor panelinde şablonlar varsayılan değerlerle preview göstermeli */
         const prevHtml=processWikiMarkup(renderTemplate(t.html,{}));
         return`<div class="ed-tpl-item" id="edti-${t.slug}">
           <div class="ed-tpl-preview-box">${prevHtml}</div>
@@ -1450,7 +1675,6 @@ function addTemplateBlock(renderedHtml,sourceTag,tplSlug){
   const pos=getSpawnPos();const block=createBlock("template",pos.x,pos.y);
   block.style.width="auto";block.dataset.tplSlug=tplSlug;block.dataset.tplTag=sourceTag;
   const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
-  /* ★ FIX: Template blok canvas'ta da edit modundaki gibi gözükmeli */
   inner.innerHTML=renderedHtml;inner.style.padding="6px";inner.style.cursor="default";
   inner.style.background="#fffef0";inner.style.border="1px dashed #e8b080";
   const dragHandle=document.createElement("div");dragHandle.className="tpl-drag-handle";dragHandle.textContent="⠿⠿⠿ taşı";
@@ -1496,37 +1720,71 @@ function openRawHtmlEdit(block){const inner=block.querySelector(".e-block-inner"
 
 /* ══ ADMIN ══ */
 function renderAdmin(){
-  if(!isAdmin()){renderHome();return;}
-  document.title="Admin — Bilinmeyen Dünya";setStatus("Admin");
+  if(!canModerate()){renderHome();return;}
+  document.title=(isAdmin()?"Admin":"Proko")+" — Bilinmeyen Dünya";setStatus(isAdmin()?"Admin":"Proko");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
         <div class="ph-tabs">
-          <span class="ph-tab active">⚙️ Admin</span>
-          <span class="ph-tab" onclick="navigate('templates')">📋 Şablonlar</span>
+          <span class="ph-tab active">${isAdmin()?"⚙️ Admin":"🛡️ Proko"}</span>
+          ${isAdmin()?`<span class="ph-tab" onclick="navigate('templates')">📋 Şablonlar</span>`:""}
         </div>
         <div class="ph-actions">
-          <a onclick="editHomepage()">✏️ Ana Sayfa Düzenle</a>
-          <a onclick="openAnnouncementEditor()">📢 Duyuru</a>
+          ${isAdmin()?`<a onclick="editHomepage()">✏️ Ana Sayfa Düzenle</a><a onclick="openAnnouncementEditor()">📢 Duyuru</a>`:""}
           <a onclick="goHome()">Ana Sayfa</a>
         </div>
       </div>
       <div class="page-body">
-        <div class="notice">⚙️ Admin: <b>${escHtml(currentUser.username)}</b></div>
+        <div class="notice">${isAdmin()?"⚙️ Admin":"🛡️ Proko (Moderatör)"}: <b>${escHtml(currentUser.username)}</b></div>
         <p class="art-title" style="font-size:12pt;margin-bottom:8px;">Bekleyen Düzenlemeler</p>
         <div id="pending-list"><div class="empty-state">Yükleniyor…</div></div>
+        ${isAdmin()?`
         <p class="art-title" style="font-size:12pt;margin:14px 0 8px;">Şikayet Edilen Sayfalar</p>
         <div id="flags-list"><div class="empty-state">Yükleniyor…</div></div>
         <p class="art-title" style="font-size:12pt;margin:14px 0 8px;">Kayıtlı Kullanıcılar</p>
         <div id="user-list"><div class="empty-state">Yükleniyor…</div></div>
+        <p class="art-title" style="font-size:12pt;margin:14px 0 8px;">🛡️ Proko (Moderatörler)</p>
+        <div id="proko-list"><div class="empty-state">Yükleniyor…</div></div>
+        `:""}
       </div>
     </div>`;
+  // Pending for both admin and proko
   db.ref("pending").once("value",snap=>{const data=snap.val();const el=document.getElementById("pending-list");if(!data){el.innerHTML=`<div class="empty-state">✅ Bekleyen yok.</div>`;return;}el.innerHTML=Object.entries(data).map(([key,p])=>`<div class="pend-card"><h4>${escHtml(p.title)}</h4><div class="pm">✍️ ${escHtml(p.author||"Anonim")} &bull; ${new Date(p.createdAt).toLocaleString("tr-TR")}</div><div class="pend-actions"><button class="btn-approve" onclick="approvePending('${key}')">✅ Onayla</button><button class="btn-reject" onclick="rejectPending('${key}')">❌ Reddet</button><button class="btn-cancel" onclick="previewPending('${key}')">👁 Önizle</button></div></div>`).join("");});
-  db.ref("flags").once("value",snap=>{const data=snap.val();const el=document.getElementById("flags-list");if(!data){el.innerHTML=`<div class="empty-state">Şikayet yok.</div>`;return;}el.innerHTML=Object.entries(data).map(([key,f])=>`<div class="pend-card"><h4>${escHtml(f.slug)}</h4><div class="pm">🚩 ${escHtml(f.by)} &bull; ${new Date(f.at).toLocaleString("tr-TR")}</div><div class="pend-actions"><a onclick="navigate('article/${f.slug}')" class="btn-cancel" style="padding:2px 10px;">Görüntüle</a><button class="btn-reject" onclick="db.ref('flags/${key}').remove();renderAdmin();">Kapat</button></div></div>`).join("");});
-  db.ref("users").once("value",snap=>{const data=snap.val();const el=document.getElementById("user-list");if(!data){el.innerHTML=`<div class="empty-state">Kullanıcı yok.</div>`;return;}el.innerHTML=`<table class="wiki-table"><tr><th>Kullanıcı</th><th>Rol</th><th>Kayıt</th><th>İşlem</th></tr>${Object.entries(data).map(([u,d])=>`<tr><td><a onclick="navigate('contributions/${u}')">${escHtml(u)}</a></td><td>${d.role||"user"}</td><td>${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td><td><button onclick="banUser('${u}')" style="font-size:8pt;padding:1px 6px;background:#fff0f0;border:1px solid #ffa0a0;color:#d00;cursor:pointer;">Ban</button></td></tr>`).join("")}</table>`;});
+  if(isAdmin()){
+    db.ref("flags").once("value",snap=>{const data=snap.val();const el=document.getElementById("flags-list");if(!data){el.innerHTML=`<div class="empty-state">Şikayet yok.</div>`;return;}el.innerHTML=Object.entries(data).map(([key,f])=>`<div class="pend-card"><h4>${escHtml(f.slug)}</h4><div class="pm">🚩 ${escHtml(f.by)} &bull; ${new Date(f.at).toLocaleString("tr-TR")}</div><div class="pend-actions"><a onclick="navigate('article/${f.slug}')" class="btn-cancel" style="padding:2px 10px;">Görüntüle</a><button class="btn-reject" onclick="db.ref('flags/${key}').remove();renderAdmin();">Kapat</button></div></div>`).join("");});
+    db.ref("users").once("value",snap=>{
+      const data=snap.val();
+      const el=document.getElementById("user-list");
+      const pel=document.getElementById("proko-list");
+      if(!data){if(el)el.innerHTML=`<div class="empty-state">Kullanıcı yok.</div>`;return;}
+      // All users
+      el.innerHTML=`<table class="wiki-table"><tr><th>Kullanıcı</th><th>Rol</th><th>Kayıt</th><th>İşlem</th></tr>${Object.entries(data).map(([u,d])=>`<tr><td><a onclick="navigate('user/${encodeURIComponent(u)}')">${escHtml(u)}</a></td><td>${d.role||"user"}</td><td>${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td><td style="display:flex;gap:4px;flex-wrap:wrap;">
+        ${d.role!=="proko"?`<button onclick="promoteToProko('${u}')" style="font-size:8pt;padding:1px 6px;background:#eafaf0;border:1px solid #3a6234;color:#117743;cursor:pointer;">🛡️ Proko</button>`:`<button onclick="demoteFromProko('${u}')" style="font-size:8pt;padding:1px 6px;background:#fff0f0;border:1px solid #ffa0a0;color:#d00;cursor:pointer;">⬇️ Üye</button>`}
+        <button onclick="banUser('${u}')" style="font-size:8pt;padding:1px 6px;background:#fff0f0;border:1px solid #ffa0a0;color:#d00;cursor:pointer;">🚫 Ban</button>
+      </td></tr>`).join("")}</table>`;
+      // Proko list
+      const prokos=Object.entries(data).filter(([u,d])=>d.role==="proko");
+      if(pel){
+        if(!prokos.length){pel.innerHTML=`<div class="empty-state">Henüz moderatör yok. Kullanıcı listesinden 🛡️ Proko butonuna bas.</div>`;}
+        else{pel.innerHTML=`<table class="wiki-table"><tr><th>Kullanıcı</th><th>Kayıt</th><th>İşlem</th></tr>${prokos.map(([u,d])=>`<tr><td><a onclick="navigate('user/${encodeURIComponent(u)}')">${escHtml(u)}</a></td><td>${d.createdAt?new Date(d.createdAt).toLocaleDateString("tr-TR"):"—"}</td><td><button onclick="demoteFromProko('${u}')" style="font-size:8pt;padding:1px 6px;background:#fff0f0;border:1px solid #ffa0a0;color:#d00;cursor:pointer;">⬇️ Üye Yap</button></td></tr>`).join("")}</table>`;}
+      }
+    });
+  }
 }
 function banUser(username){showConfirmModal(`"${username}" kullanıcısını yasakla?`,()=>{db.ref("users/"+username+"/banned").set(true,()=>{setStatus(username+" yasaklandı.");renderAdmin();});});}
-function approvePending(key){db.ref("pending/"+key).once("value",snap=>{if(!snap.exists())return;const p=snap.val();saveRevision(p.slug,p);db.ref("articles/"+p.slug).set(p,err=>{if(err){alert("Hata: "+err.message);return;}db.ref("pending/"+key).remove();setStatus("Onaylandı: "+p.title);renderAdmin();});});}
+function approvePending(key){
+  db.ref("pending/"+key).once("value",snap=>{
+    if(!snap.exists())return;const p=snap.val();
+    saveRevision(p.slug,p);
+    db.ref("articles/"+p.slug).set(p,err=>{
+      if(err){alert("Hata: "+err.message);return;}
+      db.ref("pending/"+key).remove();
+      // ★ auto-save images from approved article
+      autoSavePageImagesToKatalog(p.blocks||[]);
+      setStatus("Onaylandı: "+p.title);renderAdmin();
+    });
+  });
+}
 function rejectPending(key){showConfirmModal("Reddet?",()=>{db.ref("pending/"+key).remove(()=>{renderAdmin();setStatus("Reddedildi.");});});}
 async function previewPending(key){
   const [snap,templates]=await Promise.all([db.ref("pending/"+key).once("value"),loadAllTemplates(),preloadFirebaseImages()]);
@@ -1543,8 +1801,8 @@ function renderEditor(loadSlug){
   document.title=(isHomepageEditor?"Ana Sayfa":"Düzenle")+" — Bilinmeyen Dünya";
   setStatus("Editör hazır");
   editingSlug=loadSlug||null;selectedBlock=null;blockIdCounter=0;activeInner=null;
-  const adminMsg=isAdmin()?`<div class="notice success">⚙️ Admin: değişiklikler doğrudan yayınlanır.</div>`:isLoggedIn()?`<div class="notice">👤 ${escHtml(currentUser.username)}: Onaya gidecek.</div>`:`<div class="notice warn">⚠️ Giriş yapmadan gönderilen içerikler onaya gidecek. <a style="cursor:pointer;text-decoration:underline;" onclick="showLoginModal()">Giriş Yap</a></div>`;
-  const saveLabel=isHomepageEditor?"💾 Ana Sayfayı Kaydet":isAdmin()?"💾 Yayınla":"💾 Onaya Gönder";
+  const adminMsg=canModerate()?`<div class="notice success">⚙️ ${isAdmin()?"Admin":"Proko"}: değişiklikler doğrudan yayınlanır.</div>`:isLoggedIn()?`<div class="notice">👤 ${escHtml(currentUser.username)}: Onaya gidecek.</div>`:`<div class="notice warn">⚠️ Giriş yapmadan gönderilen içerikler onaya gidecek. <a style="cursor:pointer;text-decoration:underline;" onclick="showLoginModal()">Giriş Yap</a></div>`;
+  const saveLabel=isHomepageEditor?"💾 Ana Sayfayı Kaydet":canModerate()?"💾 Yayınla":"💾 Onaya Gönder";
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -1630,11 +1888,10 @@ function renderEditor(loadSlug){
       if(titleEl)titleEl.value=a.title;
       if(locEl)locEl.value=a.location||"";
       if(catEl)catEl.value=(a.categories||[]).join(", ");
-      /* ★ FIX: Sayfayı edit için açınca template bloklar doğru görünmeli */
       refreshEditorTplPanel().then(()=>{(a.blocks||[]).forEach(b=>loadBlock(b));});
       return;
     });
-    return; // loadBlock çağrısı refreshEditorTplPanel sonrasına alındı
+    return;
   }
 
   refreshEditorTplPanel();
@@ -1692,14 +1949,12 @@ function loadBlock(b){
   const canvas=document.getElementById("editor-canvas-inner");if(!canvas)return;
   if(b.type==="template"){
     const tpl=editorTplCache.find(t=>t.slug===b.tplSlug)||null;
-    /* ★ FIX: loadBlock sırasında template bloklar tıpkı yeni eklenmişler gibi görünmeli */
-    const currentArgs=b.tplTag?parseTplTagBySlug(b.tplTag,tpl):{}; 
+    const currentArgs=b.tplTag?parseTplTagBySlug(b.tplTag,tpl):{};
     const renderedHtml=tpl?processWikiMarkup(renderTemplate(tpl.html,currentArgs)):(b.content||"");
     const block=createBlock("template",parseInt(b.left)||10,parseInt(b.top)||10);
     if(b.width)block.style.width=b.width;if(b.height)block.style.height=b.height;
     block.dataset.tplSlug=b.tplSlug||"";block.dataset.tplTag=b.tplTag||b.content||"";
     const inner=block.querySelector(".e-block-inner");inner.contentEditable=false;
-    /* ★ edit mode style */
     inner.innerHTML=renderedHtml;inner.style.padding="6px";
     inner.style.background="#fffef0";inner.style.border="1px dashed #e8b080";
     const dragHandle=document.createElement("div");dragHandle.className="tpl-drag-handle";dragHandle.textContent="⠿⠿⠿ taşı";
@@ -1715,12 +1970,9 @@ function loadBlock(b){
   canvas.appendChild(block);updateBlockCount();
 }
 
-/* Tpl tag'den args parse — slug ile */
 function parseTplTagBySlug(tag,tpl){
   const args={};
   if(!tag||!tpl)return args;
-  const vars=extractTemplateVars(tpl.html);
-  // parse "{{{key|default}}}" from tag
   const inner=tag.replace(/^\{\{[^|]+/,"").replace(/\}\}$/,"");
   if(!inner)return args;
   inner.split("|").forEach(part=>{const eq=part.indexOf("=");if(eq>0){args[part.slice(0,eq).trim()]=part.slice(eq+1);}});
@@ -1841,10 +2093,14 @@ function saveArticle(){
   const slug=editingSlug||slugify(title);
   const payload={title,location,slug,blocks,categories,createdAt:Date.now(),updatedAt:Date.now(),author:currentUser?currentUser.username:"Anonim"};
   setStatus("Kaydediliyor…");
-  if(isAdmin()){
-    // Save revision before overwriting
+  if(canModerate()){
     db.ref("articles/"+slug).once("value",prev=>{if(prev.exists())saveRevision(slug,prev.val());});
-    db.ref("articles/"+slug).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Kaydedildi ✅");navigate("article/"+slug);});
+    db.ref("articles/"+slug).set(payload,err=>{
+      if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}
+      // ★ Auto-save images to katalog when moderator publishes
+      autoSavePageImagesToKatalog(blocks);
+      setStatus("Kaydedildi ✅");navigate("article/"+slug);
+    });
   } else {
     db.ref("pending/"+slug+"_"+Date.now()).set(payload,err=>{if(err){alert("Hata: "+err.message);setStatus("Hata!");return;}setStatus("Onaya gönderildi ✅");document.getElementById("main-content").innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice success">✅ İçeriğiniz admin onayına gönderildi!</div><button class="btn-post" onclick="goHome()" style="margin-top:10px">🏠 Ana Sayfaya Dön</button></div></div>`;});
   }
@@ -1859,7 +2115,7 @@ function showConfirmModal(msg,cb){modalCb=cb;document.getElementById("modal-titl
 function showInputModal(title,fields,cb){modalCb=cb;document.getElementById("modal-title").textContent=title;document.getElementById("modal-body").innerHTML=fields.map(f=>`<label>${escHtml(f.label)}</label><input type="${f.type||'text'}" data-id="${f.id}" placeholder="${escHtml(f.placeholder||'')}">`).join("");document.getElementById("modal-ok").textContent="Tamam";document.getElementById("modal-cancel").textContent="İptal";document.getElementById("modal-footer").style.display="flex";document.getElementById("modal-overlay").style.display="flex";setTimeout(()=>{const fi=document.querySelector("#modal-body input");if(fi)fi.focus();},50);}
 
 /* ══ SEARCH ══ */
-function doSearch(){const q=(document.getElementById("search-input").value||"").trim().toLowerCase();if(!q)return;_runSearch(q);}
+function doSearch(){const q=(document.getElementById("search-input").value||"").trim().toLowerCase();closeSearchDropdown();if(!q)return;_runSearch(q);}
 function doSidebarSearch(){const q=(document.getElementById("sb-search-input").value||"").trim().toLowerCase();if(!q)return;closeSidebar();_runSearch(q);}
 function _runSearch(q){
   setStatus("Aranıyor: "+q);
@@ -1875,7 +2131,7 @@ function _runSearch(q){
 
 /* ══ KEYBOARD ══ */
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape"){closeModal();closeEmojiPicker();closeTplSheet();}
+  if(e.key==="Escape"){closeModal();closeEmojiPicker();closeTplSheet();closeSearchDropdown();}
   if((e.ctrlKey||e.metaKey)&&e.key==="s"){e.preventDefault();if(document.getElementById("ed-title")||isHomepageEditor)saveArticle();}
 });
 
