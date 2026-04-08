@@ -334,6 +334,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
       <button onclick="doSearch()">🔍</button>
       <div id="search-ac" class="search-ac-drop" style="display:none;"></div>
     </div>
+    <span id="modpanel-toplink" style="display:none;"><a onclick="navigate('modpanel')" style="background:#a0d;border:1px solid #800ab0;padding:1px 8px;font-weight:bold;color:#fff!important;text-decoration:none;border-radius:2px;">🛡️ Mod</a></span>
     <a onclick="openEditor()" style="background:#98e;border:1px solid #7799cc;padding:1px 8px;font-weight:bold;color:#000!important;text-decoration:none;">+ Yeni</a>
     <span id="user-pill" onclick="toggleUserMenu()">[ Giriş ]</span>
   </div>
@@ -627,10 +628,12 @@ function goMyPage(){if(currentUser)navigate("user/"+currentUser.username);}
 function updateAdminNav(){
   const adminLi=document.getElementById("admin-nav-li");
   const prokoLi=document.getElementById("proko-nav-li");
+  const prokoTopLink=document.getElementById("modpanel-toplink");
   if(adminLi)adminLi.style.display=isAdmin()?"block":"none";
-  if(prokoLi)prokoLi.style.display=isProko()?"block":"none";
+  if(prokoLi)prokoLi.style.display=(isProko()&&!isAdmin())?"block":"none";
+  if(prokoTopLink)prokoTopLink.style.display=(isProko()&&!isAdmin())?"inline":"none";
   if(isAdmin())refreshPendingCount("sidebar-pending-count");
-  if(isProko())refreshPendingCount("sidebar-mod-pending-count");
+  if(isProko()&&!isAdmin())refreshPendingCount("sidebar-mod-pending-count");
 }
 function refreshPendingCount(elId){
   db.ref("pending").once("value",snap=>{
@@ -1362,42 +1365,142 @@ function renderAdmin(){
 
 /* ══ PROKO / MODERATOR PANEL ══ */
 function renderModPanel(){
-  if(!canModerate()){renderHome();return;}
-  if(isAdmin()){renderAdmin();return;}/* Admin uses full admin panel */
+  if(!currentUser){showLoginModal();return;}
+  if(isAdmin()){renderAdmin();return;}
+  if(!isProko()){setStatus("Bu panele erişim yetkiniz yok.");renderHome();return;}
   document.title="Mod Panel — Bilinmeyen Dünya";setStatus("Moderatör Paneli");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
-        <div class="ph-tabs"><span class="ph-tab active">🛡️ Mod Panel</span><span class="ph-tab" onclick="navigate('templates')">📋 Şablonlar</span></div>
+        <div class="ph-tabs">
+          <span class="ph-tab active">🛡️ Mod Panel</span>
+          <span class="ph-tab" onclick="navigate('recent')">🕐 Son Değişiklikler</span>
+          <span class="ph-tab" onclick="navigate('templates')">📋 Şablonlar</span>
+        </div>
         <div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div>
       </div>
       <div class="page-body">
-        <div class="notice proko">🛡️ Moderatör: <b>${escHtml(currentUser.username)}</b> — Sayfa onaylayabilir, reddedebilir ve şikayetleri kapatabilirsiniz.</div>
+        <div class="notice proko" style="margin-bottom:12px;">
+          🛡️ <b>Proko (Moderatör): ${escHtml(currentUser.username)}</b><br>
+          <span style="font-size:8pt;">Sayfa onaylayabilir, reddedebilir, şikayetleri kapatabilir ve sayfaları düzenleyebilirsiniz. Ban yetkisi yoktur.</span>
+        </div>
+
         <div class="mod-section">
-          <div class="mod-section-head">📋 Bekleyen Düzenlemeler</div>
+          <div class="mod-section-head">
+            📋 Bekleyen Onaylar
+            <span id="mod-pending-count" style="background:#d00;color:#fff;border-radius:8px;padding:0 6px;font-size:9px;margin-left:6px;"></span>
+          </div>
           <div id="pending-list"><div class="empty-state">Yükleniyor…</div></div>
         </div>
+
         <div class="mod-section">
           <div class="mod-section-head">🚩 Şikayet Edilen Sayfalar</div>
           <div id="flags-list"><div class="empty-state">Yükleniyor…</div></div>
         </div>
+
         <div class="mod-section">
-          <div class="mod-section-head">🕐 Son Değişiklikler</div>
+          <div class="mod-section-head">🕐 Son Eklenen / Değiştirilen Sayfalar</div>
           <div id="mod-recent"><div class="empty-state">Yükleniyor…</div></div>
+        </div>
+
+        <div class="mod-section">
+          <div class="mod-section-head">📊 Hızlı İstatistik</div>
+          <div id="mod-stats"><div class="empty-state">Yükleniyor…</div></div>
         </div>
       </div>
     </div>`;
-  loadPendingList("pending-list");loadFlagsList("flags-list");
+
+  /* Load pending */
+  db.ref("pending").once("value",snap=>{
+    const data=snap.val();
+    const pendingEl=document.getElementById("pending-list");
+    const countEl=document.getElementById("mod-pending-count");
+    if(!pendingEl)return;
+    if(!data){
+      pendingEl.innerHTML=`<div class="empty-state">✅ Bekleyen onay yok.</div>`;
+      if(countEl)countEl.style.display="none";
+      return;
+    }
+    const entries=Object.entries(data);
+    if(countEl){countEl.textContent=entries.length;countEl.style.display="inline";}
+    pendingEl.innerHTML=entries.map(([key,p])=>`
+      <div class="pend-card">
+        <h4>📄 ${escHtml(p.title)}</h4>
+        <div class="pm">
+          ✍️ <a onclick="navigate('user/${p.author||''}')" style="color:#117743;text-decoration:none;">${escHtml(p.author||"Anonim")}</a>
+          &bull; ${new Date(p.createdAt).toLocaleString("tr-TR")}
+          ${(p.categories&&p.categories.length)?`&bull; 🏷️ ${p.categories.join(", ")}`:""}
+        </div>
+        <div class="pend-actions">
+          <button class="btn-approve" onclick="approvePending('${key}')">✅ Onayla</button>
+          <button class="btn-reject" onclick="rejectPending('${key}')">❌ Reddet</button>
+          <button class="btn-cancel" onclick="previewPending('${key}')">👁 Önizle</button>
+        </div>
+      </div>`).join("");
+  });
+
+  /* Load flags */
+  db.ref("flags").once("value",snap=>{
+    const data=snap.val();
+    const el=document.getElementById("flags-list");if(!el)return;
+    if(!data){el.innerHTML=`<div class="empty-state">Şikayet yok.</div>`;return;}
+    el.innerHTML=Object.entries(data).map(([key,f])=>`
+      <div class="pend-card">
+        <h4>🚩 ${escHtml(f.slug)}</h4>
+        <div class="pm">Şikayet eden: ${escHtml(f.by)} &bull; ${new Date(f.at).toLocaleString("tr-TR")}</div>
+        <div class="pend-actions">
+          <a onclick="navigate('article/${f.slug}')" class="btn-cancel" style="padding:2px 10px;">👁 Görüntüle</a>
+          <a onclick="navigate('editor/${f.slug}')" class="btn-cancel" style="padding:2px 10px;">✏️ Düzenle</a>
+          <button class="btn-approve" onclick="closeFlag('${key}')">✅ Kapat</button>
+          <button class="btn-reject" onclick="deleteFlaggedPage('${key}','${f.slug}')">🗑️ Sayfayı Sil</button>
+        </div>
+      </div>`).join("");
+  });
+
+  /* Load recent articles */
   db.ref("articles").once("value",snap=>{
     const el=document.getElementById("mod-recent");if(!el)return;
-    const data=snap.val();if(!data){el.innerHTML=`<div class="empty-state">Sayfa yok.</div>`;return;}
-    const arts=Object.values(data).sort((a,b)=>(b.updatedAt||b.createdAt)-(a.updatedAt||a.createdAt)).slice(0,15);
-    el.innerHTML=arts.map(a=>`<div style="padding:3px 0;border-bottom:1px solid #e8d0c0;font-size:9pt;display:flex;gap:8px;align-items:center;">
-      <a onclick="navigate('article/${a.slug}')" style="flex:1;">${escHtml(a.title)}</a>
-      <span style="font-size:8pt;color:#888;">${timeAgo(a.updatedAt||a.createdAt)}</span>
-      <a onclick="navigate('editor/${a.slug}')" style="font-size:8pt;">✏️</a>
-      <a onclick="deleteArticle('${a.slug}')" style="font-size:8pt;color:#d00;">🗑️</a>
-    </div>`).join("");
+    const data=snap.val();if(!data){el.innerHTML=`<div class="empty-state">Hiç sayfa yok.</div>`;return;}
+    const arts=Object.values(data)
+      .filter(a=>!a.slug.startsWith("user-"))
+      .sort((a,b)=>(b.updatedAt||b.createdAt)-(a.updatedAt||a.createdAt))
+      .slice(0,20);
+    el.innerHTML=`<table class="wiki-table">
+      <tr><th>Sayfa</th><th>Yazar</th><th>Tarih</th><th>İşlem</th></tr>
+      ${arts.map(a=>`<tr>
+        <td><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></td>
+        <td><a onclick="navigate('user/${a.author||''}')" style="color:#117743;text-decoration:none;">${escHtml(a.author||"Anonim")}</a></td>
+        <td style="font-size:8pt;color:#888;">${timeAgo(a.updatedAt||a.createdAt)}</td>
+        <td style="white-space:nowrap;">
+          <a onclick="navigate('editor/${a.slug}')" style="font-size:8pt;margin-right:4px;">✏️ Düzenle</a>
+          <a onclick="modDeletePage('${a.slug}')" style="font-size:8pt;color:#d00;">🗑️ Sil</a>
+        </td>
+      </tr>`).join("")}
+    </table>`;
+  });
+
+  /* Stats */
+  Promise.all([db.ref("articles").once("value"),db.ref("pending").once("value"),db.ref("flags").once("value")]).then(([arts,pend,flags])=>{
+    const el=document.getElementById("mod-stats");if(!el)return;
+    el.innerHTML=`<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:9pt;">
+      <div style="background:#eafaf0;border:1px solid #c8e8d0;padding:8px 14px;border-radius:3px;text-align:center;"><div style="font-size:18pt;font-weight:bold;color:#117743;">${arts.val()?Object.keys(arts.val()).length:0}</div><div style="color:#555;">Toplam Sayfa</div></div>
+      <div style="background:#fff8e0;border:1px solid #e8d890;padding:8px 14px;border-radius:3px;text-align:center;"><div style="font-size:18pt;font-weight:bold;color:#886600;">${pend.val()?Object.keys(pend.val()).length:0}</div><div style="color:#555;">Bekleyen Onay</div></div>
+      <div style="background:#fff0f0;border:1px solid #e8b0b0;padding:8px 14px;border-radius:3px;text-align:center;"><div style="font-size:18pt;font-weight:bold;color:#d00;">${flags.val()?Object.keys(flags.val()).length:0}</div><div style="color:#555;">Açık Şikayet</div></div>
+    </div>`;
+  });
+}
+
+function closeFlag(key){db.ref("flags/"+key).remove(()=>{setStatus("Şikayet kapatıldı.");renderModPanel();});}
+function modDeletePage(slug){
+  showConfirmModal(`"${slug}" sayfasını sil?`,()=>{
+    db.ref("articles/"+slug).remove(()=>{setStatus("Sayfa silindi.");renderModPanel();});
+  });
+}
+function deleteFlaggedPage(flagKey,slug){
+  showConfirmModal(`"${slug}" sayfasını sil ve şikayeti kapat?`,()=>{
+    db.ref("articles/"+slug).remove();
+    db.ref("flags/"+flagKey).remove();
+    setStatus("Sayfa silindi.");renderModPanel();
   });
 }
 
