@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bilinmeyen Dünya</title>
+<title>Babane Pedia</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -311,7 +311,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
   <button id="hamburger" onclick="toggleSidebar()">☰</button>
   <strong onclick="goHome()">
     <img id="site-logo" src="favicon.png" alt="" onerror="this.style.display='none'">
-    Bilinmeyen Dünya
+    Babane Pedia
   </strong>
   <span class="sep">—</span>
   <span>[</span>
@@ -414,7 +414,7 @@ input.tb-color{width:24px;height:20px;border:1px solid #a9a9a9;padding:0;cursor:
 <div id="status-bar">
   <span id="status-msg">Hazır</span>
   <span id="status-blocks"></span>
-  <span style="margin-left:auto;font-size:8pt;">© 2026 Bilinmeyen Dünya</span>
+  <span style="margin-left:auto;font-size:8pt;">© 2026 Babane Pedia</span>
 </div>
 
 <div id="modal-overlay" class="modal-ov" style="display:none;" onclick="closeModalOutside(event)">
@@ -559,7 +559,7 @@ function closeAC(id){const el=document.getElementById(id);if(el)el.style.display
 
 /* ══ CATALOG ══ */
 function renderGallery(){
-  document.title="Katalog — Bilinmeyen Dünya";setStatus("Katalog");
+  document.title="Katalog — Babane Pedia";setStatus("Katalog");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -695,7 +695,7 @@ function userPageSlug(username){return"user-"+slugify(username);}
 
 function renderUserPage(username){
   const slug=userPageSlug(username);
-  document.title="User:"+username+" — Bilinmeyen Dünya";
+  document.title="User:"+username+" — Babane Pedia";
   setStatus("Kullanıcı: "+username);
   const canEdit=isAdmin()||isProko()||(isLoggedIn()&&currentUser.username===username);
   const avatarColor=["#e87020","#a0d","#117743","#0055bb","#800000"][username.charCodeAt(0)%5];
@@ -814,7 +814,7 @@ function computeCanvasH(blocks){let max=300;blocks.forEach(b=>{max=Math.max(max,
 
 /* ══ RECENT CHANGES ══ */
 function renderRecentChanges(){
-  document.title="Son Değişiklikler — Bilinmeyen Dünya";setStatus("Son değişiklikler");
+  document.title="Son Değişiklikler — Babane Pedia";setStatus("Son değişiklikler");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🕐 Son Değişiklikler</span></div><div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div></div>
@@ -843,7 +843,7 @@ function renderRecentChanges(){
 
 /* ══ CATEGORIES ══ */
 function renderCategories(){
-  document.title="Kategoriler — Bilinmeyen Dünya";setStatus("Kategoriler");
+  document.title="Kategoriler — Babane Pedia";setStatus("Kategoriler");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🏷️ Kategoriler</span></div><div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div></div>
@@ -859,7 +859,7 @@ function renderCategories(){
   });
 }
 function renderCategory(catName){
-  document.title=catName+" — Bilinmeyen Dünya";setStatus("Kategori: "+catName);
+  document.title=catName+" — Babane Pedia";setStatus("Kategori: "+catName);
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab" onclick="navigate('categories')">🏷️ Kategoriler</span><span class="ph-tab active">📁 ${escHtml(catName)}</span></div><div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div></div>
@@ -876,7 +876,7 @@ function renderCategory(catName){
 
 /* ══ SPECIAL PAGES ══ */
 function renderSpecialPages(){
-  document.title="Özel Sayfalar — Bilinmeyen Dünya";setStatus("Özel Sayfalar");
+  document.title="Özel Sayfalar — Babane Pedia";setStatus("Özel Sayfalar");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔧 Özel Sayfalar</span></div><div class="ph-actions"><a onclick="goHome()">Ana Sayfa</a></div></div>
@@ -896,7 +896,7 @@ function renderSpecialPages(){
 
 /* ══ WANTED PAGES ══ */
 function renderWantedPages(){
-  document.title="İstenen Sayfalar — Bilinmeyen Dünya";setStatus("İstenen Sayfalar");
+  document.title="İstenen Sayfalar — Babane Pedia";setStatus("İstenen Sayfalar");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head"><div class="ph-tabs"><span class="ph-tab active">❓ İstenen Sayfalar</span></div><div class="ph-actions">${canModerate()?`<a onclick="openWantedEditor()">+ Ekle</a>`:""}<a onclick="goHome()">Ana Sayfa</a></div></div>
@@ -935,7 +935,7 @@ function removeWanted(key){showConfirmModal("Kaldır?",()=>{db.ref("wanted/"+key
 
 /* ══ CONTRIBUTIONS ══ */
 function renderContributions(username){
-  document.title=username+" Katkıları — Bilinmeyen Dünya";setStatus("Katkılar: "+username);
+  document.title=username+" Katkıları — Babane Pedia";setStatus("Katkılar: "+username);
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -955,7 +955,7 @@ function renderContributions(username){
 
 /* ══ REVISION HISTORY ══ */
 function renderHistory(slug){
-  document.title="Geçmiş — Bilinmeyen Dünya";setStatus("Geçmiş: "+slug);
+  document.title="Geçmiş — Babane Pedia";setStatus("Geçmiş: "+slug);
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -997,7 +997,7 @@ function openAnnouncementEditor(){
 
 /* ══ DISCUSSION ══ */
 function renderDiscussion(slug){
-  document.title="Tartışma — Bilinmeyen Dünya";setStatus("Tartışma: "+slug);
+  document.title="Tartışma — Babane Pedia";setStatus("Tartışma: "+slug);
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -1073,7 +1073,7 @@ function extractTemplateVars(html){const vars=[];const rx=/\{\{\{([^}|]+)(?:\|([
 
 /* ══ HOME ══ */
 function renderHome(){
-  document.title="Ana Sayfa — Bilinmeyen Dünya";setStatus("Ana sayfa");
+  document.title="Ana Sayfa — Babane Pedia";setStatus("Ana sayfa");
   const mc=document.getElementById("main-content");mc.innerHTML=`<div class="empty-state">Yükleniyor…</div>`;
   Promise.all([db.ref("homepage").once("value"),loadAllTemplates(),preloadFirebaseImages(),db.ref("articles").once("value")]).then(([snap,templates,_,artSnap])=>{
     const hp=snap.val();
@@ -1081,7 +1081,7 @@ function renderHome(){
     const arts=artSnap.val()?Object.values(artSnap.val()):[];
     const recentArts=arts.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
     const dykHtml=recentArts.length?`<div class="dyk-box"><strong>💡 Biliyor muydunuz?</strong><br>${recentArts.map(a=>`• <a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a> sayfası eklendi.`).join("<br>")}</div>`:"";
-    if(!hp||!(hp.blocks&&hp.blocks.length)){mc.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🏠 Ana Sayfa</span></div><div class="ph-actions">${adminActions}</div></div><div class="page-body">${dykHtml}<div class="notice">🌏 <b>Bilinmeyen Dünya</b>'ya hoş geldiniz.</div>${isAdmin()?`<div style="text-align:center;padding:30px;"><button class="btn-post" onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</button></div>`:`<div class="empty-state">Ana sayfa henüz düzenlenmemiş.</div>`}</div></div>`;return;}
+    if(!hp||!(hp.blocks&&hp.blocks.length)){mc.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🏠 Ana Sayfa</span></div><div class="ph-actions">${adminActions}</div></div><div class="page-body">${dykHtml}<div class="notice">🌏 <b>Babane Pedia</b>'ya hoş geldiniz.</div>${isAdmin()?`<div style="text-align:center;padding:30px;"><button class="btn-post" onclick="editHomepage()">✏️ Ana Sayfayı Düzenle</button></div>`:`<div class="empty-state">Ana sayfa henüz düzenlenmemiş.</div>`}</div></div>`;return;}
     const ch=computeCanvasH(hp.blocks||[]);
     const bHtml=(hp.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");
     mc.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🏠 Ana Sayfa</span></div><div class="ph-actions">${adminActions}</div></div><div class="page-body">${dykHtml}<div class="viewer-canvas" style="min-height:${ch}px;">${bHtml}</div></div></div>`;
@@ -1099,7 +1099,7 @@ async function loadArticle(slug){
     setStatus("404");return;
   }
   const a=snap.val();
-  document.title=a.title+" — Bilinmeyen Dünya";setStatus("Yüklendi: "+a.title);
+  document.title=a.title+" — Babane Pedia";setStatus("Yüklendi: "+a.title);
   const ch=computeCanvasH(a.blocks||[]);
   const bHtml=(a.blocks||[]).map(b=>{const w=b.width?`width:${b.width};`:"",h=b.height?`height:${b.height};`:"";if(b.type==="template")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.tplTag||b.content,templates)}</div>`;if(b.type==="text")return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}">${renderTemplateTags(b.content,templates)}</div>`;return`<div class="view-block" style="left:${b.left};top:${b.top};${w}${h}"><img src="${escHtml(b.content)}" alt=""></div>`;}).join("");
   const catHtml=(a.categories&&a.categories.length)?`<div style="margin-top:8px;border-top:1px solid #e8d0c0;padding-top:6px;font-size:9pt;"><span style="color:#800;font-weight:bold;">🏷️</span> ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join(" ")}</div>`:"";
@@ -1171,7 +1171,7 @@ function renderTemplateTags(html,templates){
 
 /* ══ TEMPLATES PAGE ══ */
 async function renderTemplates(){
-  document.title="Şablonlar — Bilinmeyen Dünya";setStatus("Şablonlar");
+  document.title="Şablonlar — Babane Pedia";setStatus("Şablonlar");
   const templates=await loadAllTemplates();const isAdm=isAdmin();
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
@@ -1330,7 +1330,7 @@ function openRawHtmlEdit(block){const inner=block.querySelector(".e-block-inner"
 /* ══ ADMIN PANEL (Admin only) ══ */
 function renderAdmin(){
   if(!isAdmin()){if(isProko())renderModPanel();else renderHome();return;}
-  document.title="Admin — Bilinmeyen Dünya";setStatus("Admin Paneli");
+  document.title="Admin — Babane Pedia";setStatus("Admin Paneli");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -1368,7 +1368,7 @@ function renderModPanel(){
   if(!currentUser){showLoginModal();return;}
   if(isAdmin()){renderAdmin();return;}
   if(!isProko()){setStatus("Bu panele erişim yetkiniz yok.");renderHome();return;}
-  document.title="Mod Panel — Bilinmeyen Dünya";setStatus("Moderatör Paneli");
+  document.title="Mod Panel — Babane Pedia";setStatus("Moderatör Paneli");
   document.getElementById("main-content").innerHTML=`
     <div class="page-wrap">
       <div class="page-head">
@@ -1546,7 +1546,7 @@ function getSpawnPos(){return{x:Math.max(10,lastSpawnX+Math.random()*8-4),y:Math
 
 function renderEditor(loadSlug){
   isHomepageEditor=(loadSlug==="__homepage__");
-  document.title=(isHomepageEditor?"Ana Sayfa":"Düzenle")+" — Bilinmeyen Dünya";
+  document.title=(isHomepageEditor?"Ana Sayfa":"Düzenle")+" — Babane Pedia";
   setStatus("Editör hazır");
   editingSlug=loadSlug||null;selectedBlock=null;blockIdCounter=0;activeInner=null;
   const roleLabel=isAdmin()?"Admin":isProko()?"Proko":"";
@@ -1837,7 +1837,7 @@ function _runSearch(q){
     const data=snap.val();const el=document.getElementById("main-content");
     if(!data){el.innerHTML=`<div class="page-wrap"><div class="page-body"><div class="notice warn">Sonuç bulunamadı.</div></div></div>`;return;}
     const res=Object.values(data).filter(a=>a.title.toLowerCase().includes(q)||(a.blocks||[]).some(b=>b.type==="text"&&stripTags(b.content).toLowerCase().includes(q))||(a.categories||[]).some(c=>c.toLowerCase().includes(q)));
-    document.title=`"${q}" — Bilinmeyen Dünya`;
+    document.title=`"${q}" — Babane Pedia`;
     el.innerHTML=`<div class="page-wrap"><div class="page-head"><div class="ph-tabs"><span class="ph-tab active">🔍 Arama</span></div></div><div class="page-body"><p class="art-title" style="font-size:12pt;">Arama: "${escHtml(q)}"</p><p style="font-size:9pt;color:#117743;margin-bottom:10px;">${res.length} sonuç</p>${res.length?res.map(a=>`<div class="acard"><div class="acard-title"><a onclick="navigate('article/${a.slug}')">${escHtml(a.title)}</a></div><div class="acard-meta">📍 ${escHtml(a.location||"—")} &bull; ${new Date(a.createdAt).toLocaleDateString("tr-TR")}${(a.categories&&a.categories.length)?` &bull; ${a.categories.map(c=>`<span class="cat-badge" onclick="navigate('category/${encodeURIComponent(c)}')">${escHtml(c)}</span>`).join("")}`:""}</div></div>`).join(""):'<div class="empty-state">Sonuç bulunamadı.</div>'}</div></div>`;
     setStatus(res.length+" sonuç");
   });
